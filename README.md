@@ -1,6 +1,6 @@
 # 🧠 Luma
 
-> **A local-first, Markdown-native AI engine for Obsidian that transforms your notes into a searchable, emotionally intelligent memory system.**
+> **A local-first, Markdown-native AI engine for Obsidian that transforms your notes into a searchable, intelligent memory system.**
 
 ---
 
