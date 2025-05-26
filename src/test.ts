@@ -1,4 +1,4 @@
-import { parseNoteEntities } from "./daily-note-synth/note-parser";
+import { parseNoteEntities } from "./note-parser";
 
 async function run() {
   console.log("Running daily note synthesis...");
@@ -8,7 +8,7 @@ async function run() {
 
   const content = await file.text(); // Read the content of the note
 
-  parseNoteEntities(content, .75);
+  parseNoteEntities(content);
 }
 
 run();

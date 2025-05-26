@@ -1,10 +1,5 @@
-# 🧠 Luma
 
-> **A local-first, Markdown-native AI engine for Obsidian that transforms your notes into a searchable, intelligent memory system.**
-
----
-
-## 🚀 What is Luma?
+## What is Luma?
 Luma is an **Obsidian-native** AI engine that reads, understands, and organizes your Markdown notes—journals, dreams, thoughts, poetry—directly within your vault. It transforms your notes into a private, searchable memory system, all while running 100% locally on your device.
 
 No cloud. No proprietary formats. Just your words, seamlessly integrated with Obsidian.
