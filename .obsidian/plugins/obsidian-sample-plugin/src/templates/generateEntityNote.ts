@@ -1,42 +1,24 @@
-import { NoteData } from "src/types/types";
+import type { NoteData } from "src/types/types";
 
 export function renderEntityNote(params: {
-  label: string; 
-  summary: string;
-  interpretation: string;
-  connections: string[];
-  notes: NoteData[];
-  entity?: string;
+	label: string;
+	summary: string;
+	interpretation: string;
+	connections: string[];
+	notes: NoteData[];
+	entity?: string;
 }) {
-  const {
-    summary,
-    connections,
-    notes,
-  } = params;
+	const { summary, notes } = params;
 
-  const sourceLinks = notes.map(n => `- [[${n.file.path}]]`).join("\n");
+	const sourceLinks = notes.map((n) => `- [[${n.file.path}]]`).join("\n");
 
+	return `# ${params.label}
 
-  return `
-# 🔮 ${params.label} Symbol
-
-**Appears In:**  
+**Linked Notes:**  
 ${sourceLinks}
 
----
+## Summary
 
-## 🔍 Overview
-
-> ${summary || "_No summary provided._"}
-
----
-
-## 🔗 Connections
-
-${(connections?.length ?? 0) > 0
-      ? connections.map(c => `- Related to [[${c}]]`).join("\n")
-      : "- No connections detected."}
-
-      ---
+${summary || "_No summary provided._"}
 `.trim();
 }
