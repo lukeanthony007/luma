@@ -1,10 +1,6 @@
 import { type App, Notice } from "obsidian";
 import { generateNoteClusters } from "./utility/cluster";
-import {
-	generateEntities,
-	generateLuna,
-	getEntities,
-} from "./utility/entities";
+import { generateEntities } from "./utility/entities";
 import syncNotesToDatabase from "./utility/note";
 
 export async function runLuna(
