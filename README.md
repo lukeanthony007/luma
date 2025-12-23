@@ -16,7 +16,7 @@ Luma is an Obsidian-native AI engine that reads, understands, and organizes your
 
 No cloud. No proprietary formats. No telemetry. Xenova handles vectorization client-side. The RAG pipeline takes queries, finds relevant chunks, and synthesizes responses. Cosine similarity clusters related notes automatically, surfacing connections you missed.
 
-Built for knowledge workers drowning in notes. Ask questions like "What was I working on last March?" or "Dreams about falling and flying" and get relevant context in seconds instead of manual searching.
+Built for knowledge workers drowning in notes. Ask questions like "What was I working on last March?" or "Dreams about falling and flying" get relevant context in seconds instead of manual searching.
 
 ## Features
 
