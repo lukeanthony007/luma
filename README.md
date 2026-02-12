@@ -1,6 +1,6 @@
 ## Description
 
-An Obsidian plugin that indexes and retrieves notes via local embeddings—semantic search, entity linking, and knowledge graph overlays without cloud dependencies.
+Obsidian plugin that indexes and retrieves notes via local embeddings—semantic search, entity linking, and knowledge graph overlays without cloud dependencies.
 
 ## Skills / Tools / Stack
 
