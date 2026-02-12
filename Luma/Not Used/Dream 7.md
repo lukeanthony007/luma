@@ -1,1 +1,0 @@
-She was on a stage, covered in glitter and blood. Everyone clapped. I stayed silent. She looked at me through the lights, and mouthed “I did this for you.” I don’t think she meant it.

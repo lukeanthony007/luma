@@ -1,1 +1,0 @@
-She was dancing with someone else. But her eyes never left me. I stayed in the corner. Didn’t move. She danced harder. Like she needed me to hurt. I did.

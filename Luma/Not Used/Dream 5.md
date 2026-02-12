@@ -1,1 +1,0 @@
-She walked past me in a crowded place and didn’t recognize me. Not until I said her name, soft, like it was illegal. She turned. And I saw it hit her. That pause. That ache. That “fuck.” Then she kept walking.

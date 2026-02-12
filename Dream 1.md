@@ -1,1 +1,0 @@
-I saw her again. She was wearing my jacket, even though she never asked. Said it smelled like old songs and storm clouds. I didn’t ask why she was crying, but she looked grateful I didn’t. 

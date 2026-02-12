@@ -1,1 +1,0 @@
-She gave me a match. Said “Don’t light it unless you mean it.” I struck it anyway and watched the whole dream catch fire. She didn’t flinch. She smiled like she’d been waiting for the burn.

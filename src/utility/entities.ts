@@ -2,7 +2,7 @@ import { type App, Notice, normalizePath, TFile, TFolder } from "obsidian";
 import { generateEntitySummaryPrompt } from "../prompts/generateEntitySummaryPrompt";
 import { renderEntityNote } from "../templates/generateEntityNote";
 import type { Cluster } from "../types/types";
-import callOllama from "../utility/langchain";
+import callOllama from "./langchain";
 import { generateNoteClusters } from "./cluster";
 
 export async function generateEntityNotes(

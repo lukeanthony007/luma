@@ -1,1 +1,0 @@
-We were in a motel room that didn’t belong to us. Everything was yellow and old. She was brushing her hair, looking in the mirror like she was waiting to disappear. I asked if she remembered me. She said, “Only when I’m honest.”

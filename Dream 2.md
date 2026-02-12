@@ -1,1 +1,0 @@
-We were in a cathedral with no roof. Rain falling directly on us. She laughed like thunder didn’t scare her anymore. I wasn’t holding her, but she leaned into me anyway. Said something about being tired of being worshiped. I didn’t answer.
