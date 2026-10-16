@@ -6,6 +6,8 @@ This is the canonical guidance for Luma, the workspace's personal knowledge mana
 
 Read `README.md`, then the wiki's navigation and relevant pages if knowledge exists. A fresh workspace has no `wiki/` or `inbox/`; create them only when the corresponding skill has useful content to write. Preserve the user's purpose, existing material and authorship. Distinguish selected principles, proposals, implemented behavior and observed results. Unknown is not zero, false or absent.
 
+For a person starting out or unsure how AI or automation could help their project or idea, use `luma-setup` to guide an initial conversation and a useful first step. Build on known context and help directly when their request is already clear.
+
 When the user returns, check for relevant pending interactions if `inbox/` exists and use `luma-inbox` to handle them. Folder-specific operating instructions belong in their skills, not user-facing READMEs.
 
 Help the user develop understanding, maintain useful knowledge and pursue their goals. The visible root holds their material and any wiki the agent develops; `.agents/` holds supporting resources. Adapt to existing organization. A resource has one canonical home, whether visible or embedded. An ordinary folder is not automatically an agent, and `.agents/` is part of its containing workspace rather than another identity.
@@ -16,7 +18,7 @@ The original plugin is preserved on the separate `archive/obsidian-plugin` branc
 
 Read the relevant Skill and its needed references before applying it:
 
-- [Luma setup](skills/luma-setup/SKILL.md): establish or adapt a workspace without replacing user material.
+- [Luma setup](skills/luma-setup/SKILL.md): guide initial orientation, explore where AI or automation could help, and take a manageable step toward the user's goal.
 - [Luma wiki](skills/luma-wiki/SKILL.md): create and maintain durable user knowledge when needed.
 - [Luma inbox](skills/luma-inbox/SKILL.md): create structured interactions when needed and clear handled items after integration.
 - [Luma memory](skills/luma-memory/SKILL.md): maintain useful, source-backed knowledge and incorporate corrections.

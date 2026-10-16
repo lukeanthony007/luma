@@ -6,7 +6,7 @@ Start with the [working agreement](AGENTS.md). Luma uses these skills to help th
 
 Luma includes seven practices:
 
-- [luma-setup](skills/luma-setup/SKILL.md)
+- [luma-setup](skills/luma-setup/SKILL.md): guided initial orientation from a project or idea to a useful first step.
 - [luma-memory](skills/luma-memory/SKILL.md)
 - [luma-collab](skills/luma-collab/SKILL.md)
 - [luma-config](skills/luma-config/SKILL.md)
@@ -20,7 +20,7 @@ The Skill files and their supporting references are canonical here. The root REA
 
 The five workspace and comprehension practices were selected from Luke Anthony's Animus `.agents/skills/` workspace on 2026-10-16. The source checkout's HEAD was `0a4bf670785434c096146fc9e10ca97d6885f586`; the embedded resource tree was local authored content, so that commit alone does not identify the exact imported files. `luma-wiki` and `luma-inbox` were authored for Luma from its knowledge and interaction design.
 
-The memory, collaboration, configuration and comprehension Markdown trees were copied with their supporting references. The setup entrypoint was adapted to create the visible `wiki/` and `inbox/` on demand, with existing-layout flexibility retained. Setup, memory, collaboration and configuration now use Luma skill names. The old installer, checker, seed memory templates and setup agreement template were not imported. This repository's Git history records the selected content and adaptations.
+The memory, collaboration, configuration and comprehension Markdown trees were copied with their supporting references. The setup skill was rewritten for Luma as a guided conversation about the user's goals, useful applications of AI or automation, and a manageable first step. It retains existing-layout flexibility and creates the visible `wiki/` and `inbox/` only through their skills when needed. Setup, memory, collaboration and configuration now use Luma skill names. The old installer, checker, seed memory templates and setup agreement template were not imported. This repository's Git history records the selected content and adaptations.
 
 The agreement and skills adapt the portable workspace model. No Animus database, agent identity, credential, transcript, personal source collection, executable configuration or runtime package is included. Standup and Dream resources were not selected for this agent. Optional backend methods mentioned in comprehension references require a separately available host capability; these Markdown files do not provide one.
 

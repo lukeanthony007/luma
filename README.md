@@ -6,7 +6,7 @@ Luma currently consists of portable instructions and skills used through an exis
 
 ## Start here
 
-Give your agent a goal and relevant material, and direct it to [`.agents/AGENTS.md`](.agents/AGENTS.md). It uses the available skills to investigate, maintain knowledge and work with you. The agent creates `wiki/` and `inbox/` when needed; neither directory is included in a fresh checkout.
+Start with what you are working on or hoping to achieve, even if you do not know where AI or automation could help. Direct your agent to [`.agents/AGENTS.md`](.agents/AGENTS.md). Through [luma-setup](.agents/skills/luma-setup/SKILL.md), it will talk through your situation, explain relevant possibilities and help you take a manageable first step. You do not need a technical plan or prepared documents. The agent creates `wiki/` and `inbox/` when needed; neither directory is included in a fresh checkout.
 
 The intended experience is simple: keep relevant documents, notes and other material in a workspace; use the wiki to understand the project or subject; let a supported agent help maintain that understanding and the methods used to develop it. Obsidian is the preferred human interface, while the files remain ordinary Markdown and can be used with other editors.
 

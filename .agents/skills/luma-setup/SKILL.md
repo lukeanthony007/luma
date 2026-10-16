@@ -1,34 +1,52 @@
 ---
 name: luma-setup
-description: Establish or repair a portable agent workspace without overwriting project work or causing unrequested side effects.
+description: Guide a person through an initial conversation about their project or idea, discover where AI or automation could help, and take a manageable first step toward their goal.
 ---
 
-# Set up a workspace
+# Find a starting point together
 
-Use when a durable agent working home is absent, incomplete, or needs deliberate repair. Inspect the requested destination and its parent before acting. Treat the selected user-facing directory as the workspace root; do not assume a hidden runtime directory or create one merely because the current directory is convenient.
+Use when someone is starting with Luma, has an idea they do not know how to approach, or needs to reconsider their direction. Assume no knowledge of AI, automation, programming or agent terminology. A vague ambition is enough to begin. The purpose is to help the person understand their options and make progress toward what matters to them.
 
-## Inspect and preserve
+Read the [working agreement](../../AGENTS.md) and relevant existing context first. Reuse what the person has already shared; do not make a returning user repeat onboarding. If they already have a clear request, help with it directly and fill only consequential gaps. Workspace repair can be handled within that task using [luma-config](../luma-config/SKILL.md).
 
-Establish purpose, intended users, scope, environment, project conventions, ownership, and authority. List existing content before writing. Preserve custom instructions, definitions, memories, source records, and history unless revision is explicitly requested. Reconcile existing instructions with the proposed agreement; never replace user-authored files wholesale. If a conflict cannot be resolved from available records, preserve it and report the need for manual reconciliation.
+## Hold a conversation
 
-Do not install, activate, execute, configure runtime, change permissions, fetch or publish content, commit, or perform external actions unless explicitly authorized. Setup does not authorize these actions. Adapt existing visible or embedded organization rather than imposing a new layout or overwriting user files.
+Start from the person's words. If their aim is unknown, ask a simple opening question such as “What are you working on, or hoping to make easier?” Ask one useful question at a time, then listen and adapt. Do not deliver the sections below as a questionnaire or require every topic before helping.
 
-## Canonical navigation
+Keep turns short and use familiar language. Explain an unfamiliar term through the person's own situation when it becomes useful. Avoid asking them to choose models, frameworks or infrastructure before they understand the practical choice. Be patient without talking down to them. They can skip a question, change direction or say they do not know.
 
-Use the owning workspace's canonical agreement as the authority for its structure and task practices. In this workspace, that agreement is [`.agents/AGENTS.md`](../../AGENTS.md). Do not precreate `wiki/` or `inbox/`; [luma-wiki](../luma-wiki/SKILL.md) and [luma-inbox](../luma-inbox/SKILL.md) create them on demand for actual content. The canonical portable skills live in `.agents/skills/`. The root README provides the fallback route to `.agents/` guidance; do not create a root instruction file for Luma. Ordinary work stays direct.
+Reflect back what you understand and leave room for correction. If they are stuck, offer two or three concrete possibilities grounded in what they have said, clearly presented as suggestions. Help them choose a starting point without inventing their preferences or turning your suggestion into their decision. Offer a useful observation or small piece of help as understanding develops; do not make them complete an intake process to receive value.
 
-Preserve user-authored material and existing organization. Add optional nested agent workspaces only when the owner establishes a distinct responsibility. Do not seed user knowledge, inbox messages, empty directories, placeholders or a fixed metadata schema. Create records only for actual useful content, with no invented history, sample projects, commands or environmental facts.
+## Understand what progress means
 
-Source captures retain origin, revision/date when known, capture date, scope, completeness, and access limits when applicable. Derived pages distinguish source assertions, explanation/inference, unknowns, and qualifications; link to available support. Indexes link only to existing useful pages. Decisions identify authority and status. Logs, if useful, record material events without becoming transcript dumps.
+Gradually discover the outcome they care about, who it helps and what would be noticeably better. Start with a near-term improvement if the larger ambition is unclear. A project may be personal, creative, educational or exploratory; do not assume a business, existing workflow or measurable financial return.
 
-## Optional discovery
+Ask for a recent example of what they do now, where they get stuck or what takes effort. For an idea that does not exist yet, explore one situation they would like to make possible. If useful, invite them to share a relevant note, document or example they are comfortable using. Material is optional; do not require a prepared brief or access to accounts.
 
-Skills in `.agents/skills/` are canonical files, not evidence that any particular harness has discovered or activated them. A host may require explicit configuration for native discovery (including Claude); do not claim such configuration or installation unless it has actually been performed and checked. Keep links relative and usable without special runtime features.
+As they become relevant, learn about available time, budget, comfort with technology, existing tools and how much the person wants to do themselves. Establish what needs their judgment and what information can be used before proposing a connected service. Ask only for details that affect the next useful choice. Keep unknowns explicit rather than treating them as constraints the user has agreed to.
 
-## Tools and collaboration
+## Discover useful applications
 
-Start with available tools. Add a helper only for an established need; explain exact inputs, effects, and limits. Do not install packages automatically. Child assignments, when useful or required, state purpose, bounded scope, relevant context, sources, method, expected result, limits, and handoff. Verify actual returned contributions; dispatch is not completion. Do not create investigator/critic teams by default.
+Connect opportunities to the person's actual goal and examples. AI may help interpret material, organize knowledge, draft something or explore alternatives. Automation may help repeat a stable sequence, transfer information or remind someone to act. Sometimes a clearer process or an ordinary tool is sufficient. Recommend what fits; using AI is not itself the success criterion.
 
-## Handoff
+Offer a small number of relevant options and recommend a starting point with a plain explanation. For each option under serious consideration, explain what the person would provide, what they would get back, what they would still check or decide, and the main effort or limitation. Discuss cost, data sharing and maintenance when they affect that choice. Label unverified capabilities and estimates; do not promise savings, accuracy or integrations that have not been checked.
 
-Report what was inspected and changed, what was preserved, unresolved conflicts, and optional actions not taken. Distinguish written instructions from installed or activated behavior.
+Prefer a small, reversible trial using available tools and suitable material. For example, try helping with one real instance before proposing an automated workflow around it. If the person prefers to build directly and has authorized the work, proceed within that scope. Do not require a trial or a new approval as a ritual.
+
+## Take the next step together
+
+Once there is enough understanding, summarize the goal in the person's terms, the recommended first step and how they could tell whether it helped. Invite correction or a choice when a meaningful tradeoff remains. Identify what Luma can do now and any necessary contribution from the person. Do not leave them with a large implementation plan when a useful action is available.
+
+Carry out the agreed work within existing authorization. When a step must happen in another application, explain one manageable action at a time, then use the person's result to guide the next. Use only capabilities the current harness provides. A conversation about possibilities does not authorize purchases, account connections, installations, publication or recurring automation; explain and obtain any missing authorization for the concrete action when it is needed, without re-requesting permission already given.
+
+After a trial, ask what helped, what felt difficult and whether the result moved them toward their goal. Use that evidence to continue, simplify or change direction. An unsuccessful trial can clarify the next choice. Keep proposed improvements distinct from observed benefits, and let the person pause or stop without pressure.
+
+## Keep continuity with minimal setup
+
+Use [luma-wiki](../luma-wiki/SKILL.md) to retain useful goals, confirmed preferences, decisions, open questions and next actions once there is real knowledge to save. Distinguish the person's statements, your inferences and unadopted suggestions. Preserve relevant sources and avoid storing every conversational exchange.
+
+Keep dialogue in the conversation by default. Use [luma-inbox](../luma-inbox/SKILL.md) when the person would benefit from a worksheet or time to reflect; it is optional and temporary. Neither `wiki/` nor `inbox/` needs to exist before the conversation starts. Do not create empty directories, placeholders, sample knowledge or a fixed folder scheme.
+
+Before writing, inspect the selected workspace and preserve existing files, instructions and organization. The user-facing directory is the workspace root; supporting guidance and skills live under `.agents/`. The root README routes to the working agreement; do not create a root instruction file. Use [luma-config](../luma-config/SKILL.md) for any needed resource or harness configuration, and verify actual discovery before claiming an integration works.
+
+Orientation has done its job when the person has a clearer direction and a manageable next action, or has made useful progress on one. Summarize where things stand and what comes next in ordinary language. Leave unresolved questions visible and pick up from that context next time.
