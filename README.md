@@ -6,11 +6,11 @@ This repository begins a ground-up redesign. It currently contains the workspace
 
 ## Start here
 
-Read the [wiki](wiki/index.md) for the current direction and the [workspace model](wiki/workspace-model.md) for the design under discussion.
+Read the [design notes](.agents/design/index.md) for the current direction and [workspace model](.agents/design/workspace-model.md) under discussion. The agent creates `wiki/` and `inbox/` on demand; neither directory is prepopulated or included in a fresh checkout.
 
 The intended experience is simple: keep relevant documents, notes and other material in a workspace; use the wiki to understand the project or subject; let a supported agent help maintain that understanding and the methods used to develop it. Obsidian is the preferred human interface, while the files remain ordinary Markdown and can be used with other editors.
 
-The `inbox/` gives agents a temporary space for messages, questions and structured worksheets, including handoffs from authorized background work. The person can respond there or in conversation. Handled items are cleared after useful understanding is retained in the wiki. Agent instructions for the [wiki](.agents/AGENTS.md#wiki) and [inbox](.agents/AGENTS.md#inbox) live in the shared working agreement.
+The optional `inbox/` gives agents a temporary space for messages, questions and structured worksheets, including handoffs from authorized background work. The person can respond there or in conversation. Handled items are cleared after useful understanding is retained in the wiki. These practices live in the [luma-wiki](.agents/skills/luma-wiki/SKILL.md) and [luma-inbox](.agents/skills/luma-inbox/SKILL.md) skills.
 
 The visible workspace belongs to the person. Agent guidance and reusable practices live under [`.agents/`](.agents/README.md). Tools, packages and nested agent workspaces can be added when needed. Existing organizations should be accommodated; the design does not require a fixed set of project or lifestyle folders.
 
@@ -18,7 +18,7 @@ The visible workspace belongs to the person. Agent guidance and reusable practic
 
 Agents should read and follow [`.agents/AGENTS.md`](.agents/AGENTS.md), the canonical working agreement. If the harness does not automatically process `.agents/`, use this README as the route to that guidance. Instruction files stay inside `.agents/`; no root instruction file is needed. Skills are maintained in `.agents/skills/`; follow the working agreement to select them. These files provide guidance, not a running integration. Instruction loading and native Skill discovery still need verification in each supported harness.
 
-This repository is Luma's own development workspace. Its wiki describes Luma. It is not yet an installer that should be copied wholesale into someone's personal vault.
+This repository contains Luma's foundation and design resources. Its visible wiki is reserved for the user's knowledge; Luma's own design notes live under `.agents/design/`. It is not yet an installer.
 
 Luma is derived from the portable agent-workspace design developed in Animus. The [resource provenance](.agents/README.md#provenance-and-scope) explains the selected practices. Animus's private state and formal intelligence, accountability, continuity and execution systems are not included. An optional Animus integration will need an explicit boundary for wiki updates and accepted engine knowledge.
 

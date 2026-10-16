@@ -6,15 +6,15 @@ A Luma workspace is an ordinary directory serving one human goal, project, or co
 
 The user-facing material stays visible and editable. An editable `wiki/` can hold explanations, connections, and questions that help someone return to work across sessions. It complements source material rather than silently replacing it.
 
-The visible `inbox/` is a temporary interaction queue for agent messages, questions and structured worksheets. It supports deeper exchanges before useful understanding is retained in the wiki and the handled item is cleared. The [agent working agreement](../.agents/AGENTS.md#inbox) owns its operating instructions.
+An `inbox/` created on demand is a temporary interaction queue for agent messages, questions and structured worksheets. It supports deeper exchanges before useful understanding is retained in the wiki and the handled item is cleared. [luma-inbox](../skills/luma-inbox/SKILL.md) owns its operating practice.
 
 A hidden `.agents/` directory can hold supporting guidance, skills, tools, or packages when useful. Guidance and resources could instead be located at the workspace root or embedded near relevant material. The exact filenames below are illustrative defaults, not a required schema; keep one canonical location for each resource and use references elsewhere rather than competing copies.
 
 ```text
 workspace/
 ├── material/          # illustrative: sources, notes, project files
-├── wiki/              # illustrative: editable maintained knowledge
-├── inbox/             # temporary messages and worksheets for the person
+├── wiki/              # created when useful knowledge is retained
+├── inbox/             # created when an interaction is needed
 ├── .agents/           # optional support resources
 └── topic/             # ordinary folder unless explicitly marked as a child workspace
 ```
@@ -25,7 +25,7 @@ Relative references help workspace materials move together. Portability does not
 
 ## Knowledge over time
 
-User material and [wiki knowledge](../.agents/AGENTS.md#wiki) have distinct roles: sources preserve what was supplied or observed, while the wiki holds maintained explanations supported by those sources.
+User material and [wiki knowledge](../skills/luma-wiki/SKILL.md) have distinct roles: sources preserve what was supplied or observed, while the wiki holds maintained explanations supported by those sources.
 
 Maintenance across sessions and justified revisions to methods are part of the workspace design. The operating practices live in the working agreement and its linked skills.
 

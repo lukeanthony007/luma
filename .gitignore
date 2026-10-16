@@ -4,9 +4,9 @@
 **/.agents/runtime/
 **/.credentials/
 
-# Inbox interactions are temporary; retain only the empty-directory marker.
-/inbox/*
-!/inbox/.gitkeep
+# Generated user knowledge and interactions stay out of this public foundation.
+/inbox/
+/wiki/
 
 # Credentials and explicitly private material.
 .env

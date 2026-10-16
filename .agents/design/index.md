@@ -1,4 +1,4 @@
-# Luma design wiki
+# Luma design notes
 
 Luma is an open-source starting point for agentic personal knowledge management: an ordinary, human-readable workspace for a goal, project, or collection of material. It is intended to work Obsidian-first while remaining harness-agnostic. People own and edit the material; agent guidance and supporting resources live alongside it rather than replacing it.
 
@@ -6,11 +6,11 @@ Luma is an open-source starting point for agentic personal knowledge management:
 
 This repository currently contains documentation and portable practices. It does not provide an installed Obsidian plugin, agent runtime, or CLI. The original plugin is preserved unchanged on the separate [`archive/obsidian-plugin` branch](https://github.com/lukeanthony007/luma/tree/archive/obsidian-plugin); it is historical reference and is absent from the current main tree.
 
-The design principles and illustrative layout are in [Workspace model](workspace-model.md). See the [repository README](../README.md) for the project entry point and instructions for a small clone without historical plugin files.
+The design principles and illustrative layout are in [Workspace model](workspace-model.md). See the [repository README](../../README.md) for the project entry point and instructions for a small clone without historical plugin files.
 
 ## Starting principles
 
-A workspace serves one human goal, project, or collection. Its visible files remain useful without an agent harness, with an editable wiki for maintained understanding, `inbox/` for temporary messages and worksheets, and `.agents/` for supporting guidance, skills, tools or packages. Agent operating instructions for both user-facing folders live in the [working agreement](../.agents/AGENTS.md#wiki). Optional marked child workspaces can organize distinct responsibilities; neither nesting nor ordinary folder names imply permissions or agency.
+A workspace serves one human goal, project, or collection. The agent creates `wiki/` for maintained understanding and `inbox/` for temporary interactions only when needed. Neither folder nor any placeholder is shipped in a fresh checkout. Supporting resources live in `.agents/`; the [luma-wiki](../skills/luma-wiki/SKILL.md) and [luma-inbox](../skills/luma-inbox/SKILL.md) skills own their operating practices. Optional marked child workspaces can organize distinct responsibilities; nesting and ordinary folder names imply neither permissions nor agency.
 
 ## Decisions still open
 
