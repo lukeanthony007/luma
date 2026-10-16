@@ -13,6 +13,8 @@ A fresh Luma workspace has no `inbox/`. Create it when there is an actual intera
 
 Write one Markdown file per interaction with a distinct filename. Include the sender, date, relevant topic, purpose and requested response. Link to current knowledge rather than copying whole pages. Fit the structure to the conversation: current understanding, assumptions to examine, alternatives, questions and space for observations. Explain why questions matter and distinguish suggested answers from actual responses.
 
+Use the [wiki's organization practice](../luma-wiki/SKILL.md#organize-for-understanding) to make the interaction easy to inspect: separate what is known from what is proposed, group related questions and bring the immediate choice into focus. Use concise sections and familiar labels, with deeper context linked. Offer space to correct the framing or leave something unresolved; do not turn a worksheet into a compulsory questionnaire or create empty sections for symmetry.
+
 The person may answer in the file, in chat or both. Inspect the current item and reconcile those responses together. Preserve existing user edits instead of regenerating over them.
 
 ## Resume and clear

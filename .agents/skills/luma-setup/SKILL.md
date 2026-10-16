@@ -25,6 +25,8 @@ Ask for a recent example of what they do now, where they get stuck or what takes
 
 As they become relevant, learn about available time, budget, comfort with technology, existing tools and how much the person wants to do themselves. Establish what needs their judgment and what information can be used before proposing a connected service. Ask only for details that affect the next useful choice. Keep unknowns explicit rather than treating them as constraints the user has agreed to.
 
+As the pieces emerge, offer a small provisional picture in the person's own terms: what they want, what they already have, what is difficult and what remains uncertain. Follow the [wiki's organization practice](../luma-wiki/SKILL.md#organize-for-understanding): group related pieces and explain connections without forcing a complete classification. Invite the person to correct the picture or say which part matters most. Keep it in the conversation until there is useful understanding to retain, and move toward a helpful action rather than requiring every category to be filled.
+
 ## Discover useful applications
 
 Connect opportunities to the person's actual goal and examples. AI may help interpret material, organize knowledge, draft something or explore alternatives. Automation may help repeat a stable sequence, transfer information or remind someone to act. Sometimes a clearer process or an ordinary tool is sufficient. Recommend what fits; using AI is not itself the success criterion.
