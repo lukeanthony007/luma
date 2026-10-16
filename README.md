@@ -1,52 +1,96 @@
 # Luma
 
-Luma is an open-source personal knowledge management agent. It helps a person understand their material, maintain useful knowledge and pursue their goals through an ordinary directory of files.
+Luma is an open-source personal knowledge management agent for your projects, ideas and everyday work. Give it a directory of material and a goal, and work with your AI agent to develop a clear, connected wiki that evolves with your understanding.
 
-Luma provides portable instructions, skills and a small directory initializer for use through an existing agent harness. It does not bundle a model runtime, search engine, background service or Obsidian plugin.
+The workspace is yours: ordinary files, editable Markdown and room for whatever you are working on. Obsidian is the preferred interface for reading and editing the wiki. Luma supplies the instructions and skills; your existing agent supplies the model and tools.
 
 ## Initialize a directory
 
-Requires Python 3.9 or newer and `curl`. Run this inside the directory you want Luma to help maintain:
+Requires Python 3.9 or newer, `curl` and an AI agent that can read and edit local files. Run this inside the directory you want Luma to help maintain:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/lukeanthony007/luma/main/.agents/tools/luma.py | python3 - init
 ```
 
-Add a directory after `init` to choose another location, including a new folder. Add `--dry-run` to preview the proposed files without changing the target. The command downloads the current resource tree without cloning Git history or installing dependencies.
+Then open your agent in that directory and start with:
 
-Initialization installs `.agents/AGENTS.md`, the skills, the initializer and a license notice. It creates a short README or adds a marked guidance block to your existing README, and adds local-record exclusions to `.gitignore` while preserving its other contents. It leaves existing project files, MCP connections and runtime state in place. Identical installations are unchanged; differing agent resources stop the operation before target writes so you can review and merge them deliberately. This is initialization, not an automatic updater.
+> Read `.agents/AGENTS.md` and help me get started with Luma. I'd like to talk through what I'm working on and where AI or automation could help.
 
-Start your usual agent in that directory and tell it to read `.agents/AGENTS.md`. It can then guide the initial conversation through `luma-setup`, or sync material already present. Wiki, inbox and MCP files are created later when needed. Initialization does not create a Git repository, configure a model or activate a connector or background process.
+You can begin with an empty folder, an unfinished idea or an existing collection of documents. The [setup skill](.agents/skills/luma-setup/SKILL.md) guides a conversation about your goal and helps you take a manageable first step. You do not need a technical plan or prepared brief.
 
-The command above runs the script from `main`. For a reviewed, reproducible installation, download and inspect the script, or pin both its URL and `--ref` to the same commit. `--ref` alone selects the resource revision, not the script already downloaded. From a local Luma checkout, an offline installation uses:
+For a directory that already contains material, try:
+
+> Read `.agents/AGENTS.md` and use luma-sync to understand this workspace. Preserve the original references and build a connected wiki around what we learn.
+
+These are starting prompts; continue in your own words.
+
+## How the workspace works
+
+Keep relevant notes, documents and projects in the visible directory. The agent uses [comprehension](.agents/skills/comprehension/SKILL.md) to understand their meaning, context and disagreements, then develops the wiki around the subjects and relationships that matter to your goal.
+
+- **`wiki/` — evolving understanding.** Readable pages explain what is known, how ideas connect, what was decided and what remains uncertain. Edit them yourself or work on them with your agent.
+- **`.agents/memory/<date-time>/` — original evidence.** Preserved references and provenance support the wiki's explanations and let you check where a claim came from.
+- **`inbox/` — temporary interaction.** Messages, questions and structured worksheets give you space to respond or reflect. Handled items are cleared after useful understanding is retained.
+- **`.agents/` — agent resources.** The working agreement, skills and optional tools support the work behind the visible workspace.
+
+Wiki, inbox and evidence directories are created when there is useful content for them. Existing organization is respected, and active projects keep their ownership. The agent preserves and checks eligible source material before retiring it from the intake location. Evidence preservation complements your own backups.
+
+The wiki is organized around understanding: a project page can connect a goal, several sources, a decision and an unresolved question. As new evidence arrives, the agent revises the explanation and affected pages. Original references remain available through source links.
+
+This organization draws on **knolling**: distinguish the pieces, group related ideas and make their connections clear. The aim is to help you see what you have and what needs attention while keeping uncertainty visible.
+
+## Keep working with it
+
+Ask naturally for the help you need. The [working agreement](.agents/AGENTS.md) routes the agent to the relevant practice:
+
+- [Setup](.agents/skills/luma-setup/SKILL.md) helps you find a starting point and explore useful applications of AI or automation.
+- [Sync](.agents/skills/luma-sync/SKILL.md) reconciles new or changed material with current understanding.
+- [Wiki](.agents/skills/luma-wiki/SKILL.md) maintains connected knowledge; [memory](.agents/skills/luma-memory/SKILL.md) preserves evidence and handles corrections.
+- [Continuity](.agents/skills/luma-continuity/SKILL.md) carries purpose, progress and open commitments across sessions.
+- [Dream](.agents/skills/luma-dream/SKILL.md) reflects across existing knowledge to develop supported connections and explicit proposals.
+- [Inbox](.agents/skills/luma-inbox/SKILL.md) supports structured conversations and worksheets.
+- [Comprehension](.agents/skills/comprehension/SKILL.md), [collaboration](.agents/skills/luma-collab/SKILL.md) and [configuration](.agents/skills/luma-config/SKILL.md) support investigation, bounded delegation and workspace maintenance.
+
+For example, ask the agent to reconcile new research with a project, explain why a decision changed, or recover where you left off and identify the next useful action. These practices run through your agent when invoked; recurring work needs a separately configured and authorized scheduler.
+
+## Installation details
+
+The initializer downloads the current resources without cloning Git history or installing dependencies. It installs `.agents/AGENTS.md`, ten skills with their references, the initializer and a license notice. It creates a short README or appends a guidance block to yours, and adds local-record exclusions to `.gitignore`.
+
+Existing project files, MCP configuration and runtime state stay in place. An identical installation makes no changes. Differing managed resources stop the operation before target writes so you can review and merge them deliberately. Use the configuration practice for subsequent maintenance; the initializer has no automatic update mode.
+
+Append a target directory to `init` to choose another location, including a new folder. To preview the changes there:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/lukeanthony007/luma/main/.agents/tools/luma.py | python3 - init "/path/to/your project" --dry-run
+```
+
+From a local Luma checkout, an offline installation uses:
 
 ```sh
 python3 .agents/tools/luma.py init --source . "/path/to/your project"
 ```
 
-The initializer source is [`.agents/tools/luma.py`](.agents/tools/luma.py). Git exclusions do not encrypt files or remove material already tracked by Git.
+The remote commands run the script from `main`. You can inspect the [initializer source](.agents/tools/luma.py) before running it. For a reproducible installation, pin both the script URL and `--ref` to the same commit; `--ref` alone selects the resources, not the script already downloaded.
 
-## Start here
+Initialization leaves Git setup, model configuration and connector activation to you and your agent. The generated Git exclusions cover local knowledge, evidence and configuration; they do not encrypt files or remove material already tracked by Git.
 
-Start with what you are working on or hoping to achieve, even if you do not know where AI or automation could help. Direct your agent to [`.agents/AGENTS.md`](.agents/AGENTS.md). Through [luma-setup](.agents/skills/luma-setup/SKILL.md), it will talk through your situation, explain relevant possibilities and help you take a manageable first step. You do not need a technical plan or prepared documents. The agent creates `wiki/` and `inbox/` when needed; neither directory is included in a fresh checkout.
+## Agents and integrations
 
-The intended experience is simple: keep relevant documents, notes and other material in a workspace; use the wiki to understand the project or subject; let a supported agent help maintain that understanding and the methods used to develop it. Obsidian is the preferred human interface, while the files remain ordinary Markdown and can be used with other editors.
+**Agents: read [`.agents/AGENTS.md`](.agents/AGENTS.md) first.** It is the canonical working agreement. This README provides the route when your harness does not automatically read `.agents/`. Luma keeps its instructions there, without a root `AGENTS.md` or `CLAUDE.md`.
 
-For an existing directory of notes, research, documents and projects, ask the agent to [sync the workspace](.agents/skills/luma-sync/SKILL.md). It preserves original reference material in dated `.agents/memory/` batches and develops `wiki/` around the subjects, projects, decisions and relationships that matter. The wiki explains what the material means across sources; it evolves as evidence, goals and human contributions change. It does not inherit the source directory as its structure. The agent reports coverage and uncertainty, and retires eligible intake only after preservation and integration checks. Active projects and harness state retain their ownership.
+Luma is designed for use with file-capable agents such as Codex and Claude Code. Instruction loading and native skill discovery must be checked in each harness; universal automatic discovery has not been verified. The current package includes portable guidance and the initializer. The model runtime, search facilities and any background execution come from your chosen tools.
 
-Comprehension recovers meaning, context and disagreement. Knolling makes that understanding readable: distinguish the pieces, group related ideas and explain their connections. Source links let the reader inspect the evidence without making the originals the wiki. A dated evidence archive supports this process; it is not an independent backup.
+When an integration needs MCP tools, the agent creates and maintains `./.agents/mcp.json` through [luma-config](.agents/skills/luma-config/SKILL.md), checking the active harness's schema, loading and authentication. A fresh installation contains no empty MCP configuration or default server bundle.
 
-The optional `inbox/` gives agents a temporary space for messages, questions and structured worksheets, including handoffs from authorized background work. The person can respond there or in conversation. Handled items are cleared after useful understanding is retained in the wiki. These practices live in the [luma-wiki](.agents/skills/luma-wiki/SKILL.md) and [luma-inbox](.agents/skills/luma-inbox/SKILL.md) skills.
+Optional tools, packages, repositories and nested agent workspaces can support a project as it grows. Each keeps its own purpose and ownership; the working agreement describes their placement without requiring a fixed folder scheme.
 
-The visible workspace belongs to the person. Agent guidance and reusable practices live under `.agents/`; [the working agreement](.agents/AGENTS.md) covers their organization. Tools, packages and nested agent workspaces can be added when needed. Existing organizations should be accommodated; the design does not require a fixed set of project or lifestyle folders.
-
-## Agent resources
-
-Agents should read and follow [`.agents/AGENTS.md`](.agents/AGENTS.md), the canonical working agreement. If the harness does not automatically process `.agents/`, use this README as the route to that guidance. Instruction files stay inside `.agents/`; no root instruction file is needed. Skills are maintained in `.agents/skills/`; follow the working agreement to select them. These files provide guidance, not a running integration. Instruction loading and native Skill discovery still need verification in each supported harness.
-
-When a useful integration needs MCP tools, the agent creates and maintains `./.agents/mcp.json` through [luma-config](.agents/skills/luma-config/SKILL.md). The file belongs to that workspace; a fresh checkout includes no empty configuration or default server bundle. The active harness's schema, discovery and authentication still need checking.
+Luma's workspace model comes from Animus. Luma provides the portable PKM structure and practices; an Animus integration can build on that foundation separately. Using Luma requires no Animus checkout or runtime.
 
 ## Provenance and scope
+
+<details>
+<summary>Design influences and adaptation history</summary>
 
 The five workspace and comprehension practices were selected from Luke Anthony's Animus `.agents/skills/` workspace on 2026-10-16. The source checkout's HEAD was `0a4bf670785434c096146fc9e10ca97d6885f586`; the embedded resource tree was local authored content, so that commit alone does not identify the exact imported files. `luma-wiki` and `luma-inbox` were authored for Luma from its knowledge and interaction design.
 
@@ -61,6 +105,8 @@ The organization practice takes knolling as a design influence, informed by [Kir
 `luma-dream` adapts Animus's `skills/dream/SKILL.md` and the Dream and evaluation sections of `docs/EXPERIENCE-AND-EVOLUTION.md`, inspected at revision `0a4bf670785434c096146fc9e10ca97d6885f586`. It retains bounded source selection, honest synthesis and proposals distinct from activation. The engine-specific `dream.synthesize`, accepted-frontier, current-Day and Movement-checkpoint contracts are not copied into Luma's portable method.
 
 The agreement and skills adapt the portable workspace model. No Animus database, agent identity, credential, transcript, personal source collection, executable configuration or runtime package is included. Standup was not selected for this agent. Optional backend methods mentioned in comprehension references require a separately available host capability; these Markdown files do not provide one.
+
+</details>
 
 ## Previous implementation
 
