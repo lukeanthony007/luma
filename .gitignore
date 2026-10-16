@@ -4,9 +4,9 @@
 **/.agents/runtime/
 **/.credentials/
 
-# Inbox interactions are temporary; track only the usage guide.
+# Inbox interactions are temporary; retain only the empty-directory marker.
 /inbox/*
-!/inbox/README.md
+!/inbox/.gitkeep
 
 # Credentials and explicitly private material.
 .env

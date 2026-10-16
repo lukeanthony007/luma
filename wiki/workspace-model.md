@@ -6,7 +6,7 @@ A Luma workspace is an ordinary directory serving one human goal, project, or co
 
 The user-facing material stays visible and editable. An editable `wiki/` can hold explanations, connections, and questions that help someone return to work across sessions. It complements source material rather than silently replacing it.
 
-The visible [inbox](../inbox/README.md) is a temporary interaction queue for agent messages, questions and structured worksheets. It lets a person examine context and respond in more depth than a chat turn allows. On returning to the conversation, the agent handles the relevant item, retains useful understanding in the wiki and then clears the item. Pending questions and new user edits remain available until handled; the wiki remains the durable knowledge home.
+The visible `inbox/` is a temporary interaction queue for agent messages, questions and structured worksheets. It supports deeper exchanges before useful understanding is retained in the wiki and the handled item is cleared. The [agent working agreement](../.agents/AGENTS.md#inbox) owns its operating instructions.
 
 A hidden `.agents/` directory can hold supporting guidance, skills, tools, or packages when useful. Guidance and resources could instead be located at the workspace root or embedded near relevant material. The exact filenames below are illustrative defaults, not a required schema; keep one canonical location for each resource and use references elsewhere rather than competing copies.
 
@@ -21,15 +21,15 @@ workspace/
 
 A child workspace is optional and should represent a meaningful distinct responsibility, not merely a subfolder. A workspace marker, if adopted, marks that child; `.agents/` is supporting configuration within a workspace, not a separate agent. Ordinary folders—including names such as `projects/`, `agents/`, or `packages/`—are not agents by themselves. Parentage describes where workspaces are arranged; it does not grant authority, access, or inherited permissions.
 
-Prefer relative references between workspace materials so they can move together. Absolute machine paths and harness-specific identifiers undermine portability. If files move, references may need repair; portability does not mean every harness will automatically discover or use them.
+Relative references help workspace materials move together. Portability does not mean every harness automatically discovers or uses the workspace; moving files can still require link repair.
 
 ## Knowledge over time
 
-Keep source material distinct from derived knowledge. A source is what was read, observed, or supplied; a wiki explanation is an interpretation that should point back to relevant sources where practical. Preserve uncertainty and disagreement rather than turning a summary into a source or treating repeated summaries as independent evidence. Human edits to wiki pages remain authoritative as human-authored text; any optional integration that proposes revisions must reconcile with those edits explicitly rather than overwrite them.
+User material and [wiki knowledge](../.agents/AGENTS.md#wiki) have distinct roles: sources preserve what was supplied or observed, while the wiki holds maintained explanations supported by those sources.
 
-Maintenance is part of the workspace: across sessions, revisit explanations when new evidence or changed goals matter, retain useful context in readable files, and revise methods when experience supports doing so. A future method revision is an authored change to guidance or skills, not an automatic learning guarantee. Keep the reason and relevant evidence legible, and leave unresolved questions unresolved.
+Maintenance across sessions and justified revisions to methods are part of the workspace design. The operating practices live in the working agreement and its linked skills.
 
-An authorized background agent or cron job can use the inbox to leave something for the person's next session. Its files are an interface to the work, not another long-term knowledge store. The [inbox lifecycle](../inbox/README.md#handling-and-clearing) defines integration before cleanup, preservation of unanswered items and recovery after interruption. Scheduling, notifications and automated queue handling are not implemented by the directory itself.
+An authorized background agent or cron job can use the inbox to leave something for the person's next session. Its files are an interface to the work, not another long-term knowledge store. Scheduling, notifications and automated queue handling are not implemented by the directory itself.
 
 ## Harnesses and optional engines
 

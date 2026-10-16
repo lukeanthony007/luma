@@ -10,7 +10,7 @@ The design principles and illustrative layout are in [Workspace model](workspace
 
 ## Starting principles
 
-A workspace serves one human goal, project, or collection. Its visible files remain useful without an agent harness, with an editable wiki for maintained understanding, an [inbox](../inbox/README.md) for temporary messages and worksheets, and `.agents/` for supporting guidance, skills, tools or packages. Handled inbox interactions are cleared after useful understanding has been retained in the wiki. Optional marked child workspaces can organize distinct responsibilities; neither nesting nor ordinary folder names imply permissions or agency.
+A workspace serves one human goal, project, or collection. Its visible files remain useful without an agent harness, with an editable wiki for maintained understanding, `inbox/` for temporary messages and worksheets, and `.agents/` for supporting guidance, skills, tools or packages. Agent operating instructions for both user-facing folders live in the [working agreement](../.agents/AGENTS.md#wiki). Optional marked child workspaces can organize distinct responsibilities; neither nesting nor ordinary folder names imply permissions or agency.
 
 ## Decisions still open
 

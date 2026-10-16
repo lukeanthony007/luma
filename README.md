@@ -10,7 +10,7 @@ Read the [wiki](wiki/index.md) for the current direction and the [workspace mode
 
 The intended experience is simple: keep relevant documents, notes and other material in a workspace; use the wiki to understand the project or subject; let a supported agent help maintain that understanding and the methods used to develop it. Obsidian is the preferred human interface, while the files remain ordinary Markdown and can be used with other editors.
 
-The [inbox](inbox/README.md) gives agents a temporary space for messages, questions and structured worksheets, including handoffs from authorized background work. The person can respond there or in conversation. Once the agent has handled an item and retained useful understanding in the wiki, it clears the item.
+The `inbox/` gives agents a temporary space for messages, questions and structured worksheets, including handoffs from authorized background work. The person can respond there or in conversation. Handled items are cleared after useful understanding is retained in the wiki. Agent instructions for the [wiki](.agents/AGENTS.md#wiki) and [inbox](.agents/AGENTS.md#inbox) live in the shared working agreement.
 
 The visible workspace belongs to the person. Agent guidance and reusable practices live under [`.agents/`](.agents/README.md). Tools, packages and nested agent workspaces can be added when needed. Existing organizations should be accommodated; the design does not require a fixed set of project or lifestyle folders.
 
