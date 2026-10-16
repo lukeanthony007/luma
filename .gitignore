@@ -4,6 +4,10 @@
 **/.agents/runtime/
 **/.credentials/
 
+# Inbox interactions are temporary; track only the usage guide.
+/inbox/*
+!/inbox/README.md
+
 # Credentials and explicitly private material.
 .env
 .env.*

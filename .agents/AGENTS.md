@@ -6,6 +6,8 @@ This is the canonical agent guidance for the Luma development workspace. Paths b
 
 Read `README.md`, then `wiki/index.md` and the linked pages relevant to the task. Preserve the user's purpose, existing material and authorship. Distinguish selected principles, proposed design, implemented behavior and observed results. Unknown is not zero, false or absent.
 
+When the user returns, review relevant pending items in `inbox/` using the [inbox lifecycle](../inbox/README.md). The inbox is a temporary interaction surface; its README is guidance, not a queued message.
+
 Luma is the portable agentic PKM workspace design. The visible root holds human-facing material and the editable wiki; `.agents/` holds supporting agent resources. Existing user layouts can vary. A resource has one canonical home, whether visible or embedded. An ordinary folder is not automatically an agent, and `.agents/` is part of its containing workspace rather than another identity.
 
 The original plugin is preserved on the separate `archive/obsidian-plugin` branch at `dbfd14bcd1fb9b0deed36c94be382965bae56d78`. Inspect that revision only when the task needs historical evidence; its old instructions, scripts and dependencies do not govern the current workspace. Preserve the archive branch. Reuse selected material in the active project with its provenance and license notices preserved.
@@ -29,6 +31,8 @@ Preserve original source material and its provenance separately from derived exp
 Use the wiki to maintain the project's purpose, relevant current understanding, decisions, open questions and next useful actions. Add pages only when they contain useful material; do not create empty structures, invented history or transcript dumps. Link to supporting sources, distinguish observations from inference and proposals, and retain uncertainty. When a source or conclusion changes, revisit affected explanations and links.
 
 Keep human edits intact. Inspect the current file before updating it, reconcile conflicts explicitly, and preserve meaningful corrections and prior decisions. Markdown is the portable editable knowledge record. An optional engine integration must state its own accepted-knowledge and reconciliation contract; it must not silently overwrite human wording.
+
+For inbox interactions, read the current item and the user's responses before integrating useful understanding into the wiki. Verify durable updates before clearing only the handled item. Preserve unanswered questions, new edits and necessary supporting material; do not leave wiki links pointing to deleted inbox items. If interrupted, check what was already saved before retrying. A session starting does not authorize bulk inbox deletion or activate a background schedule.
 
 ## Ownership and privacy
 
