@@ -9,12 +9,12 @@ Luma includes nine practices:
 - [luma-setup](skills/luma-setup/SKILL.md): guided initial orientation from a project or idea to a useful first step.
 - [luma-continuity](skills/luma-continuity/SKILL.md): purpose, current situation, temporal commitments, review and resumption.
 - [luma-dream](skills/luma-dream/SKILL.md): reflection across wiki pages and sources, integrated synthesis and explicit proposals.
-- [luma-memory](skills/luma-memory/SKILL.md): evidence, uncertainty and correction discipline for retained knowledge.
-- [luma-collab](skills/luma-collab/SKILL.md)
-- [luma-config](skills/luma-config/SKILL.md)
-- [comprehension](skills/comprehension/SKILL.md)
 - [luma-wiki](skills/luma-wiki/SKILL.md): readable organization, source integration, retained discoveries and ongoing maintenance.
-- [luma-inbox](skills/luma-inbox/SKILL.md)
+- [luma-inbox](skills/luma-inbox/SKILL.md): temporary messages and worksheets, response integration and cleanup.
+- [luma-memory](skills/luma-memory/SKILL.md): evidence, uncertainty and correction discipline for retained knowledge.
+- [luma-collab](skills/luma-collab/SKILL.md): bounded assignments and integration of actual contributions.
+- [luma-config](skills/luma-config/SKILL.md): maintenance of instructions, tools, packages and configuration.
+- [comprehension](skills/comprehension/SKILL.md): source-backed investigation, explanation and application.
 
 The Skill files and their supporting references are canonical here. The root README routes agents to this directory's working agreement when `.agents/` is not processed automatically. Keep instruction files inside `.agents/` and guidance shared across harnesses without divergent copies. Native Skill discovery may need explicit configuration. No live cross-harness discovery test has been performed for this foundation.
 

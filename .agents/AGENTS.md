@@ -34,7 +34,7 @@ Read the relevant Skill and its needed references before applying it:
 
 - [Luma setup](skills/luma-setup/SKILL.md): guide initial orientation, explore where AI or automation could help, and take a manageable step toward the user's goal.
 - [Luma continuity](skills/luma-continuity/SKILL.md): preserve purpose across sessions and time, review actual progress and carry commitments forward deliberately.
-- [Luma Dream](skills/luma-dream/SKILL.md): reflect on retained experience, connect findings and propose grounded improvements.
+- [Luma Dream](skills/luma-dream/SKILL.md): reflect across wiki pages and sources, integrate supported synthesis and keep hypotheses and improvement proposals explicit.
 - [Luma wiki](skills/luma-wiki/SKILL.md): create and maintain durable user knowledge when needed.
 - [Luma inbox](skills/luma-inbox/SKILL.md): create structured interactions when needed and clear handled items after integration.
 - [Luma memory](skills/luma-memory/SKILL.md): maintain useful, source-backed knowledge and incorporate corrections.

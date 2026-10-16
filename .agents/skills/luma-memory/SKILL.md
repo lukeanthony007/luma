@@ -21,7 +21,7 @@ Assess support through source quality, independence, relevance and scope. Repeat
 
 ## Query and synthesize
 
-Search relevant records and inspect underlying support before answering. Distinguish directly supported facts from inference and unknowns. Do not turn missing records into evidence that an event did not happen, or “not reported” into “false.” For a new case, state what is given, unknown, and which prior premises transfer; do not silently import an old conclusion into a different scope. Carry meaningful limitations and conflicting accounts into the answer.
+Start with relevant retained knowledge and its evidence links. Inspect underlying sources when the answer depends on exact wording, freshness, consequential claims, a correction or unresolved uncertainty; do not rebuild every routine answer from the full source collection. Distinguish directly supported facts from inference and unknowns; make any material reliance on unrechecked support clear. Do not turn missing records into evidence that an event did not happen, or “not reported” into “false.” For a new case, state what is given, unknown, and which prior premises transfer; do not silently import an old conclusion into a different scope. Carry meaningful limitations and conflicting accounts into the answer.
 
 Synthesize only the context needed for the task. Keep source references and provenance attached, and avoid compressing away relationships that make the account useful. Ordinary task work remains direct; memory does not require delegation.
 
