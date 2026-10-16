@@ -29,6 +29,8 @@ On ingest, identify source scope and relevant existing pages, use [comprehension
 
 When revising an inherited wiki, do not rename or copy the source tree into `wiki/`, produce a document-summary dump, or reduce knowledge to an index that points elsewhere. Evolve useful pages in place; split, merge or reorganize when it improves understanding. Reconcile duplicate facts into a clear account, preserve meaningful history and human contributions, and keep exact source support with substantive explanations.
 
+Treat a user-selected filename or page location as the current organization. Repair incoming links to it; do not undo a human rename merely to match an older index. If a different location is needed, explain the concrete reason and obtain the user's agreement unless they have already authorized that relocation. Preserve their wording and reconcile meaning separately from filenames.
+
 Use [luma-sync](../luma-sync/SKILL.md) for mixed directories and accumulated changes; routine single-source integration can remain direct.
 
 For a question, start with relevant wiki navigation and pages, then inspect underlying sources where accuracy, freshness or uncertainty requires it. Extend the existing understanding rather than rebuilding every answer from scratch. Cite available support and identify gaps. Use the search capabilities already available; add search infrastructure only for a demonstrated retrieval problem.

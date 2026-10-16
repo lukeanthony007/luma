@@ -55,7 +55,7 @@ For example, ask the agent to reconcile new research with a project, explain why
 
 ## Installation details
 
-The initializer downloads the current resources without cloning Git history or installing dependencies. It installs `.agents/AGENTS.md`, ten skills with their references, the initializer and a license notice. It creates a short README or appends a guidance block to yours, and adds local-record exclusions to `.gitignore`.
+The initializer downloads the current resources without cloning Git history or installing dependencies. It installs `.agents/AGENTS.md`, ten skills with their references, the initializer, a source-capture/check helper and a license notice. It creates a short README or appends a guidance block to yours, and adds local-record exclusions to `.gitignore`.
 
 Existing project files, MCP configuration and runtime state stay in place. An identical installation makes no changes. Differing managed resources stop the operation before target writes so you can review and merge them deliberately. For subsequent changes, ask your agent to [update installed guidance](.agents/skills/luma-config/SKILL.md#update-installed-guidance) from a selected Luma revision, preserving local adaptations. The initializer has no automatic update mode.
 
@@ -74,6 +74,19 @@ python3 .agents/tools/luma.py init --source . "/path/to/your project"
 The remote commands run the script from `main`. You can inspect the [initializer source](.agents/tools/luma.py) before running it. For a reproducible installation, pin both the script URL and `--ref` to the same commit; `--ref` alone selects the resources, not the script already downloaded.
 
 Initialization leaves Git setup, model configuration and connector activation to you and your agent. The generated Git exclusions cover local knowledge, evidence and configuration; they do not encrypt files or remove material already tracked by Git.
+
+## Capture and check
+
+Your agent can use the [knowledge helper](.agents/tools/luma_knowledge.py) to preserve selected files and check the knowledge workspace:
+
+```sh
+python3 .agents/tools/luma_knowledge.py capture --root . notes/source.md
+python3 .agents/tools/luma_knowledge.py check --root .
+```
+
+Capture records the actual UTC time, original paths, bytes and SHA-256 hashes in a new evidence batch, and returns source links for wiki pages. Unchanged verified sources reuse their capture; changed sources retain a new version with the earlier one recoverable. Original files stay in place. A capture is evidence preservation, not a separate backup or completed wiki synthesis.
+
+Check reads the wiki's local Markdown and Obsidian links, heading targets and helper-owned capture manifests. Add selected page or directory paths to narrow the Markdown check. It reports broken or ambiguous references and capture-integrity problems without changing files. Paths must stay within the selected workspace; links outside it are reported without reading their targets. Both commands return JSON; errors produce a nonzero exit status. Link and hash checks do not establish that claims are supported—the agent must inspect the relevant source passages. The parser supports common link forms and headings; it does not implement every Markdown extension.
 
 ## Agents and integrations
 

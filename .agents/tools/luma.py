@@ -19,6 +19,8 @@ MAX_UNPACKED = 32 * 1024 * 1024
 MAX_FILE = 2 * 1024 * 1024
 MAX_FILES = 500
 TIMEOUT = 20
+RESOURCE_FILES = (".agents/AGENTS.md", ".agents/tools/luma.py",
+                  ".agents/tools/luma_knowledge.py", "LICENSE")
 README_BEGIN = "<!-- luma:begin -->"
 README_END = "<!-- luma:end -->"
 IGNORE_BEGIN = "# luma:begin"
@@ -56,9 +58,9 @@ class Change:
 
 
 def _validate(payload: dict[str, bytes]) -> dict[str, bytes]:
-    required = {".agents/AGENTS.md", ".agents/tools/luma.py", "LICENSE"}
+    required = set(RESOURCE_FILES)
     if not required.issubset(payload):
-        raise LumaError("Source is missing required .agents/AGENTS.md, .agents/tools/luma.py, or LICENSE")
+        raise LumaError("Source is missing required resources: " + ", ".join(sorted(required - payload.keys())))
     for name, data in payload.items():
         p = PurePosixPath(name)
         if p.is_absolute() or "\\" in name or ":" in name or "\0" in name or ".." in p.parts or not p.parts or str(p) != name:
@@ -117,7 +119,7 @@ def load_local_source(root: Path) -> dict[str, bytes]:
             raise LumaError(f"Source exceeds size limit: {rel}")
         files[rel] = data
 
-    for rel in (".agents/AGENTS.md", ".agents/tools/luma.py", "LICENSE"):
+    for rel in RESOURCE_FILES:
         read_file(root / rel, rel)
     skills = root / ".agents/skills"
     _check_source_ancestors(root, ".agents/skills")
@@ -178,7 +180,7 @@ def parse_archive(data: bytes) -> dict[str, bytes]:
                 total += member.size
                 if total > MAX_UNPACKED:
                     raise LumaError("Source archive exceeds unpacked size limit")
-                selected = relative in ("LICENSE", ".agents/AGENTS.md", ".agents/tools/luma.py") or (relative.startswith(".agents/skills/") and (PurePosixPath(relative).suffix == ".md" or PurePosixPath(relative).name in ("LICENSE", "NOTICE")))
+                selected = relative in RESOURCE_FILES or (relative.startswith(".agents/skills/") and (PurePosixPath(relative).suffix == ".md" or PurePosixPath(relative).name in ("LICENSE", "NOTICE")))
                 if not selected:
                     continue
                 if relative in files:

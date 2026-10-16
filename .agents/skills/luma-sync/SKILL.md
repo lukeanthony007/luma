@@ -39,7 +39,7 @@ Retire loose or legacy intake originals only when their immutable retained evide
 
 ## Check and continue
 
-Reread saved pages and affected dependents. Check source coverage against retained meaning and saved assertions against exact support or declared premises. Confirm substantive integration, provenance, quantities, unknowns, conflicts and limitations; verify navigation, source accessibility and authorized move accounting. Self-checking is not independent review.
+Reread saved pages and affected dependents. Check source coverage against retained meaning and saved assertions against exact support or declared premises. Use [luma-memory's relationship and helper checks](../luma-memory/SKILL.md#check): validate complete claim relationships and navigable source citations separately from mechanical link and capture integrity. Confirm substantive integration, quantities, unknowns, conflicts and authorized move accounting. Self-checking is not independent review.
 
 Report what was integrated, what changed in understanding, what was left in place or moved, and the concrete remaining coverage. If the requested scope is unfinished, continue while bounds permit and retain the next batch when interrupted. Do not label the workspace fully reconciled while known material within scope is still unexamined. Never publish populated wiki or source records merely because the skill is maintained in a public repository.
 
