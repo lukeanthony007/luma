@@ -47,6 +47,8 @@ After a trial, ask what helped, what felt difficult and whether the result moved
 
 Use [luma-wiki](../luma-wiki/SKILL.md) to retain useful goals, confirmed preferences, decisions, open questions and next actions once there is real knowledge to save. Distinguish the person's statements, your inferences and unadopted suggestions. Preserve relevant sources and avoid storing every conversational exchange.
 
+Use [luma-continuity](../luma-continuity/SKILL.md) when the initial direction becomes ongoing work: connect the first action to its purpose, retain actual commitments and leave enough context to resume. Establish only useful time horizons; the person does not need a calendar system before beginning.
+
 Keep dialogue in the conversation by default. Use [luma-inbox](../luma-inbox/SKILL.md) when the person would benefit from a worksheet or time to reflect; it is optional and temporary. Neither `wiki/` nor `inbox/` needs to exist before the conversation starts. Do not create empty directories, placeholders, sample knowledge or a fixed folder scheme.
 
 Before writing, inspect the selected workspace and preserve existing files, instructions and organization. The user-facing directory is the workspace root; supporting guidance and skills live under `.agents/`. The root README routes to the working agreement; do not create a root instruction file. Use [luma-config](../luma-config/SKILL.md) for any needed resource or harness configuration, and verify actual discovery before claiming an integration works.

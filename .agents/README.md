@@ -4,9 +4,10 @@ Start with the [working agreement](AGENTS.md). Luma uses these skills to help th
 
 ## Portable practices
 
-Luma includes seven practices:
+Luma includes eight practices:
 
 - [luma-setup](skills/luma-setup/SKILL.md): guided initial orientation from a project or idea to a useful first step.
+- [luma-continuity](skills/luma-continuity/SKILL.md): purpose, current situation, temporal commitments, review and resumption.
 - [luma-memory](skills/luma-memory/SKILL.md): evidence, uncertainty and correction discipline for retained knowledge.
 - [luma-collab](skills/luma-collab/SKILL.md)
 - [luma-config](skills/luma-config/SKILL.md)
@@ -25,6 +26,8 @@ The memory, collaboration, configuration and comprehension Markdown trees were c
 Luma's wiki practice adapts the persistent Markdown synthesis pattern in [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) and selected lifecycle ideas in [Rohit's extension](https://gist.github.com/rohitg00/2067ab416f7bbe447c1977edaaa681e2). It preserves human editing, source verification and explicit uncertainty. Numeric scoring, automatic decay, graph infrastructure and background automation are not requirements or implemented capabilities.
 
 The organization practice takes knolling as a design influence, informed by [Kirsh's work on spatial cognition](https://adrenaline.ucsd.edu/kirsh/Articles/Space/AIJ1.html) and [Shipman and Marshall's work on spatial hypertext](https://people.engr.tamu.edu/shipman/spatialhypertext.html). Clear grouping, meaningful relationships and room for provisional understanding are design choices to assess in use; these sources do not establish psychological benefits for Luma.
+
+`luma-continuity` adapts the purpose-and-time distinction from Animus's historical `docs/MOVEMENT-CONTINUUM.md` at revision `e4dfea1294`, particularly its temporal coordination and carryover sections. It follows the lighter practice described in `docs/WORK-AND-CONTINUITY.md` and the recovery boundaries in `docs/reference/RUNTIME-LIFECYCLE.md`, inspected at Animus revision `0a4bf670785434c096146fc9e10ca97d6885f586`. These are source provenance references, not dependencies on an Animus checkout. Luma retains readable context in the wiki; it does not implement the historical universal Movement graph or Animus's durable execution control.
 
 The agreement and skills adapt the portable workspace model. No Animus database, agent identity, credential, transcript, personal source collection, executable configuration or runtime package is included. Standup and Dream resources were not selected for this agent. Optional backend methods mentioned in comprehension references require a separately available host capability; these Markdown files do not provide one.
 

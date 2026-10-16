@@ -33,6 +33,8 @@ For a question, start with relevant wiki navigation and pages, then inspect unde
 
 When a conversation, investigation or completed task produces a useful discovery, retain the question, supported finding and implications in the appropriate page. Update an existing account before creating a competing one. User reports, external evidence, agent inferences and adopted decisions retain their distinct status. A polished answer is not automatically worth saving. Record material changes and reasons in an existing log when useful; do not create a transcript archive or log every query by default.
 
+For ongoing undertakings, use [luma-continuity](../luma-continuity/SKILL.md) to retain purpose, current position, commitments, actual outcomes and the next action or condition for resumption. Keep that context with the relevant project knowledge and link to earlier outcomes when useful. A period's review and a project's completion are distinct; avoid a second task ledger or compulsory daily pages.
+
 ## Maintain the knowledge
 
 When asked to review the wiki, or when new evidence affects it, check for unsupported or stale claims, contradictions, broken links, duplicates, navigation gaps and important missing context. Prioritize what affects the user's current work. Propose investigation for unresolved gaps; do not fill them with plausible text. Repair verified navigation problems within scope, and use `luma-memory` to resolve substantive corrections.
