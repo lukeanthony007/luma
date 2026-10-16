@@ -12,7 +12,7 @@ The selected pack contains five practices:
 - [workspace-config](skills/workspace-config/SKILL.md)
 - [comprehension](skills/comprehension/SKILL.md)
 
-The Skill files and their supporting references are canonical here. Other harnesses may need explicit discovery adapters; do not maintain divergent copies. Root `AGENTS.md` routes to the working agreement and `CLAUDE.md` imports that entrypoint. No live cross-harness discovery test has been performed for this foundation.
+The Skill files and their supporting references are canonical here. Root `AGENTS.md` is the sole instruction entrypoint and routes to the working agreement. Keep guidance shared across harnesses without adding harness-specific instruction files or divergent copies. Native Skill discovery may need explicit configuration. No live cross-harness discovery test has been performed for this foundation.
 
 ## Provenance and scope
 

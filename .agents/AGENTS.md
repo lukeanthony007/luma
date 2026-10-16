@@ -1,6 +1,6 @@
 # Luma working agreement
 
-This is the canonical agent guidance for the Luma development workspace. Paths below are relative to the workspace root unless stated otherwise. Root `AGENTS.md` and `CLAUDE.md` are discovery entrypoints, not separate copies of this agreement.
+This is the canonical agent guidance for the Luma development workspace. Paths below are relative to the workspace root unless stated otherwise. Root `AGENTS.md` is the sole instruction entrypoint and points here. Keep instruction guidance shared rather than adding harness-specific instruction files.
 
 ## Orient to the work
 
