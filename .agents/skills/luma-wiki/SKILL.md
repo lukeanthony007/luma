@@ -39,6 +39,8 @@ For ongoing undertakings, use [luma-continuity](../luma-continuity/SKILL.md) to 
 
 When asked to review the wiki, or when new evidence affects it, check for unsupported or stale claims, contradictions, broken links, duplicates, navigation gaps and important missing context. Prioritize what affects the user's current work. Propose investigation for unresolved gaps; do not fill them with plausible text. Repair verified navigation problems within scope, and use `luma-memory` to resolve substantive corrections.
 
+Use [luma-dream](../luma-dream/SKILL.md) when a review needs synthesis across pages, a new connection or reconsideration of an explanation. Integrate its supported results through this same wiki workflow and `luma-memory` evidence discipline; keep hypotheses and proposals explicit. Routine corrections and link repair do not require a Dream pass or a separate report.
+
 Explain consequential changes and remaining uncertainty. Keep meaningful prior decisions recoverable and mark superseded conclusions explicitly. Inactivity or age alone does not make knowledge false or disposable. Do not introduce confidence scores, automatic decay, graph databases or background hooks merely to maintain a small wiki; any later integration needs a concrete purpose and verified behavior.
 
 ## Revise and check

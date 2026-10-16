@@ -8,7 +8,7 @@ Luma includes nine practices:
 
 - [luma-setup](skills/luma-setup/SKILL.md): guided initial orientation from a project or idea to a useful first step.
 - [luma-continuity](skills/luma-continuity/SKILL.md): purpose, current situation, temporal commitments, review and resumption.
-- [luma-dream](skills/luma-dream/SKILL.md): bounded reflection, connections across experience and proposals for improvement.
+- [luma-dream](skills/luma-dream/SKILL.md): reflection across wiki pages and sources, integrated synthesis and explicit proposals.
 - [luma-memory](skills/luma-memory/SKILL.md): evidence, uncertainty and correction discipline for retained knowledge.
 - [luma-collab](skills/luma-collab/SKILL.md)
 - [luma-config](skills/luma-config/SKILL.md)

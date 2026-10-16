@@ -9,6 +9,8 @@ Use this practice to ingest sources, answer queries, synthesize context, revise 
 
 This skill governs evidence and revision within the user's knowledge. [luma-wiki](../luma-wiki/SKILL.md) owns its readable presentation and maintenance workflow. Keep one authoritative home for each retained fact; do not create a parallel memory collection or runtime ledger.
 
+[luma-dream](../luma-dream/SKILL.md) applies this discipline during reflection across the wiki and its sources. Its synthesis remains an attributed interpretation supported by those sources, not another independent observation. Correct dependent conclusions through the same revision process; do not promote a hypothesis merely because a reflective summary repeats it.
+
 ## Ingest
 
 Identify source, author or origin when known, date/revision, access limits, and intended use. Keep original source material immutable; store a faithful capture only when authorized and available. Separate it from editable index, context, decisions, and activity logs. Do not claim a capture is complete if portions were unavailable. Add no invented events, sources, quotations, decisions, or history.

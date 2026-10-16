@@ -1,25 +1,27 @@
 ---
 name: luma-dream
-description: Reflect on retained knowledge and experience, connect findings, investigate recurring difficulties and propose grounded improvements without silently adopting or activating them.
+description: Revisit the user's wiki and its sources, develop connections and clearer explanations, and integrate supported understanding while keeping hypotheses and improvement proposals explicit.
 ---
 
 # Reflect and develop possibilities
 
-Use when the person asks to reflect on accumulated work, find connections, examine recurring difficulties or consider how their approach could improve. An already authorized background task may also invoke this practice within its scope. Dream gives the agent room to reconsider what it has learned beyond the immediate next action. It is a reflective practice, not a claim of consciousness, sleep or automatic self-improvement.
+Use when the person asks to reflect on accumulated knowledge or work, connect ideas across topics, reconsider an explanation, examine recurring difficulties or explore a better approach. An already authorized background task may also invoke this practice within its scope. Dream develops the user's understanding beyond the immediate question; it can work with research, reading notes and ideas as well as operational experience. It does not require a backlog, completed tasks or a daily review.
 
-Follow the [working agreement](../../AGENTS.md). [luma-continuity](../luma-continuity/SKILL.md) preserves purpose and current commitments; Dream examines what retained experience might change about understanding or future practice. Use [luma-memory](../luma-memory/SKILL.md) for evidence, [luma-wiki](../luma-wiki/SKILL.md) for readable knowledge and [comprehension](../comprehension/SKILL.md) when a consequential question requires investigation. Do not create a separate Dream memory store or compulsory daily ritual.
+Follow the [working agreement](../../AGENTS.md). Dream is a reflective pass over the same knowledge maintained by [luma-wiki](../luma-wiki/SKILL.md), using [luma-memory](../luma-memory/SKILL.md) to judge support and revise meaning. The wiki owns readable organization; memory governs evidence and corrections; Dream looks across those records for useful synthesis and questions. [luma-continuity](../luma-continuity/SKILL.md) owns ongoing purpose and commitments. Use [comprehension](../comprehension/SKILL.md) when a consequential question needs investigation. Do not create a separate Dream store, mandatory memory tiers or a compulsory daily ritual.
 
 ## Choose a bounded question and source set
 
-Start from the person's purpose and requested scope. A useful question might concern a recurring obstacle, connections between recent findings, an explanation that no longer fits, or a method worth trying. Use a relevant project, period or set of episodes rather than scanning every available private record. If the request is broad, begin with current project context and a small relevant set; ask only when the choice would materially change the inquiry.
+Start from the person's purpose and requested scope. Use the existing wiki index, relevant topic overviews and open questions to select a bounded set of pages and supporting sources. A useful question might connect reading notes, reconsider a recommendation, explain a recurring obstacle or examine a method. If no wiki exists, work with supplied material and let `luma-wiki` create pages only when there is useful knowledge to retain. Do not scan all private records or create a backlog simply to run Dream.
 
-Inspect existing conclusions and proposals before generating more. Identify the actual records considered, their dates or revisions when available, and material omissions. Preserve original sources; link to them rather than rewriting them or treating summaries as new evidence. Logs, user reports, observed results and agent interpretations retain their different standing. Do not claim the selected material represents all experience.
+Inspect existing explanations, human edits and proposals before generating more. Follow source links where the synthesis depends on their support; identify records actually inspected, dates or revisions when available and material omissions. Preserve original sources. A wiki claim repeated on several pages is still one claim unless independent evidence supports it. Logs, user reports, source assertions and agent interpretations retain their distinct standing. Unavailable evidence limits the conclusion rather than becoming permission to infer missing details.
 
 A portable workspace may not provide an immutable snapshot. Recheck affected records before retaining a conclusion or applying an authorized update; reconcile intervening human edits and qualify a synthesis if its basis changed. Do not invent accepted frontiers, backlog digests or processing cursors. If the relevant records are absent, state the limit and suggest a useful observation or question instead of manufacturing a lesson.
 
-## Reconcile experience before explaining it
+## Check support and reconcile experience
 
-For relevant episodes, recover the purpose, circumstances, intended result, actual attempt, observations and unresolved parts. Keep requirements, predictions, assumptions and preferences distinct. Retain blocked, failed and uncertain cases alongside successful ones when comparing a pattern. Unknown results remain unknown, and later success does not repair the history of an earlier attempt.
+For claims and connections, apply `luma-memory`: preserve scope, qualifications, contrary evidence and unknowns. Keep source assertions distinct from the inference connecting them. Freshness matters where the subject changes, but recency, repetition or a successful Dream pass does not strengthen a claim by itself. Do not invent confidence scores or discard rarely accessed knowledge.
+
+When the selected material includes actual work episodes, recover their purpose, circumstances, intended result, attempt, observations and unresolved parts. Keep requirements, predictions, assumptions and preferences distinct. Retain blocked, failed and uncertain cases alongside successful ones when comparing a pattern. Unknown results remain unknown, and later success does not repair the history of an earlier attempt. Reading a report about an event is not the agent's experience of carrying it out.
 
 Compare cases only where their conditions and meanings support the comparison. Note changes in workload, source access, tools, method revisions or user assistance that could explain a difference. Repetition suggests something to investigate; it does not by itself establish causation or a general rule. A discrepancy may concern the world, the plan, a tool, context delivery or the agent's interpretation. Diagnose the relevant boundary before recommending another instruction.
 
@@ -41,11 +43,17 @@ Keep the diagnosis, proposal, adoption, implementation and observed benefit dist
 
 Describe a reasonable way to learn whether the change helps. Compare relevant later cases or before-and-after observations while noting changed conditions and assistance. Use [learning from use](../comprehension/references/learning.md) for practice evaluation. An accepted proposal or successful edit is not demonstrated improvement. Preserve non-application, regression and inconclusive outcomes, and revisit or withdraw the proposal when its basis fails.
 
-## Return useful understanding
+## Integrate and return understanding
 
 Give the person a concise account of what was examined, what it suggests, what remains uncertain and the most useful next consideration. Scale the output to the evidence; no findings or no justified change is a legitimate result. Do not bury the person in every possible connection.
 
-Use the existing wiki for durable, supported synthesis within the authorized scope. Preserve the source basis and clearly separate proposed explanations or improvements from established understanding. Update an existing relevant account or proposal before creating another; do not generate a new page or repeat a suggestion merely because another Dream pass ran. Retain decisions to defer or reject a proposal, and reopen it only when new evidence or direction warrants reconsideration.
+When retention is within scope, use `luma-wiki` to integrate useful synthesis into the pages that already own the subject. A Dream result need not be a standalone report. Add a page only for a distinct explanation that earns its place, and update the relevant overview, cross-references and index together. Keep the current account easy to scan while linking to detailed support. Do not produce a new dated Dream page or reorganize familiar navigation merely because another pass ran.
+
+Use `luma-memory` for substantive corrections: inspect the original basis, mark a superseded conclusion and its reason, and revisit recommendations or explanations that depended on it. Preserve meaningful history and human contributions. If evidence cannot resolve a contradiction, retain both accounts with their limits and a useful question. Do not silently select a newer account or smooth disagreement away to make the wiki look orderly.
+
+Label worthwhile hypotheses and improvement proposals where they belong, with their supporting records, limits and what would test them. They do not become facts or commitments because they were saved. Retain decisions to defer or reject proposals; revisit only when new evidence or direction warrants it. A clearer supported explanation can be integrated within authorized wiki maintenance without requiring a separate adoption decision for every edit; changes to goals, methods and external actions still follow their own authority.
+
+Reread the saved explanation, affected dependent pages and navigation against the sources actually inspected. Confirm that no duplicate account, unsupported certainty or loss of qualification was introduced. If nothing material changed, say so without creating a record. Log only useful material changes under existing conventions. Report what was actually updated separately from proposals or observations that remain unverified; never copy private wiki content into the public skill repository.
 
 Use [luma-inbox](../luma-inbox/SKILL.md) for a real question or worksheet that needs the person's attention, especially from authorized background work. Avoid repeating unresolved requests; knowledge and proposal support must remain available after the interaction is cleared. Use `luma-continuity` if an adopted next step changes ongoing commitments. A proposed next step has no automatic due date or owner acceptance.
 
