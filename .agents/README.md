@@ -4,10 +4,11 @@ Start with the [working agreement](AGENTS.md). Luma uses these skills to help th
 
 ## Portable practices
 
-Luma includes eight practices:
+Luma includes nine practices:
 
 - [luma-setup](skills/luma-setup/SKILL.md): guided initial orientation from a project or idea to a useful first step.
 - [luma-continuity](skills/luma-continuity/SKILL.md): purpose, current situation, temporal commitments, review and resumption.
+- [luma-dream](skills/luma-dream/SKILL.md): bounded reflection, connections across experience and proposals for improvement.
 - [luma-memory](skills/luma-memory/SKILL.md): evidence, uncertainty and correction discipline for retained knowledge.
 - [luma-collab](skills/luma-collab/SKILL.md)
 - [luma-config](skills/luma-config/SKILL.md)
@@ -29,7 +30,9 @@ The organization practice takes knolling as a design influence, informed by [Kir
 
 `luma-continuity` adapts the purpose-and-time distinction from Animus's historical `docs/MOVEMENT-CONTINUUM.md` at revision `e4dfea1294`, particularly its temporal coordination and carryover sections. It follows the lighter practice described in `docs/WORK-AND-CONTINUITY.md` and the recovery boundaries in `docs/reference/RUNTIME-LIFECYCLE.md`, inspected at Animus revision `0a4bf670785434c096146fc9e10ca97d6885f586`. These are source provenance references, not dependencies on an Animus checkout. Luma retains readable context in the wiki; it does not implement the historical universal Movement graph or Animus's durable execution control.
 
-The agreement and skills adapt the portable workspace model. No Animus database, agent identity, credential, transcript, personal source collection, executable configuration or runtime package is included. Standup and Dream resources were not selected for this agent. Optional backend methods mentioned in comprehension references require a separately available host capability; these Markdown files do not provide one.
+`luma-dream` adapts Animus's `skills/dream/SKILL.md` and the Dream and evaluation sections of `docs/EXPERIENCE-AND-EVOLUTION.md`, inspected at revision `0a4bf670785434c096146fc9e10ca97d6885f586`. It retains bounded source selection, honest synthesis and proposals distinct from activation. The engine-specific `dream.synthesize`, accepted-frontier, current-Day and Movement-checkpoint contracts are not copied into Luma's portable method.
+
+The agreement and skills adapt the portable workspace model. No Animus database, agent identity, credential, transcript, personal source collection, executable configuration or runtime package is included. Standup was not selected for this agent. Optional backend methods mentioned in comprehension references require a separately available host capability; these Markdown files do not provide one.
 
 ## Growing the workspace
 

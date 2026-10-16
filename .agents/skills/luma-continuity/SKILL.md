@@ -45,6 +45,8 @@ For waiting work, retain the dependency and the event or review point that would
 
 Let meaningful outcomes from shorter periods inform longer-term understanding. Explain what they support, what remains uncertain and whether the larger direction still fits. Do not turn a collection of checked tasks into a claim that a broader goal was achieved. Repeated carryover may justify discussing scope, obstacles or a changed priority; avoid assuming laziness or applying pressure to maintain an obsolete goal.
 
+When a requested review calls for connections across episodes or reconsidering a recurring method, use [luma-dream](../luma-dream/SKILL.md) for bounded reflection. Keep its hypotheses and improvement proposals distinct from the person's adopted goals and commitments; ordinary resumption does not require a Dream pass.
+
 ## Preserve a useful handoff
 
 Save consequential context as it develops rather than relying on a final message that may never happen. Before a deliberate handoff, leave a concise current account with the purpose, important decisions and reasons, actual results and evidence, open commitments, relevant authority bounds, blockers and the next useful action or condition. Include exact artifact or operation references when needed to distinguish what was done. This is a relevance guide, not a mandatory template; omit empty fields and avoid transcript dumps.

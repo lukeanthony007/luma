@@ -17,6 +17,8 @@ Inspect ownership and relevant changes for unintended effects. Run only checks a
 
 Inspect the task, method/version used, expected outcome, observed result and conditions before diagnosing a recurring problem. Separate missing evidence, delivery loss, reasoning/application errors, tooling defects and changed circumstances. A single failure need not justify a general rule; a correct answer does not prove the method caused it.
 
+Use [luma-dream](../luma-dream/SKILL.md) when broader reflection is needed to develop a supported proposal. A Dream finding supplies a basis to inspect, not automatic authority to implement it. Apply existing scoped authorization when present; keep the proposal, actual revision and later evaluation distinguishable.
+
 For an authorized revision, state the affected Skill or tool, the specific change, evidence, applicability and exceptions, and the expected observable improvement. Keep the original method/version recoverable. Update one canonical resource and its routing or callers rather than scattering corrective instructions across unrelated files. Use [learning from use](../comprehension/references/learning.md) to judge later use: record benefit, regressions, non-application or inconclusive evidence without treating acceptance of an edit as successful learning.
 
 ## Configuration and activation
