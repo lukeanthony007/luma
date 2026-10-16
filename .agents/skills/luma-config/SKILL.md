@@ -9,7 +9,7 @@ Use this for changes to instructions, skills, tools, or applications. Read relev
 
 ## Change and verify
 
-Make the smallest complete change that meets the request. Update affected instructions and callers; remove obsolete paths only when the change owns them. Tools must have working behavior and clear input, output, and failure limits, not stubs or placeholder fallbacks. Keep navigation checks distinct from truth, security, and authority checks. For content workflows, preserve source context, distinguish evidence from inference and unknowns, and reconcile dependent conclusions when meaning changes.
+Make the smallest complete change that meets the request. When a resource moves or changes, inspect its callers and affected wiki pages; repair current paths and claims while preserving references to historical versions. Use [luma-wiki](../luma-wiki/SKILL.md#maintain-the-knowledge) for knowledge maintenance and [luma-memory](../luma-memory/SKILL.md) for evidence and substantive corrections. Tools must have working behavior and clear input, output, and failure limits, not stubs or placeholder fallbacks.
 
 Inspect ownership and relevant changes for unintended effects. Run only checks authorized by the task and environment; report checks actually run, not assumed results. Preserve unresolved failures and limitations rather than suppressing them.
 
@@ -37,7 +37,15 @@ Keep tokens, passwords and private headers in the harness credential store or su
 
 Add software only for an established use. Inspect repository and package-manager conventions before changing manifests or layout. Do not impose a second project structure, generate sample packages, or disrupt existing work. Dependencies and installation are separate decisions; do not install or fetch without authorization.
 
-The [directory initializer](../../tools/luma.py) installs the portable resources into a selected directory without creating a Git repository or activating a harness. Inspect its source and use `init --dry-run` when reviewing an installation. Preserve existing README content and ignore rules; differing managed resources require deliberate reconciliation rather than an overwrite flag. Initialization and later Skill maintenance are separate: use current source and human edits when deciding how an installed workspace should evolve.
+Where installed, the directory initializer (`.agents/tools/luma.py`) prepares portable resources without creating a Git repository or activating a harness. Use `init --dry-run` to inspect proposed installation changes. It preserves existing README content and ignore rules, and stops on differing managed resources. Maintain an existing installation through the review below rather than rerunning initialization as an updater.
+
+## Update installed guidance
+
+Use when an installed workspace needs a known upstream change or a review finds drift. Inspect the installed files, the selected source revision and the previously installed revision when recoverable. Distinguish upstream changes, local adaptations and identical content; a difference alone is not a defect. A source checkout and an installed workspace are separate copies with separate ownership.
+
+Preserve the current installed version through existing history or a scoped backup before editing. With a known baseline, compare baseline-to-source and baseline-to-installed changes; apply compatible updates and reconcile overlapping edits. Without a trustworthy baseline, review differences individually rather than assuming the source should win. Keep workspace-specific instructions, credentials, configuration, knowledge and runtime state intact. A removed upstream file is a deletion to assess, not permission to remove a local resource.
+
+Update only the selected resources and required references. Verify their installed links and any changed helper behavior; record the source revision, local adaptations and unresolved differences in existing maintenance context when available. Report source publication, installed updates and effective harness loading separately. Do not claim an update is active merely because the public repository changed.
 
 ## Git and activation boundaries
 

@@ -57,7 +57,7 @@ For example, ask the agent to reconcile new research with a project, explain why
 
 The initializer downloads the current resources without cloning Git history or installing dependencies. It installs `.agents/AGENTS.md`, ten skills with their references, the initializer and a license notice. It creates a short README or appends a guidance block to yours, and adds local-record exclusions to `.gitignore`.
 
-Existing project files, MCP configuration and runtime state stay in place. An identical installation makes no changes. Differing managed resources stop the operation before target writes so you can review and merge them deliberately. Use the configuration practice for subsequent maintenance; the initializer has no automatic update mode.
+Existing project files, MCP configuration and runtime state stay in place. An identical installation makes no changes. Differing managed resources stop the operation before target writes so you can review and merge them deliberately. For subsequent changes, ask your agent to [update installed guidance](.agents/skills/luma-config/SKILL.md#update-installed-guidance) from a selected Luma revision, preserving local adaptations. The initializer has no automatic update mode.
 
 Append a target directory to `init` to choose another location, including a new folder. To preview the changes there:
 

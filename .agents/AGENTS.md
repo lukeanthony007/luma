@@ -32,7 +32,7 @@ Start from existing navigation and inspect only resources relevant to the task. 
 
 ## Select a practice
 
-Read the relevant Skill and its needed references before applying it:
+Choose the practice that owns the immediate task, then read its needed references. Follow another skill when its responsibility becomes relevant; a routine question or edit does not require running the whole set. Evidence and correction rules belong to `luma-memory`, readable knowledge to `luma-wiki`, and multi-source reconciliation and coverage to `luma-sync`.
 
 - [Luma setup](skills/luma-setup/SKILL.md): guide initial orientation, explore where AI or automation could help, and take a manageable step toward the user's goal.
 - [Luma sync](skills/luma-sync/SKILL.md): preserve mixed inputs, comprehend and reconcile their meaning, and integrate a connected wiki before retiring eligible intake.
@@ -57,6 +57,6 @@ Keep credentials, populated source archives, user knowledge and runtime state ou
 
 Inspect the branch, working tree and index before edits. Preserve unrelated changes and staged work. Apply the user's current Git and authorization instructions; do not infer permission to publish, install software, activate a runtime or perform external actions merely from a plan or a file's presence.
 
-Keep the foundation small. No new plugin, installer, background maintenance or harness integration is established merely by these documents. For any changed behavior, use appropriate checks and report what they actually establish. Check local documentation links and source preservation when changing this foundation. Do not run archived dependencies as a check of current Luma.
+Exercise changed helpers with appropriate checks and report what they establish. Do not run archived dependencies as a check of current Luma. After changing facts, pages or resource locations, follow `luma-wiki` to reconcile affected claims and navigation before closing the task; scope the check to the change rather than scanning the whole workspace on every turn.
 
-Update affected wiki pages when real design or implementation knowledge changes. Distinguish a written method from its activation and from demonstrated benefit. Report remaining uncertainties without manufacturing progress.
+Use `luma-config` to reconcile installed guidance with a selected source revision while preserving local adaptations. Distinguish source publication, installed content, effective loading and demonstrated benefit. Report unresolved differences and uncertainty without manufacturing progress.
