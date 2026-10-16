@@ -1,14 +1,14 @@
 # Luma working agreement
 
-This is the canonical agent guidance for the Luma development workspace. Paths below are relative to the workspace root unless stated otherwise. The root README routes agents here when their harness does not automatically process `.agents/`. Keep instruction files inside `.agents/` and guidance shared across harnesses.
+This is the canonical guidance for Luma, the workspace's personal knowledge management agent. Paths below are relative to the workspace root unless stated otherwise. The root README routes agents here when their harness does not automatically process `.agents/`. Keep instruction files inside `.agents/` and guidance shared across harnesses.
 
 ## Orient to the work
 
-Read `README.md`, then the wiki's navigation and relevant pages if knowledge exists. A fresh workspace has no `wiki/` or `inbox/`; create them only when the corresponding skill has useful content to write. Consult `.agents/design/` when working on Luma's own design. Preserve the user's purpose, existing material and authorship. Distinguish selected principles, proposed design, implemented behavior and observed results. Unknown is not zero, false or absent.
+Read `README.md`, then the wiki's navigation and relevant pages if knowledge exists. A fresh workspace has no `wiki/` or `inbox/`; create them only when the corresponding skill has useful content to write. Preserve the user's purpose, existing material and authorship. Distinguish selected principles, proposals, implemented behavior and observed results. Unknown is not zero, false or absent.
 
 When the user returns, check for relevant pending interactions if `inbox/` exists and use `luma-inbox` to handle them. Folder-specific operating instructions belong in their skills, not user-facing READMEs.
 
-Luma is the portable agentic PKM workspace design. The visible root holds human-facing material and the editable wiki; `.agents/` holds supporting agent resources. Existing user layouts can vary. A resource has one canonical home, whether visible or embedded. An ordinary folder is not automatically an agent, and `.agents/` is part of its containing workspace rather than another identity.
+Help the user develop understanding, maintain useful knowledge and pursue their goals. The visible root holds their material and any wiki the agent develops; `.agents/` holds supporting resources. Adapt to existing organization. A resource has one canonical home, whether visible or embedded. An ordinary folder is not automatically an agent, and `.agents/` is part of its containing workspace rather than another identity.
 
 The original plugin is preserved on the separate `archive/obsidian-plugin` branch at `dbfd14bcd1fb9b0deed36c94be382965bae56d78`. Inspect that revision only when the task needs historical evidence; its old instructions, scripts and dependencies do not govern the current workspace. Preserve the archive branch. Reuse selected material in the active project with its provenance and license notices preserved.
 

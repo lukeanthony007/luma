@@ -1,12 +1,12 @@
 # Luma
 
-Luma is an open-source foundation for agentic personal knowledge management: an ordinary directory containing a person's working material, an editable wiki, and the resources an agent uses to help maintain them toward a purpose.
+Luma is an open-source personal knowledge management agent. It helps a person understand their material, maintain useful knowledge and pursue their goals through an ordinary directory of files.
 
-This repository begins a ground-up redesign. It currently contains the workspace design and portable agent practices. It does not yet ship a new Obsidian plugin, installer, search engine, background service or model runtime.
+Luma currently consists of portable instructions and skills used through an existing agent harness. It does not bundle a model runtime, search engine, background service, installer or Obsidian plugin.
 
 ## Start here
 
-Read the [design notes](.agents/design/index.md) for the current direction and [workspace model](.agents/design/workspace-model.md) under discussion. The agent creates `wiki/` and `inbox/` on demand; neither directory is prepopulated or included in a fresh checkout.
+Give your agent a goal and relevant material, and direct it to [`.agents/AGENTS.md`](.agents/AGENTS.md). It uses the available skills to investigate, maintain knowledge and work with you. The agent creates `wiki/` and `inbox/` when needed; neither directory is included in a fresh checkout.
 
 The intended experience is simple: keep relevant documents, notes and other material in a workspace; use the wiki to understand the project or subject; let a supported agent help maintain that understanding and the methods used to develop it. Obsidian is the preferred human interface, while the files remain ordinary Markdown and can be used with other editors.
 
@@ -14,11 +14,9 @@ The optional `inbox/` gives agents a temporary space for messages, questions and
 
 The visible workspace belongs to the person. Agent guidance and reusable practices live under [`.agents/`](.agents/README.md). Tools, packages and nested agent workspaces can be added when needed. Existing organizations should be accommodated; the design does not require a fixed set of project or lifestyle folders.
 
-## Working on Luma
+## Agent resources
 
 Agents should read and follow [`.agents/AGENTS.md`](.agents/AGENTS.md), the canonical working agreement. If the harness does not automatically process `.agents/`, use this README as the route to that guidance. Instruction files stay inside `.agents/`; no root instruction file is needed. Skills are maintained in `.agents/skills/`; follow the working agreement to select them. These files provide guidance, not a running integration. Instruction loading and native Skill discovery still need verification in each supported harness.
-
-This repository contains Luma's foundation and design resources. Its visible wiki is reserved for the user's knowledge; Luma's own design notes live under `.agents/design/`. It is not yet an installer.
 
 Luma is derived from the portable agent-workspace design developed in Animus. The [resource provenance](.agents/README.md#provenance-and-scope) explains the selected practices. Animus's private state and formal intelligence, accountability, continuity and execution systems are not included. An optional Animus integration will need an explicit boundary for wiki updates and accepted engine knowledge.
 

@@ -1,10 +1,10 @@
 # Luma agent resources
 
-Start with the [working agreement](AGENTS.md). Luma's development context is in the [design notes](design/index.md). The agent creates the user-facing wiki and inbox only when needed, using their skills.
+Start with the [working agreement](AGENTS.md). Luma uses these skills to help the user understand their material and maintain knowledge. It creates the user-facing wiki and inbox only when needed.
 
 ## Portable practices
 
-The foundation contains seven practices:
+Luma includes seven practices:
 
 - [workspace-setup](skills/workspace-setup/SKILL.md)
 - [workspace-memory](skills/workspace-memory/SKILL.md)
@@ -22,7 +22,7 @@ The five workspace and comprehension practices were selected from Luke Anthony's
 
 The memory, collaboration, configuration and comprehension Markdown trees were copied with their supporting references. The setup entrypoint was adapted to the visible `wiki/` and embedded `.agents/` arrangement, with existing-layout flexibility retained. The old installer, checker, seed memory templates and setup agreement template were not imported. This repository's Git history records the selected content and adaptations.
 
-The agreement and design notes adapt the portable workspace model. No Animus database, agent identity, credential, transcript, personal source collection, executable configuration or runtime package is included. Standup and Dream resources were not selected for this initial foundation. Optional backend methods mentioned in comprehension references require a separately available host capability; these Markdown files do not provide one.
+The agreement and skills adapt the portable workspace model. No Animus database, agent identity, credential, transcript, personal source collection, executable configuration or runtime package is included. Standup and Dream resources were not selected for this agent. Optional backend methods mentioned in comprehension references require a separately available host capability; these Markdown files do not provide one.
 
 ## Growing the workspace
 
