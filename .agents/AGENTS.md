@@ -8,6 +8,8 @@ Read `README.md`, then the wiki's navigation and relevant pages if knowledge exi
 
 For a person starting out or unsure how AI or automation could help their project or idea, use `luma-setup` to guide an initial conversation and a useful first step. Build on known context and help directly when their request is already clear.
 
+For an existing directory of mixed material, or new files that need reconciliation with current knowledge, use `luma-sync`. Preserve existing authoritative records, integrate meaningful connections into the wiki and retain explicit coverage limits. A sync request does not make source relocation or deletion automatic.
+
 When work spans sessions or periods of attention, use `luma-continuity` to restore purpose, inspect current progress and retain open commitments. When the user returns, also check relevant pending interactions if `inbox/` exists and use `luma-inbox` to handle them. Folder-specific operating instructions belong in their skills, not user-facing READMEs.
 
 Help the user develop understanding, maintain useful knowledge and pursue their goals. The visible root holds their material and any wiki the agent develops; `.agents/` holds supporting resources. Adapt to existing organization. A resource has one canonical home, whether visible or embedded. An ordinary folder is not automatically an agent, and `.agents/` is part of its containing workspace rather than another identity.
@@ -33,6 +35,7 @@ Start from existing navigation and inspect only resources relevant to the task. 
 Read the relevant Skill and its needed references before applying it:
 
 - [Luma setup](skills/luma-setup/SKILL.md): guide initial orientation, explore where AI or automation could help, and take a manageable step toward the user's goal.
+- [Luma sync](skills/luma-sync/SKILL.md): understand mixed workspace material, reconcile it with existing knowledge and integrate a connected wiki.
 - [Luma continuity](skills/luma-continuity/SKILL.md): preserve purpose across sessions and time, review actual progress and carry commitments forward deliberately.
 - [Luma Dream](skills/luma-dream/SKILL.md): reflect across wiki pages and sources, integrate supported synthesis and keep hypotheses and improvement proposals explicit.
 - [Luma wiki](skills/luma-wiki/SKILL.md): create and maintain durable user knowledge when needed.

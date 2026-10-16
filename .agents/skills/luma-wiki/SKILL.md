@@ -29,6 +29,8 @@ Choose the form that helps with the question: prose for explanation, a table for
 
 On ingest, identify the source and relevant existing pages, discuss consequential interpretations when needed, then integrate the new understanding. Update affected explanations and navigation together. Create a source summary or a new topic page only when it adds lasting value; avoid one isolated summary per document as the default. Preserve the originals and their provenance using `luma-memory`.
 
+Use [luma-sync](../luma-sync/SKILL.md) for a mixed directory or accumulated changes that need a bounded inventory, comprehension and reconciliation pass. Existing records can form the wiki itself; do not create a parallel knowledge collection merely to match a preferred layout. Routine single-source integration can remain direct.
+
 For a question, start with relevant wiki navigation and pages, then inspect underlying sources where accuracy, freshness or uncertainty requires it. Extend the existing understanding rather than rebuilding every answer from scratch. Cite available support and identify gaps. Use the search capabilities already available; add search infrastructure only for a demonstrated retrieval problem.
 
 When a conversation, investigation or completed task produces a useful discovery, retain the question, supported finding and implications in the appropriate page. Update an existing account before creating a competing one. User reports, external evidence, agent inferences and adopted decisions retain their distinct status. A polished answer is not automatically worth saving. Record material changes and reasons in an existing log when useful; do not create a transcript archive or log every query by default.

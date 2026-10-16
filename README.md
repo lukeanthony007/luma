@@ -10,6 +10,8 @@ Start with what you are working on or hoping to achieve, even if you do not know
 
 The intended experience is simple: keep relevant documents, notes and other material in a workspace; use the wiki to understand the project or subject; let a supported agent help maintain that understanding and the methods used to develop it. Obsidian is the preferred human interface, while the files remain ordinary Markdown and can be used with other editors.
 
+For an existing directory of notes, research, documents and projects, ask the agent to [sync the workspace](.agents/skills/luma-sync/SKILL.md). It will reconcile the material with existing knowledge and build useful connections in the wiki, preserving sources and explaining what has and has not been examined. Existing records can become the wiki rather than being copied into a second collection.
+
 The optional `inbox/` gives agents a temporary space for messages, questions and structured worksheets, including handoffs from authorized background work. The person can respond there or in conversation. Handled items are cleared after useful understanding is retained in the wiki. These practices live in the [luma-wiki](.agents/skills/luma-wiki/SKILL.md) and [luma-inbox](.agents/skills/luma-inbox/SKILL.md) skills.
 
 The visible workspace belongs to the person. Agent guidance and reusable practices live under `.agents/`; [the working agreement](.agents/AGENTS.md) covers their organization. Tools, packages and nested agent workspaces can be added when needed. Existing organizations should be accommodated; the design does not require a fixed set of project or lifestyle folders.
