@@ -25,6 +25,14 @@ For an authorized revision, state the affected Skill or tool, the specific chang
 
 Identify whether a setting belongs to this workspace, this invocation, the user's harness profile or a shared service. Edit only the authorized scope; preserve secrets outside published instructions and Wiki pages. Recheck the actual discovery and effective configuration before claiming a Skill, tool or application is active. Instruction edits cannot create unavailable tool capabilities, grant access or establish permission enforcement. A process restart, schedule, service deployment or provider change is a separate effect when it is not already authorized.
 
+## MCP connections
+
+Use `./.agents/mcp.json`, relative to the owning workspace root, as the canonical project file for MCP server definitions. Create it when a concrete integration is useful and within the user's authorized scope; keep it absent in a fresh workspace that needs no connector. Maintain it through this practice as integrations are added, changed or retired. Inspect existing definitions first, preserve unrelated servers and options, and make scoped changes rather than replacing the whole file or duplicating it at the root.
+
+Inspect the active harness's supported schema, transports and configuration loading before writing definitions. Validate JSON and the relevant schema, then verify effective discovery when that check is authorized and available. A valid file does not establish that every harness automatically reads `.agents/mcp.json`. If a harness needs another location, use its supported reference or adapter to this canonical file where possible; otherwise document and reconcile the required mapping without silently keeping competing copies.
+
+Keep tokens, passwords and private headers in the harness credential store or supported environment references, not in the JSON or public instructions. The public Luma foundation excludes populated `.agents/mcp.json` files; publish a separately reviewed credential-free example only for an actual need. Preserve existing authentication and permissions. Distinguish saving definitions, discovering tools, authenticating, starting a local server and exercising remote actions; perform each only within its applicable authorization and do not request permission again for work already authorized.
+
 ## Packages and applications
 
 Add software only for an established use. Inspect repository and package-manager conventions before changing manifests or layout. Do not impose a second project structure, generate sample packages, or disrupt existing work. Dependencies and installation are separate decisions; do not install or fetch without authorization.

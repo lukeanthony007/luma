@@ -24,6 +24,7 @@ Use these conventions when a resource has a concrete purpose:
 - `.agents/tools/`: executable helpers with a defined purpose, inputs and outputs.
 - `.agents/packages/`: maintained software supporting the agent.
 - `.agents/repos/`: checked-out repositories, each retaining its own ownership, history and applicable instructions.
+- `.agents/mcp.json`: project MCP server definitions, created and maintained through `luma-config` when a useful integration calls for them. Keep credentials in the harness's supported store; verify actual schema and loading for the current harness.
 - `.agents/memory/<date-time>/`: preserved original evidence and its provenance, maintained by `luma-memory`; the evolving explanation belongs in `wiki/`. Capture time is distinct from the dates described by the sources.
 - `.agents/runtime/`: optional Luma-owned execution state when needed. Respect the harness's actual paths and never relocate existing runtime stores merely to match this convention.
 

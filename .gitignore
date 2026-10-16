@@ -4,6 +4,9 @@
 **/.agents/runtime/
 **/.credentials/
 
+# Project connector definitions are created on demand, outside the public foundation.
+**/.agents/mcp.json
+
 # Generated user knowledge and interactions stay out of this public foundation.
 /inbox/
 /wiki/

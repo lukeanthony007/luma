@@ -22,6 +22,8 @@ The visible workspace belongs to the person. Agent guidance and reusable practic
 
 Agents should read and follow [`.agents/AGENTS.md`](.agents/AGENTS.md), the canonical working agreement. If the harness does not automatically process `.agents/`, use this README as the route to that guidance. Instruction files stay inside `.agents/`; no root instruction file is needed. Skills are maintained in `.agents/skills/`; follow the working agreement to select them. These files provide guidance, not a running integration. Instruction loading and native Skill discovery still need verification in each supported harness.
 
+When a useful integration needs MCP tools, the agent creates and maintains `./.agents/mcp.json` through [luma-config](.agents/skills/luma-config/SKILL.md). The file belongs to that workspace; a fresh checkout includes no empty configuration or default server bundle. The active harness's schema, discovery and authentication still need checking.
+
 ## Provenance and scope
 
 The five workspace and comprehension practices were selected from Luke Anthony's Animus `.agents/skills/` workspace on 2026-10-16. The source checkout's HEAD was `0a4bf670785434c096146fc9e10ca97d6885f586`; the embedded resource tree was local authored content, so that commit alone does not identify the exact imported files. `luma-wiki` and `luma-inbox` were authored for Luma from its knowledge and interaction design.
