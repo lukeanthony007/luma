@@ -57,6 +57,8 @@ Keep dialogue in the conversation by default. Use [luma-inbox](../luma-inbox/SKI
 
 Before writing, inspect the selected workspace and preserve existing files, instructions and organization. The user-facing directory is the workspace root; supporting guidance and skills live under `.agents/`. The root README routes to the working agreement; do not create a root instruction file. Use [luma-config](../luma-config/SKILL.md) for any needed resource or harness configuration, and verify actual discovery before claiming an integration works.
 
+If Luma was installed with the directory initializer, its resources and README route are prepared; that does not establish the user's purpose or complete orientation. Continue the dialogue from their actual situation. Do not run initialization again as a substitute for understanding, or assume the script configured a harness, model, connector or background service.
+
 When an agreed step needs an external tool or data connection, use `luma-config` to create or maintain the owning workspace's `.agents/mcp.json` where applicable. Build on existing connectors and explain only the choices or authentication steps the person actually needs to handle. Do not add an empty MCP file or a standard bundle of servers as an onboarding requirement.
 
 Orientation has done its job when the person has a clearer direction and a manageable next action, or has made useful progress on one. Summarize where things stand and what comes next in ordinary language. Leave unresolved questions visible and pick up from that context next time.

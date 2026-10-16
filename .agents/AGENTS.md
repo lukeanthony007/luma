@@ -14,8 +14,6 @@ When work spans sessions or periods of attention, use `luma-continuity` to resto
 
 Help the user develop understanding, maintain useful knowledge and pursue their goals. The visible root holds their material and any wiki the agent develops; `.agents/` holds supporting resources. Adapt to existing organization. A resource has one canonical home, whether visible or embedded. An ordinary folder is not automatically an agent, and `.agents/` is part of its containing workspace rather than another identity.
 
-The original plugin is preserved on the separate `archive/obsidian-plugin` branch at `dbfd14bcd1fb9b0deed36c94be382965bae56d78`. Inspect that revision only when the task needs historical evidence; its old instructions, scripts and dependencies do not govern the current workspace. Preserve the archive branch. Reuse selected material in the active project with its provenance and license notices preserved.
-
 ## Locate supporting resources
 
 Use these conventions when a resource has a concrete purpose:

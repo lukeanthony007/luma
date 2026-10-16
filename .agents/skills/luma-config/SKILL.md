@@ -37,6 +37,8 @@ Keep tokens, passwords and private headers in the harness credential store or su
 
 Add software only for an established use. Inspect repository and package-manager conventions before changing manifests or layout. Do not impose a second project structure, generate sample packages, or disrupt existing work. Dependencies and installation are separate decisions; do not install or fetch without authorization.
 
+The [directory initializer](../../tools/luma.py) installs the portable resources into a selected directory without creating a Git repository or activating a harness. Inspect its source and use `init --dry-run` when reviewing an installation. Preserve existing README content and ignore rules; differing managed resources require deliberate reconciliation rather than an overwrite flag. Initialization and later Skill maintenance are separate: use current source and human edits when deciding how an installed workspace should evolve.
+
 ## Git and activation boundaries
 
 Inspect file ownership and repository status before changes; leave unrelated user changes alone. Distinguish edited working-tree content, Git index/staging, commit, installation, and runtime activation. Do not stage, commit, install, activate, publish, or cause external effects unless explicitly authorized. A successful file edit does not prove a resource is installed or active.

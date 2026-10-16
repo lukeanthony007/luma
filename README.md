@@ -2,7 +2,29 @@
 
 Luma is an open-source personal knowledge management agent. It helps a person understand their material, maintain useful knowledge and pursue their goals through an ordinary directory of files.
 
-Luma currently consists of portable instructions and skills used through an existing agent harness. It does not bundle a model runtime, search engine, background service, installer or Obsidian plugin.
+Luma provides portable instructions, skills and a small directory initializer for use through an existing agent harness. It does not bundle a model runtime, search engine, background service or Obsidian plugin.
+
+## Initialize a directory
+
+Requires Python 3.9 or newer and `curl`. Run this inside the directory you want Luma to help maintain:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/lukeanthony007/luma/main/.agents/tools/luma.py | python3 - init
+```
+
+Add a directory after `init` to choose another location, including a new folder. Add `--dry-run` to preview the proposed files without changing the target. The command downloads the current resource tree without cloning Git history or installing dependencies.
+
+Initialization installs `.agents/AGENTS.md`, the skills, the initializer and a license notice. It creates a short README or adds a marked guidance block to your existing README, and adds local-record exclusions to `.gitignore` while preserving its other contents. It leaves existing project files, MCP connections and runtime state in place. Identical installations are unchanged; differing agent resources stop the operation before target writes so you can review and merge them deliberately. This is initialization, not an automatic updater.
+
+Start your usual agent in that directory and tell it to read `.agents/AGENTS.md`. It can then guide the initial conversation through `luma-setup`, or sync material already present. Wiki, inbox and MCP files are created later when needed. Initialization does not create a Git repository, configure a model or activate a connector or background process.
+
+The command above runs the script from `main`. For a reviewed, reproducible installation, download and inspect the script, or pin both its URL and `--ref` to the same commit. `--ref` alone selects the resource revision, not the script already downloaded. From a local Luma checkout, an offline installation uses:
+
+```sh
+python3 .agents/tools/luma.py init --source . "/path/to/your project"
+```
+
+The initializer source is [`.agents/tools/luma.py`](.agents/tools/luma.py). Git exclusions do not encrypt files or remove material already tracked by Git.
 
 ## Start here
 
