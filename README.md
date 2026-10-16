@@ -16,7 +16,7 @@ The visible workspace belongs to the person. Agent guidance and reusable practic
 
 ## Working on Luma
 
-Agents should start with [AGENTS.md](AGENTS.md), the sole root instruction entrypoint, which points to the [canonical working agreement](.agents/AGENTS.md). Skills are maintained in `.agents/skills/`; follow the working agreement to select them. These files provide guidance, not a running integration. Instruction loading and native Skill discovery still need verification in each supported harness.
+Agents should read and follow [`.agents/AGENTS.md`](.agents/AGENTS.md), the canonical working agreement. If the harness does not automatically process `.agents/`, use this README as the route to that guidance. Instruction files stay inside `.agents/`; no root instruction file is needed. Skills are maintained in `.agents/skills/`; follow the working agreement to select them. These files provide guidance, not a running integration. Instruction loading and native Skill discovery still need verification in each supported harness.
 
 This repository is Luma's own development workspace. Its wiki describes Luma. It is not yet an installer that should be copied wholesale into someone's personal vault.
 

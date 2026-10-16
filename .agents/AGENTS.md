@@ -1,6 +1,6 @@
 # Luma working agreement
 
-This is the canonical agent guidance for the Luma development workspace. Paths below are relative to the workspace root unless stated otherwise. Root `AGENTS.md` is the sole instruction entrypoint and points here. Keep instruction guidance shared rather than adding harness-specific instruction files.
+This is the canonical agent guidance for the Luma development workspace. Paths below are relative to the workspace root unless stated otherwise. The root README routes agents here when their harness does not automatically process `.agents/`. Keep instruction files inside `.agents/` and guidance shared across harnesses.
 
 ## Orient to the work
 

@@ -5,7 +5,7 @@ description: Ingest, retrieve, synthesize, revise, and check durable evidence-ba
 
 # Memory practice
 
-Use this practice to ingest sources, answer queries, synthesize context, revise retained meaning, and check consistency. It is not a separate research method or engine ledger. For source-backed understanding across a corpus, route through `../comprehension/SKILL.md` and its complementary methods. Inspect workspace `AGENTS.md` and current records first.
+Use this practice to ingest sources, answer queries, synthesize context, revise retained meaning, and check consistency. It is not a separate research method or engine ledger. For source-backed understanding across a corpus, route through `../comprehension/SKILL.md` and its complementary methods. Inspect the owning workspace's canonical working agreement and current records first; this workspace routes to `.agents/AGENTS.md` from its README.
 
 ## Ingest
 
