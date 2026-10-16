@@ -1,5 +1,5 @@
 ---
-name: workspace-collab
+name: luma-collab
 description: Assign bounded work when useful, coordinate authorized resources, and integrate actual contributions into a checked result.
 ---
 

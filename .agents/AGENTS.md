@@ -16,12 +16,12 @@ The original plugin is preserved on the separate `archive/obsidian-plugin` branc
 
 Read the relevant Skill and its needed references before applying it:
 
-- [Workspace setup](skills/workspace-setup/SKILL.md): establish or adapt a workspace without replacing user material.
+- [Luma setup](skills/luma-setup/SKILL.md): establish or adapt a workspace without replacing user material.
 - [Luma wiki](skills/luma-wiki/SKILL.md): create and maintain durable user knowledge when needed.
 - [Luma inbox](skills/luma-inbox/SKILL.md): create structured interactions when needed and clear handled items after integration.
-- [Memory](skills/workspace-memory/SKILL.md): maintain useful, source-backed knowledge and incorporate corrections.
-- [Collaboration](skills/workspace-collab/SKILL.md): bound assignments and integrate returned contributions.
-- [Configuration](skills/workspace-config/SKILL.md): maintain instructions, tools, packages and other resources.
+- [Luma memory](skills/luma-memory/SKILL.md): maintain useful, source-backed knowledge and incorporate corrections.
+- [Luma collaboration](skills/luma-collab/SKILL.md): bound assignments and integrate returned contributions.
+- [Luma configuration](skills/luma-config/SKILL.md): maintain instructions, tools, packages and other resources.
 - [Comprehension](skills/comprehension/SKILL.md): investigate and explain sources using methods appropriate to the question.
 
 The links above are relative to this file. These are portable methods, not installed services or permission grants. Work directly when that is sufficient. Do not create a fixed team, a tool or a package without a concrete need. Use only capabilities the current harness actually provides.

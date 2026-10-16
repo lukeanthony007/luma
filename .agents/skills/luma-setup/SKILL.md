@@ -1,5 +1,5 @@
 ---
-name: workspace-setup
+name: luma-setup
 description: Establish or repair a portable agent workspace without overwriting project work or causing unrequested side effects.
 ---
 

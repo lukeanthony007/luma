@@ -1,5 +1,5 @@
 ---
-name: workspace-memory
+name: luma-memory
 description: Ingest, retrieve, synthesize, revise, and check durable evidence-backed working knowledge without losing source meaning.
 ---
 

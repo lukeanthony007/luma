@@ -1,5 +1,5 @@
 ---
-name: workspace-config
+name: luma-config
 description: Maintain workspace instructions, Skills, tools, apps, packages, configuration, and Git with verified changes, clear ownership, and explicit activation boundaries.
 ---
 
