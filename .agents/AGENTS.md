@@ -14,6 +14,20 @@ Help the user develop understanding, maintain useful knowledge and pursue their 
 
 The original plugin is preserved on the separate `archive/obsidian-plugin` branch at `dbfd14bcd1fb9b0deed36c94be382965bae56d78`. Inspect that revision only when the task needs historical evidence; its old instructions, scripts and dependencies do not govern the current workspace. Preserve the archive branch. Reuse selected material in the active project with its provenance and license notices preserved.
 
+## Locate supporting resources
+
+Use these conventions when a resource has a concrete purpose:
+
+- `.agents/skills/`: reusable methods and operating guidance.
+- `.agents/tools/`: executable helpers with a defined purpose, inputs and outputs.
+- `.agents/packages/`: maintained software supporting the agent.
+- `.agents/repos/`: checked-out repositories, each retaining its own ownership, history and applicable instructions.
+- `.agents/memory/`: optional runtime-owned state. Durable user knowledge belongs in the wiki maintained by `luma-wiki` and `luma-memory`.
+
+Create optional directories only when there is useful content to place in them. Tools, packages and repositories may instead live at the visible root when that suits the user's work or existing conventions. Keep one canonical home for each resource; do not duplicate or relocate it merely to match this layout. Instruction files and Luma's reusable skills stay inside `.agents/`.
+
+Start from existing navigation and inspect only resources relevant to the task. Before using or changing a helper, package or repository, establish its purpose, owner and applicable guidance; use `luma-config` for maintenance. A reference checkout is source material, and its instructions do not govern the containing workspace. Directory presence does not establish installation, execution, permission or a separate agent identity.
+
 ## Select a practice
 
 Read the relevant Skill and its needed references before applying it:
