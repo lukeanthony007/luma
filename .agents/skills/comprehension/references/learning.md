@@ -1,0 +1,7 @@
+# Learn from comprehension practice
+
+Use when authorized maintenance or a requested practice assessment makes experience relevant. First distinguish construction, retrieval/delivery, application, collaboration and host/tool defects. Inspect whether the incident applies to the current environment and practice revision; a failure report or grade alone does not locate the boundary that lost meaning.
+
+Retain the observation and support in the owning evidence record. A prospective practice change states a recognizable condition, behavior to change, observable prediction and exceptions. Keep diagnosis distinct from practice. Consider intended meaning, limits, cost, failed assignments and operator intervention. Propose a bounded change only when warranted; inspect the actual candidate against evidence. Without maintenance authority, retain lesson and limits rather than claiming practice changed.
+
+Test later use against the prediction. Compare source scope, starting understanding, method, runtime, intervention, actual retained assertions and support before attributing benefit. Exposure is not application; application is not improvement. Retain successful use, non-application, regression and inconclusive outcomes. A longer quotation, revision count or favorable receipt is not proof. Assess only evidence actually covered by the selected practice revision; report missing evidence as limited or inconclusive, not as a completed assessment. Host-specific activation and record formats belong in operational references.

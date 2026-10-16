@@ -1,0 +1,25 @@
+# Agent runtime state is not portable public knowledge.
+**/.agents/memory/
+**/.agents/cache/
+**/.agents/runtime/
+**/.credentials/
+
+# Credentials and explicitly private material.
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets.*
+private/
+
+# Local editor and device state.
+.DS_Store
+.idea/
+.vscode/
+.obsidian/workspace*.json
+
+# Generated dependencies and transient output.
+node_modules/
+__pycache__/
+*.pyc

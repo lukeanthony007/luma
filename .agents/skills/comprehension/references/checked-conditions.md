@@ -1,0 +1,9 @@
+# Checked conditions
+
+Use for source-supported rules over explicit propositions or quantities. A derivation establishes what follows from the interpreted rule and bound inputs, not that interpretation's fidelity or an actual-world outcome. Keep narrative ambiguity and unsupported outcomes visible.
+
+Identify policy, case, subject, event and time separately. Record propositions true, false or unknown with reasons; quantities with value, unit, precision and source. Unknown is not zero. Preserve approximation, bounds and signs; comparisons require sufficient precision. Represent grouping explicitly: conjunction, alternatives, negation, thresholds and strict/inclusive comparisons. Each input needs meaning, support and scope. Keep original cases apart from hypothetical changes.
+
+Map each requested conclusion to its actual rule and complete input set. Verify thresholds, comparison direction, parameter roles, grouping and exceptions against source. A representation's vocabulary or size limit is a tool boundary, not license to change meaning. Unknown differs from false: false AND unknown is false; true OR unknown is true; true AND unknown and NOT unknown are unknown. Retain nondecisive inputs.
+
+When independent review is required, have another participant compare the expression and complete input tuples with exact passages; check subject, scope, units, polarity, unknowns, grouping and exceptions. Attribute formalized interpretation to its interpreter and reported inputs to their source. Applying a changed rule or input requires a fresh application; retain the earlier result as history. Explain the result with exact premises and reasoning, distinguish hypothetical consequence from observed execution, and state representational limits.

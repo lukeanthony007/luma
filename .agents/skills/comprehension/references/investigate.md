@@ -1,0 +1,7 @@
+# Investigate a consequential uncertainty
+
+Frame the question, affected current understanding, why it matters, approved evidence and bounds. State what must be established separately from expected answers and assumptions. Where alternatives are plausible, name what observations would distinguish them. Straightforward lookup needs no invented controversy. Consider attribution, identity, time, population, conditions and measurement basis only when relevant.
+
+Choose inspections for their ability to change the interpretation. Read exact passages with structural context; seek evidence against a favored explanation when an important alternative remains. Challenge the framing when observations expose a mistaken premise; retain why it changed. A bounded search with no match, absence in an examined region, inaccessible evidence and contradiction are different findings. References do not establish unread contents. Repeated uninformative checks call for a different method or a justified unresolved result, not repetition.
+
+For whole-source work, state inspected scope; excerpts and previews do not establish complete source coverage. Read authorized complete short texts or relevant complete sections, and name what remains unexamined. Return finding or alternatives, exact support and counterevidence, qualifications, scope, effect on current understanding and what could resolve uncertainty. An unresolved result cannot silently relax a broader requirement.

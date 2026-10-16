@@ -1,0 +1,7 @@
+# Comprehending data and measurements
+
+Identify dataset/instrument revision, provenance, collection method, population, unit, time window, processing and missingness. Preserve exact data locations, query/filter or transformation used, and the resulting values needed to reproduce a claim. A header, schema, chart label or metadata describes representation; it is not itself a physical observation or complete dataset.
+
+Distinguish measurement from reported value, derived statistic, model output and interpretation. For measurements retain subject/sample, measured quantity, units, precision, instrument or method and conditions when available. A timestamp without observed value is incomplete. Preserve missing, censored, estimated, rounded and zero values distinctly; unknown is not zero. Record denominator, exclusions, aggregation and comparison basis. Repeated measurements or reports from one origin are not independent corroboration.
+
+Check source-to-claim coverage and claim-to-data support, including transformations and assumptions. Recompute or trace consequential derivations where possible; report exact inputs and method. A valid calculation does not verify measurement validity, causal interpretation or actual-world mechanism. Preserve variation, uncertainty, conflicting observations and limits. For physical behavior, distinguish directly observed measurements from metadata, simulation, source-reported claims and inference.

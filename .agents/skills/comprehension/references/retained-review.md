@@ -1,0 +1,9 @@
+# Review a retained account
+
+Use when task requires findings to become durable understanding. Keep source scope and intended use explicit. A contributor proposes material assertions with subjects, relations, conditions and exceptions, exact source selections, and explanations with declared premises. Proposals acquire authority only through the owning admission/revision process.
+
+Review the actual saved revision, not merely a proposal. Give a critic the exact current account, accepted contributions and relevant source scope. Compare each material contribution with saved meaning and premises: lost relations, altered conditions, dropped exceptions, irrelevant or inadequate support. For whole-source claims, excerpts do not establish remaining silence; inspect complete authorized short documents or relevant complete sections, and report unexamined scope.
+
+Treat contributor and critic findings as fallible. Verify proposed defects against exact source context; do not allow an unsupported restriction to replace explicit source meaning. Review source fidelity separately from premise adequacy. Inspect actual assertions and declared bases; quotations cannot supply missing premises. Map each finding to actual current statements and mark it incorporated, contested with evidence, or unresolved with reason. Deliberate omissions retain their reasons. Reinspect changed successors; earlier criticism is not inherited as proof. Independent review must cover the current integrated wording and basis; changes to either invalidate that review. Fresh application can demonstrate relationships, but agreement and structured receipts are not semantic certificates.
+
+Some platforms supply formal admission, assignment and review records with host-specific schemas and inspection operations. Use those owning procedures where applicable; they are not portable requirements, and plain Markdown notes do not automatically constitute accepted knowledge.

@@ -1,0 +1,9 @@
+# Preserve meaning across a source
+
+For whole-source purposes, map substantive regions to the meaning retained from each; do not replace particulars with a summary. Ask what a reader loses if a region disappears. Preserve distinctions, quantities, named examples, conditions, exceptions, attributed disagreement, causal/procedural relationships and material outside the leading explanation. Navigation and repeated wording need not be retained as meaning.
+
+Use two independent checks. From source to retained meaning, find omissions and distortions. From every assertion back to its exact support or declared premises, find unsupported wording. A citation, broad quotation, full reading coverage or successful admission substitutes for neither. Keep observations' subject, explicit state/value and time. Preserve negation and each materially different conditional branch; known false differs from unrecorded. Do not grammaticalize away values or branches.
+
+A region inventory identifies each substantive region, its actual current retained statements and meaning still absent. Recheck after integration: proposed additions are not yet retained. For examples preserve setup/participants, changed conditions, outcomes and qualifications. For models preserve variable meanings, relationships, assumptions and interpretive limits. Keep each supporting quotation contiguous and separate when passages differ. Preserve explicit verbal interpretations when damaged formatting makes a derivation uncertain; isolate uncertainty rather than discarding supported relations.
+
+Available, supported material not yet represented is unfinished work, not source uncertainty. Continue while bounds permit; otherwise identify unfulfilled regions and partial result. Distinguish source limits from investigator omissions. A topic name, endpoint comparison or assertion that an example exists does not explain its mechanism or meaning.

@@ -1,0 +1,21 @@
+# Luma design wiki
+
+Luma is an open-source starting point for agentic personal knowledge management: an ordinary, human-readable workspace for a goal, project, or collection of material. It is intended to work Obsidian-first while remaining harness-agnostic. People own and edit the material; agent guidance and supporting resources live alongside it rather than replacing it.
+
+## What exists now
+
+This repository currently contains documentation and portable practices. It does not provide an installed Obsidian plugin, agent runtime, or CLI. The original plugin is preserved as an exact tracked snapshot in [`archive/obsidian-plugin`](../archive/README.md); that archive is historical reference, not current product behavior.
+
+The design principles and illustrative layout are in [Workspace model](workspace-model.md). See the [repository README](../README.md) for the project entry point and [archive README](../archive/README.md) for the preserved plugin.
+
+## Starting principles
+
+A workspace serves one human goal, project, or collection. Its visible files remain useful without an agent harness, with an editable wiki for maintained understanding and `.agents/` for optional supporting guidance, skills, tools, or packages. Optional marked child workspaces can organize distinct responsibilities; neither nesting nor ordinary folder names imply permissions or agency.
+
+## Decisions still open
+
+The principles do not settle exact filenames and defaults, a metadata schema, whether or how to watch files, or how to index and search material. Harness-specific instruction discovery and execution require real adapters and checks; portable Markdown alone does not establish compatibility. These questions should be resolved through concrete use rather than presented as implemented features.
+
+## Example of use
+
+Someone pursuing a learning goal might keep notes and readings as visible material and use the wiki to connect concepts and record questions. A reference collection might organize source documents and editable summaries, keeping conclusions traceable to what informed them. A software project might retain its existing source tree and docs, with wiki pages for architecture and investigation notes. If a distinct responsibility merits a child workspace, it can be marked explicitly; otherwise project or subject folders remain ordinary folders. In each case, optional `.agents/` resources could provide practices or tools when available, but do not make an agent run or grant access. The examples describe possible organization, not deployed Luma installations or demonstrated results.
