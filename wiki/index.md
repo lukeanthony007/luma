@@ -4,9 +4,9 @@ Luma is an open-source starting point for agentic personal knowledge management:
 
 ## What exists now
 
-This repository currently contains documentation and portable practices. It does not provide an installed Obsidian plugin, agent runtime, or CLI. The original plugin is preserved as an exact tracked snapshot in [`archive/obsidian-plugin`](../archive/README.md); that archive is historical reference, not current product behavior.
+This repository currently contains documentation and portable practices. It does not provide an installed Obsidian plugin, agent runtime, or CLI. The original plugin is preserved unchanged on the separate [`archive/obsidian-plugin` branch](https://github.com/lukeanthony007/luma/tree/archive/obsidian-plugin); it is historical reference and is absent from the current main tree.
 
-The design principles and illustrative layout are in [Workspace model](workspace-model.md). See the [repository README](../README.md) for the project entry point and [archive README](../archive/README.md) for the preserved plugin.
+The design principles and illustrative layout are in [Workspace model](workspace-model.md). See the [repository README](../README.md) for the project entry point and instructions for a small clone without historical plugin files.
 
 ## Starting principles
 

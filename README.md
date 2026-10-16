@@ -16,14 +16,20 @@ The visible workspace belongs to the person. Agent guidance and reusable practic
 
 Agents should start with [AGENTS.md](AGENTS.md), which points to the [canonical working agreement](.agents/AGENTS.md). `CLAUDE.md` imports the same entrypoint. Skills are maintained in `.agents/skills/`; follow the working agreement to select them. These files provide guidance, not a running integration. Instruction loading and native Skill discovery still need verification in each supported harness.
 
-This repository is Luma's own development workspace. Its wiki describes Luma; its archive preserves the previous project. It is not yet an installer that should be copied wholesale into someone's personal vault.
+This repository is Luma's own development workspace. Its wiki describes Luma. It is not yet an installer that should be copied wholesale into someone's personal vault.
 
 Luma is derived from the portable agent-workspace design developed in Animus. The [resource provenance](.agents/README.md#provenance-and-scope) explains the selected practices. Animus's private state and formal intelligence, accountability, continuity and execution systems are not included. An optional Animus integration will need an explicit boundary for wiki updates and accepted engine knowledge.
 
 ## Previous implementation
 
-The original Obsidian plugin is preserved under [archive/obsidian-plugin/](archive/README.md), with its tracked files unchanged and its Git history intact. Its README, dependencies and installation instructions describe that historical implementation, not the new foundation.
+The original Obsidian plugin is preserved on the separate [`archive/obsidian-plugin` branch](https://github.com/lukeanthony007/luma/tree/archive/obsidian-plugin), at commit `dbfd14bcd1fb9b0deed36c94be382965bae56d78`. Its tracked files and history are unchanged. Its README, dependencies and installation instructions describe that historical implementation.
+
+The plugin files are absent from the current `main` tree. Git history still contains earlier versions; use a shallow, single-branch clone to download only the current foundation:
+
+```sh
+git clone --depth 1 --single-branch --branch main https://github.com/lukeanthony007/luma.git
+```
 
 ## License
 
-See [LICENSE](LICENSE). The existing license text and notices are retained; the archived snapshot contains its original copy as well.
+See [LICENSE](LICENSE). The existing license text and notices are retained; the archive branch contains its original copy as well.

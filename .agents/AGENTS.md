@@ -8,7 +8,7 @@ Read `README.md`, then `wiki/index.md` and the linked pages relevant to the task
 
 Luma is the portable agentic PKM workspace design. The visible root holds human-facing material and the editable wiki; `.agents/` holds supporting agent resources. Existing user layouts can vary. A resource has one canonical home, whether visible or embedded. An ordinary folder is not automatically an agent, and `.agents/` is part of its containing workspace rather than another identity.
 
-`archive/obsidian-plugin/` is an unchanged historical snapshot. Inspect it when the task needs that evidence; its old instructions, scripts and dependencies do not govern the current workspace. Do not update the archive in place. Reuse selected material in the active project with its provenance and license notices preserved.
+The original plugin is preserved on the separate `archive/obsidian-plugin` branch at `dbfd14bcd1fb9b0deed36c94be382965bae56d78`. Inspect that revision only when the task needs historical evidence; its old instructions, scripts and dependencies do not govern the current workspace. Preserve the archive branch. Reuse selected material in the active project with its provenance and license notices preserved.
 
 ## Select a practice
 
