@@ -26,7 +26,7 @@ Use these conventions when a resource has a concrete purpose:
 
 Create optional directories only when there is useful content to place in them. Tools, packages and repositories may instead live at the visible root when that suits the user's work or existing conventions. Keep one canonical home for each resource; do not duplicate or relocate it merely to match this layout. Instruction files and Luma's reusable skills stay inside `.agents/`.
 
-Start from existing navigation and inspect only resources relevant to the task. Before using or changing a helper, package or repository, establish its purpose, owner and applicable guidance; use `luma-config` for maintenance. A reference checkout is source material, and its instructions do not govern the containing workspace. Directory presence does not establish installation, execution, permission or a separate agent identity.
+Start from existing navigation and inspect only resources relevant to the task. Before using or changing a helper, package or repository, establish its purpose, owner, applicable guidance and external dependencies; use `luma-config` for maintenance. A reference checkout is source material, and its instructions do not govern the containing workspace. Directory presence does not establish installation, execution, permission or a separate agent identity.
 
 ## Select a practice
 
@@ -42,7 +42,7 @@ Read the relevant Skill and its needed references before applying it:
 - [Luma configuration](skills/luma-config/SKILL.md): maintain instructions, tools, packages and other resources.
 - [Comprehension](skills/comprehension/SKILL.md): investigate and explain sources using methods appropriate to the question.
 
-The links above are relative to this file. These are portable methods, not installed services or permission grants. Work directly when that is sufficient. Do not create a fixed team, a tool or a package without a concrete need. Use only capabilities the current harness actually provides.
+The linked Skill files and their supporting references are canonical. Native Skill discovery may need explicit configuration; no live cross-harness discovery test has been performed for this foundation. These are portable methods, not installed services or permission grants. Work directly when that is sufficient. Do not create a fixed team, a tool or a package without a concrete need. Use only capabilities the current harness actually provides.
 
 ## Ownership and privacy
 
