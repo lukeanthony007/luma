@@ -8,7 +8,7 @@ Read `README.md`, then the wiki's navigation and relevant pages if knowledge exi
 
 For a person starting out or unsure how AI or automation could help their project or idea, use `luma-setup` to guide an initial conversation and a useful first step. Build on known context and help directly when their request is already clear.
 
-For an existing directory of mixed material, or new files that need reconciliation with current knowledge, use `luma-sync`. Preserve existing authoritative records, integrate meaningful connections into the wiki and retain explicit coverage limits. A sync request does not make source relocation or deletion automatic.
+For an existing directory of mixed material, or new files that need reconciliation with current knowledge, use `luma-sync`. Preserve original evidence in dated `.agents/memory/` batches and develop the wiki through comprehension and meaningful relationships. Moving the old files into `wiki/` is not synthesis. Retire eligible intake only within the requested organization scope, after backup, preservation, integration and link checks; protect active projects and runtime state.
 
 When work spans sessions or periods of attention, use `luma-continuity` to restore purpose, inspect current progress and retain open commitments. When the user returns, also check relevant pending interactions if `inbox/` exists and use `luma-inbox` to handle them. Folder-specific operating instructions belong in their skills, not user-facing READMEs.
 
@@ -24,7 +24,8 @@ Use these conventions when a resource has a concrete purpose:
 - `.agents/tools/`: executable helpers with a defined purpose, inputs and outputs.
 - `.agents/packages/`: maintained software supporting the agent.
 - `.agents/repos/`: checked-out repositories, each retaining its own ownership, history and applicable instructions.
-- `.agents/memory/`: optional runtime-owned state. Durable user knowledge belongs in the wiki maintained by `luma-wiki` and `luma-memory`.
+- `.agents/memory/<date-time>/`: preserved original evidence and its provenance, maintained by `luma-memory`; the evolving explanation belongs in `wiki/`. Capture time is distinct from the dates described by the sources.
+- `.agents/runtime/`: optional Luma-owned execution state when needed. Respect the harness's actual paths and never relocate existing runtime stores merely to match this convention.
 
 Create optional directories only when there is useful content to place in them. Tools, packages and repositories may instead live at the visible root when that suits the user's work or existing conventions. Keep one canonical home for each resource; do not duplicate or relocate it merely to match this layout. Instruction files and Luma's reusable skills stay inside `.agents/`.
 
@@ -35,12 +36,12 @@ Start from existing navigation and inspect only resources relevant to the task. 
 Read the relevant Skill and its needed references before applying it:
 
 - [Luma setup](skills/luma-setup/SKILL.md): guide initial orientation, explore where AI or automation could help, and take a manageable step toward the user's goal.
-- [Luma sync](skills/luma-sync/SKILL.md): understand mixed workspace material, reconcile it with existing knowledge and integrate a connected wiki.
+- [Luma sync](skills/luma-sync/SKILL.md): preserve mixed inputs, comprehend and reconcile their meaning, and integrate a connected wiki before retiring eligible intake.
 - [Luma continuity](skills/luma-continuity/SKILL.md): preserve purpose across sessions and time, review actual progress and carry commitments forward deliberately.
 - [Luma Dream](skills/luma-dream/SKILL.md): reflect across wiki pages and sources, integrate supported synthesis and keep hypotheses and improvement proposals explicit.
-- [Luma wiki](skills/luma-wiki/SKILL.md): create and maintain durable user knowledge when needed.
+- [Luma wiki](skills/luma-wiki/SKILL.md): maintain evolving, connected understanding organized by subjects and relationships.
 - [Luma inbox](skills/luma-inbox/SKILL.md): create structured interactions when needed and clear handled items after integration.
-- [Luma memory](skills/luma-memory/SKILL.md): maintain useful, source-backed knowledge and incorporate corrections.
+- [Luma memory](skills/luma-memory/SKILL.md): preserve dated evidence and provenance, judge support and incorporate corrections.
 - [Luma collaboration](skills/luma-collab/SKILL.md): bound assignments and integrate returned contributions.
 - [Luma configuration](skills/luma-config/SKILL.md): maintain instructions, tools, packages and other resources.
 - [Comprehension](skills/comprehension/SKILL.md): investigate and explain sources using methods appropriate to the question.
@@ -51,7 +52,7 @@ The linked Skill files and their supporting references are canonical. Native Ski
 
 A child workspace can own its own purpose, resources and knowledge. Directory nesting alone does not grant access, disclosure, instruction inheritance or permission to act. Supply collaborators with bounded context and judge their actual returned contribution.
 
-Keep credentials and populated runtime state out of public source. Reserve `.agents/memory/` for optional runtime-owned state; do not create it as an empty scaffold or treat it as the public wiki. Harness sessions and caches are not the portable knowledge contract. Git exclusions are not encryption or authorization boundaries.
+Keep credentials, populated source archives, user knowledge and runtime state out of public source. `.agents/memory/` holds evidence, not the user-facing wiki or a required harness store. Inspect inherited ownership before using it: existing runtime databases, sessions and caches must remain protected, even if they already occupy that path. Create no empty scaffold or runtime migration just to conform. Git exclusions are not encryption or authorization boundaries.
 
 ## Changes and verification
 

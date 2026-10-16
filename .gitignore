@@ -1,4 +1,4 @@
-# Agent runtime state is not portable public knowledge.
+# Preserved source evidence and runtime state stay out of public source.
 **/.agents/memory/
 **/.agents/cache/
 **/.agents/runtime/
