@@ -275,6 +275,157 @@ class KnowledgeCheckTests(unittest.TestCase):
         manifest.write_text(json.dumps(value))
         self.assertFalse(knowledge.check(self.root)["ok"])
 
+class KnowledgeCompletionTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+
+    def put(self, name, data):
+        path = self.root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(data, encoding="utf-8")
+        return path
+
+    def test_completion_catches_pending_inbox_link_that_wiki_check_misses(self):
+        self.put("wiki/index.md", "# Index\n")
+        self.put("inbox/pending.md", "[stale](gone.md)\n")
+        self.assertTrue(knowledge.check(self.root)["ok"])
+        result = knowledge.complete(self.root)
+        self.assertFalse(result["ok"])
+        self.assertTrue(any("gone.md" in error["message"] for error in result["errors"]))
+        self.assertEqual(result["mode"], "completion")
+        self.assertEqual(result["scope"]["checked_paths"], ["inbox/pending.md", "wiki/index.md"])
+
+    def test_declared_root_page_outgoing_links_are_checked_and_scoped(self):
+        self.put("wiki/index.md", "[root](../maintained.md)\n")
+        self.put("maintained.md", "[broken](missing.md)\n")
+        self.assertTrue(knowledge.check(self.root)["ok"])
+        result = knowledge.complete(self.root, ["maintained.md"])
+        self.assertFalse(result["ok"])
+        self.assertTrue(any("missing.md" in error["message"] for error in result["errors"]))
+        self.assertEqual(result["scope"]["additional_pages"], ["maintained.md"])
+
+    def test_archive_prose_is_excluded_but_capture_integrity_is_checked(self):
+        self.put("source.md", "[broken](missing.md)\n")
+        captured = knowledge.capture(self.root, ["source.md"])
+        self.put("wiki/index.md", "# Index\n")
+        result = knowledge.complete(self.root)
+        self.assertTrue(result["ok"], result["errors"])
+        archived = self.root / captured["sources"][0]["archived"]
+        archived.write_text("tampered [broken](missing.md)\n", encoding="utf-8")
+        result = knowledge.complete(self.root)
+        self.assertFalse(result["ok"])
+        self.assertTrue(result["errors"])
+
+    def test_missing_roots_are_reported_without_failure(self):
+        result = knowledge.complete(self.root)
+        self.assertTrue(result["ok"], result["errors"])
+        self.assertEqual(result["scope"]["required_roots"], ["wiki", "inbox"])
+        self.assertEqual(result["scope"]["absent_roots"], ["wiki", "inbox"])
+        self.assertEqual(result["scope"]["checked_paths"], [])
+        self.assertEqual(result["checked_files"], 0)
+
+    def test_symlink_fixed_root_is_not_reported_as_absent(self):
+        outside = self.root.parent / (self.root.name + "-wiki")
+        outside.mkdir()
+        self.addCleanup(outside.rmdir)
+        outside_page = outside / "page.md"
+        outside_page.write_text("# Outside\n", encoding="utf-8")
+        self.addCleanup(outside_page.unlink)
+        (self.root / "wiki").symlink_to(outside, target_is_directory=True)
+        with self.assertRaises(knowledge.KnowledgeError):
+            knowledge.complete(self.root)
+
+    def test_explicit_pages_reject_invalid_and_symlink_paths(self):
+        self.put("wiki/index.md", "# Index\n")
+        self.put("folder/page.md", "# Page\n")
+        self.put("notes.txt", "not markdown")
+        outside = self.root.parent / (self.root.name + "-outside.md")
+        outside.write_text("# Outside\n", encoding="utf-8")
+        self.addCleanup(outside.unlink)
+        (self.root / "link.md").symlink_to(outside)
+        (self.root / "alias").symlink_to(self.root / "folder", target_is_directory=True)
+        for page in ("folder", "notes.txt", "missing.md", "../outside.md", ".agents/memory/x.md", ".git/a.md", "link.md", "alias/page.md"):
+            with self.subTest(page=page):
+                with self.assertRaises(knowledge.KnowledgeError):
+                    knowledge.complete(self.root, [page])
+
+    def test_completion_scope_is_exact_deduplicated_and_read_only(self):
+        wiki = self.put("wiki/index.md", "# Index\n")
+        inbox = self.put("inbox/task.md", "# Task\n")
+        page = self.put("notes.md", "# Notes\n")
+        files = [wiki, inbox, page]
+        before = {p: (p.read_bytes(), p.stat().st_mtime_ns) for p in files}
+        result = knowledge.complete(self.root, ["notes.md", "notes.md"])
+        self.assertTrue(result["ok"], result["errors"])
+        self.assertEqual(result["checked_files"], 3)
+        self.assertEqual(result["scope"]["selected_paths"], ["wiki", "inbox", "notes.md"])
+        self.assertEqual(result["scope"]["checked_paths"], ["inbox/task.md", "notes.md", "wiki/index.md"])
+        self.assertEqual({p: (p.read_bytes(), p.stat().st_mtime_ns) for p in files}, before)
+        check = knowledge.check(self.root, ["wiki"])
+        self.assertEqual(check["mode"], "check")
+        self.assertEqual(check["scope"]["selected_paths"], ["wiki"])
+        self.assertEqual(check["scope"]["checked_paths"], ["wiki/index.md"])
+
+    def test_completion_reports_read_limits(self):
+        self.put("wiki/index.md", "too large")
+        with mock.patch.object(knowledge, "MAX_FILE", 1):
+            result = knowledge.complete(self.root)
+        self.assertFalse(result["ok"])
+        self.assertTrue(result["errors"])
+
+    def test_completion_reports_file_count_limit(self):
+        self.put("wiki/index.md", "# Index\n")
+        self.put("inbox/task.md", "# Task\n")
+        with mock.patch.object(knowledge, "MAX_FILES", 1):
+            result = knowledge.complete(self.root)
+        self.assertFalse(result["ok"])
+        self.assertTrue(any("limit" in row["message"].lower() or "exceeds" in row["message"].lower()
+                            for row in result["errors"]), result["errors"])
+
+
+class KnowledgeCompletionCliTests(unittest.TestCase):
+    def test_completion_cli_status_and_rejects_narrowing_selectors(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "wiki").mkdir()
+            (root / "wiki" / "index.md").write_text("# Index\n", encoding="utf-8")
+            out, err = io.StringIO(), io.StringIO()
+            with redirect_stdout(out), redirect_stderr(err):
+                status = knowledge.main(["complete", "--root", str(root)])
+            self.assertEqual(status, 0, err.getvalue())
+            self.assertEqual(json.loads(out.getvalue())["mode"], "completion")
+            out, err = io.StringIO(), io.StringIO()
+            with redirect_stdout(out), redirect_stderr(err):
+                status = knowledge.main(["complete", "--root", str(root), "wiki"])
+            self.assertEqual(status, 2)
+            self.assertTrue(err.getvalue())
+            out, err = io.StringIO(), io.StringIO()
+            with redirect_stdout(out), redirect_stderr(err):
+                status = knowledge.main(["complete", "--root", str(root), "--page", "absent.md"])
+            self.assertEqual(status, 1)
+
+    def test_completion_cli_adds_pages_without_excluding_inbox(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "wiki").mkdir()
+            (root / "inbox").mkdir()
+            (root / "wiki/index.md").write_text("# Index\n")
+            (root / "inbox/question.md").write_text("[stale](gone.md)\n")
+            (root / "one.md").write_text("# One\n")
+            (root / "two.md").write_text("# Two\n")
+            out, err = io.StringIO(), io.StringIO()
+            with redirect_stdout(out), redirect_stderr(err):
+                status = knowledge.main(["complete", "--root", str(root),
+                                         "--page", "one.md", "--page", "two.md"])
+            self.assertEqual(status, 1, err.getvalue())
+            result = json.loads(out.getvalue())
+            self.assertEqual(result["scope"]["additional_pages"], ["one.md", "two.md"])
+            self.assertEqual(result["scope"]["checked_paths"],
+                             ["inbox/question.md", "one.md", "two.md", "wiki/index.md"])
+            self.assertTrue(any(row["path"] == "inbox/question.md" for row in result["errors"]))
+
 class KnowledgeCliTests(unittest.TestCase):
     def test_cli_json_success_and_actionable_error_status(self):
         with tempfile.TemporaryDirectory() as directory:

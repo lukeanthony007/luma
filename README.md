@@ -72,11 +72,13 @@ Preserve explicit source files:
 python3 .agents/tools/luma_knowledge.py capture --root . notes/source.md
 ```
 
-Check local Markdown links, headings and captured evidence integrity:
+Check wiki and inbox navigation together, plus captured evidence integrity:
 
 ```sh
-python3 .agents/tools/luma_knowledge.py check --root .
+python3 .agents/tools/luma_knowledge.py complete --root .
 ```
+
+Add maintained pages outside those directories with `--page path.md`. JSON reports the exact checked scope. For a narrower edit-time check, use `check --root . path.md`; that result is not workspace completion.
 
 Capture records UTC timestamps, paths and hashes. Unchanged verified sources are reused; changed sources receive separate versions. Originals remain in place.
 

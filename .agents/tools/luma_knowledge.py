@@ -351,7 +351,48 @@ def _wiki_files(root: Path) -> list[Path]:
     return files
 
 
+def complete(root: Path, pages: list[str] | None = None) -> dict:
+    root = Path(root)
+    if root.is_symlink() or not root.is_dir():
+        raise KnowledgeError(f"Workspace is not a real directory: {root}")
+    root = root.resolve()
+    required = ["wiki", "inbox"]
+    absent = []
+    selected = []
+    for rel in required:
+        path = root / rel
+        if path.is_symlink():
+            raise KnowledgeError(f"Symlink path is not allowed: {rel}")
+        if path.exists():
+            selected.append(rel)
+        else:
+            absent.append(rel)
+    extras = []
+    for name in pages or []:
+        rel = _safe_rel(name)
+        path = _path(root, rel)
+        if not path.is_file() or path.suffix.lower() != ".md":
+            raise KnowledgeError(f"Additional page must be an existing Markdown file: {rel}")
+        extras.append(rel)
+    result = _check(root, selected + extras, mode="completion")
+    result["scope"].update({
+        "required_roots": required, "absent_roots": absent,
+        "additional_pages": sorted(set(extras)),
+        "excluded": ["Archived evidence payloads are integrity-checked but not prose-scanned.",
+                     "Runtime, Git, credentials, and paths outside selected roots/pages are excluded."],
+    })
+    result["limits"].extend([
+        "Success does not establish semantic integration or answered-inbox handling.",
+        "Success does not establish source support or discovery of undeclared maintained pages outside fixed roots.",
+    ])
+    return result
+
+
 def check(root: Path, paths: list[str] | None = None) -> dict:
+    return _check(root, paths)
+
+
+def _check(root: Path, paths: list[str] | None = None, *, mode: str = "check") -> dict:
     root = Path(root)
     if root.is_symlink() or not root.is_dir():
         raise KnowledgeError(f"Workspace is not a real directory: {root}")
@@ -364,10 +405,12 @@ def check(root: Path, paths: list[str] | None = None) -> dict:
     except (KnowledgeError, OSError) as exc:
         errors.append({"path": ".agents/memory", "message": str(exc)})
     files = set()
+    selected = paths if paths is not None else (["wiki"] if (root / "wiki").exists() else [])
+    selected_paths = []
     try:
-        selected = paths if paths is not None else (["wiki"] if (root / "wiki").exists() else [])
         for name in selected:
             rel = _safe_rel(name.rstrip("/"), allow_agents_skills=True)
+            selected_paths.append(rel)
             path = _path(root, rel)
             if path.is_file():
                 if path.suffix.lower() != ".md":
@@ -406,12 +449,14 @@ def check(root: Path, paths: list[str] | None = None) -> dict:
                 raise KnowledgeError("Markdown read limits exceeded")
             cache[path] = _markdown(data.decode("utf-8"))
         return cache[path]
+    checked_paths = []
     wiki_catalog = None
     for file in sorted(files):
         rel = file.relative_to(root).as_posix()
         try:
             links, _ = document(file)
             checked += 1
+            checked_paths.append(rel)
             for target, is_wiki in links:
                 if target is not None and (re.match(r"^[A-Za-z][\w+.-]*:", target) or target.startswith("//")):
                     continue
@@ -454,7 +499,10 @@ def check(root: Path, paths: list[str] | None = None) -> dict:
                     errors.append({"path": rel, "message": str(exc)})
         except (OSError, UnicodeError, KnowledgeError) as exc:
             errors.append({"path": rel, "message": str(exc)})
-    return {"ok": not errors, "checked_files": checked, "links_checked": links_checked,
+    return {"ok": not errors, "mode": mode,
+            "scope": {"selected_paths": list(dict.fromkeys(selected_paths)),
+                      "checked_paths": checked_paths},
+            "checked_files": checked, "links_checked": links_checked,
             "manifests_checked": manifests, "errors": errors, "limits": LIMITS[:]}
 
 
@@ -463,16 +511,23 @@ def main(argv: list[str] | None = None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
     cap = sub.add_parser("capture")
     chk = sub.add_parser("check")
-    for command in (cap, chk):
+    completion = sub.add_parser("complete")
+    for command in (cap, chk, completion):
         command.add_argument("--root", type=Path, default=Path.cwd())
     cap.add_argument("paths", nargs="+")
     chk.add_argument("paths", nargs="*")
+    completion.add_argument("--page", action="append", default=[], dest="pages")
     try:
         args = parser.parse_args(argv)
     except SystemExit as exc:
         return int(exc.code)
     try:
-        result = capture(args.root, args.paths) if args.command == "capture" else check(args.root, args.paths or None)
+        if args.command == "capture":
+            result = capture(args.root, args.paths)
+        elif args.command == "complete":
+            result = complete(args.root, args.pages)
+        else:
+            result = check(args.root, args.paths or None)
         print(json.dumps(result, ensure_ascii=False))
         return 0 if args.command == "capture" or result["ok"] else 1
     except (KnowledgeError, OSError, UnicodeError) as exc:

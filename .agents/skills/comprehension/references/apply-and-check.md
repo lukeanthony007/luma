@@ -18,6 +18,8 @@ For consequential advice, combine the constraints that determine whether the pro
 
 Calculate the relevant totals, capacity or timing and compare like quantities. Separate total cost from cash needed at a particular time, including refundable amounts; unknown payment timing makes an upfront comparison conditional, not settled. Compare required activity with available time, resources and dependencies. State consequential assumptions, incompatible requirements and the missing fact or change needed to proceed. Do not silently relax a constraint to make the plan fit.
 
+Give the answer and maintained account a short feasibility conclusion with the supporting calculation or constraint relationship, its source basis and the condition needed to proceed. A list of separate prices, dates or limits is not that conclusion. For staged payments or activities, follow their sequence and the available balance or capacity at each stage; do not count a refunded amount as still unavailable after its stated return.
+
 Keep absence, intention and authorization distinct. No recorded purchase, no approved purchase and no intention to purchase are different claims; use only the status the evidence supports. Carry the important consequence into the answer and maintained explanation, not merely separate facts that leave the reader to derive it.
 
 ## Diagnose and improve without rewriting history
