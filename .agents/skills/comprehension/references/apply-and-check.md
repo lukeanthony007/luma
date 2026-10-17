@@ -12,6 +12,14 @@ For a changed or hypothetical case, write its inputs from the question alone: wh
 
 For questions about events, distinguish an event from its documentation. “Not recorded” can answer that a record was not found; it cannot establish that an event did not occur. An affirmative event claim requires an occurrence observation or warranted derivation. A negative event claim needs explicit nonoccurrence evidence or a source-supported exhaustive condition; otherwise say unresolved. An incomplete closed corpus limits what can be known, not what happened.
 
+## Check a proposed action
+
+For consequential advice, combine the constraints that determine whether the proposed action can work. Draw them from the relevant sources and current account, not just the most recent update. Distinguish requirements, preferences and suggestions, and identify what changed versus what remains in force.
+
+Calculate the relevant totals, capacity or timing and compare like quantities. Separate total cost from cash needed at a particular time, including refundable amounts; unknown payment timing makes an upfront comparison conditional, not settled. Compare required activity with available time, resources and dependencies. State consequential assumptions, incompatible requirements and the missing fact or change needed to proceed. Do not silently relax a constraint to make the plan fit.
+
+Keep absence, intention and authorization distinct. No recorded purchase, no approved purchase and no intention to purchase are different claims; use only the status the evidence supports. Carry the important consequence into the answer and maintained explanation, not merely separate facts that leave the reader to derive it.
+
 ## Diagnose and improve without rewriting history
 
 Compare the answer to both requested parts and delivered meaning. Locate a failure: source meaning missing in the retained account, retained but not delivered, delivered but misread, unsupported inference during application, or meaning omitted while composing the answer. A correct assertion that the reader never received is a delivery issue; repairing storage alone does not fix answer composition. Preserve the initial attempt and judgment. Retrieval, revision and retest are later events and do not retroactively improve it.

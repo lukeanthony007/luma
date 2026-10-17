@@ -39,7 +39,13 @@ Retire loose or legacy intake originals only when their immutable retained evide
 
 ## Check and continue
 
-Reread saved pages and affected dependents. Check source coverage against retained meaning and saved assertions against exact support or declared premises. Use [luma-memory's relationship and helper checks](../luma-memory/SKILL.md#check): validate complete claim relationships and navigable source citations separately from mechanical link and capture integrity. Confirm substantive integration, quantities, unknowns, conflicts and authorized move accounting. Self-checking is not independent review.
+Finish the reconciliation before reporting it complete:
+
+1. Reread saved pages and affected dependents. Check source coverage against retained meaning and saved assertions against exact support or declared premises. Use [luma-memory's relationship checks](../luma-memory/SKILL.md#check) to validate complete claim relationships and navigable source citations; confirm quantities, unknowns, conflicts and authorized move accounting.
+2. Complete handled [inbox interactions](../luma-inbox/SKILL.md): preserve useful answers and required evidence, integrate them into the owning wiki pages, and replace durable citations to the temporary item with retained support before clearing it. Leave unanswered interactions pending; repair their links when affected by a page move without inventing an answer.
+3. Verify navigation from the actual saved locations, including affected overviews, source links and inbox items. Where installed, run the [mechanical helper](../luma-memory/SKILL.md#check) on those files or directories. Repair reported problems in maintained content, then rerun the affected checks. Do not rewrite archived evidence to fix historical links. If a check is unavailable or a problem cannot be resolved within scope, report the specific limitation and leave completion qualified.
+
+Mechanical success does not establish semantic reconciliation. When the requested result includes a recommendation or next action, read and apply comprehension's [feasibility check](../comprehension/references/apply-and-check.md#check-a-proposed-action) against the combined constraints. Self-checking is not independent review.
 
 Report what was integrated, what changed in understanding, what was left in place or moved, and the concrete remaining coverage. If the requested scope is unfinished, continue while bounds permit and retain the next batch when interrupted. Do not label the workspace fully reconciled while known material within scope is still unexamined. Never publish populated wiki or source records merely because the skill is maintained in a public repository.
 
