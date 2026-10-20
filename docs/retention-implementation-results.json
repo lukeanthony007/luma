@@ -1,0 +1,152 @@
+{
+  "format_version": 1,
+  "date": "2026-10-20",
+  "purpose": "Verify source-package retention creation, same-turn correction, qualified fresh-session application and no-write boundaries.",
+  "host_version": "omp/18.12.4",
+  "model_requested": "openai-codex/gpt-6.1-sol",
+  "thinking": "minimal",
+  "core_change": "Explicit initial-account and cross-source retention responsibilities plus same-turn reconciliation of claims, examples, implications and next actions. Existing skill methods and host rules unchanged.",
+  "case_hashes": {
+    "harbor": "aeb461f7f08158c90e6e83f0f7dcac17d197eb7e174cb42e5916ba34bdf5a9f6",
+    "sable": "0d9e270f98425ae3cd7259d60c268e6bd082a56761f0c679823a762a686d04ac"
+  },
+  "core_hashes": {
+    "initial_candidate": "b9f3a59f682ef500ca08c09f1ba8e55e40a222758442a6e463c2bc8449cb57d1",
+    "implemented_revision": "a85f7114411e129781b257cb5d7269928e06614066fe78c406863595d4efb7b8"
+  },
+  "task_invocations": 80,
+  "delivery_checks": 6,
+  "all_tasks_completed": true,
+  "all_delivery_checks_passed": true,
+  "protected_inputs_and_installed_seed_unchanged": true,
+  "conditions": [
+    {
+      "scenario": "Harbor initial candidate",
+      "condition": "luma",
+      "task_invocations": 12,
+      "histories_or_source_only_states": 2,
+      "accounts_before_application": 2,
+      "correction_sessions_updating_record": 0,
+      "application_sessions_reading_account": 4,
+      "no_write_controls": 2,
+      "no_write_controls_preserved_files": true
+    },
+    {
+      "scenario": "Harbor initial candidate",
+      "condition": "stock",
+      "task_invocations": 12,
+      "histories_or_source_only_states": 2,
+      "accounts_before_application": 0,
+      "correction_sessions_updating_record": 0,
+      "application_sessions_reading_account": 0,
+      "no_write_controls": 2,
+      "no_write_controls_preserved_files": true
+    },
+    {
+      "scenario": "Harbor initial candidate",
+      "condition": "source-only",
+      "task_invocations": 6,
+      "histories_or_source_only_states": 2,
+      "accounts_before_application": 0,
+      "correction_sessions_updating_record": 0,
+      "application_sessions_reading_account": 0,
+      "no_write_controls": 2,
+      "no_write_controls_preserved_files": true
+    },
+    {
+      "scenario": "Harbor correction regression",
+      "condition": "luma",
+      "task_invocations": 12,
+      "histories_or_source_only_states": 2,
+      "accounts_before_application": 2,
+      "correction_sessions_updating_record": 4,
+      "application_sessions_reading_account": 4,
+      "no_write_controls": 2,
+      "no_write_controls_preserved_files": true
+    },
+    {
+      "scenario": "Harbor correction regression",
+      "condition": "stock",
+      "task_invocations": 12,
+      "histories_or_source_only_states": 2,
+      "accounts_before_application": 0,
+      "correction_sessions_updating_record": 0,
+      "application_sessions_reading_account": 0,
+      "no_write_controls": 2,
+      "no_write_controls_preserved_files": true
+    },
+    {
+      "scenario": "Harbor correction regression",
+      "condition": "source-only",
+      "task_invocations": 6,
+      "histories_or_source_only_states": 2,
+      "accounts_before_application": 0,
+      "correction_sessions_updating_record": 0,
+      "application_sessions_reading_account": 0,
+      "no_write_controls": 2,
+      "no_write_controls_preserved_files": true
+    },
+    {
+      "scenario": "Sable independent transfer",
+      "condition": "luma",
+      "task_invocations": 8,
+      "histories_or_source_only_states": 2,
+      "accounts_before_application": 2,
+      "correction_sessions_updating_record": 2,
+      "application_sessions_reading_account": 2,
+      "no_write_controls": 2,
+      "no_write_controls_preserved_files": true
+    },
+    {
+      "scenario": "Sable independent transfer",
+      "condition": "stock",
+      "task_invocations": 8,
+      "histories_or_source_only_states": 2,
+      "accounts_before_application": 0,
+      "correction_sessions_updating_record": 0,
+      "application_sessions_reading_account": 0,
+      "no_write_controls": 2,
+      "no_write_controls_preserved_files": true
+    },
+    {
+      "scenario": "Sable independent transfer",
+      "condition": "source-only",
+      "task_invocations": 4,
+      "histories_or_source_only_states": 2,
+      "accounts_before_application": 0,
+      "correction_sessions_updating_record": 0,
+      "application_sessions_reading_account": 0,
+      "no_write_controls": 2,
+      "no_write_controls_preserved_files": true
+    }
+  ],
+  "semantic_review": {
+    "method": "Parent inspected both initial stale accounts, all four final revised accounts, revised Luma recommendations, and changed-case answers across conditions against the supplied sources. No independent or blinded grading claimed.",
+    "initial_candidate": "Failed maintenance: both accounts remained stale after correction and exception evidence despite correct subsequent answers.",
+    "harbor_regression": "Both revised-core accounts integrated the correction, historical status, scoped multiplier, item/current-v2 exceptions, unknown depot mapping and dependent examples/actions. Fresh sessions read them and answered the central changed-case questions correctly.",
+    "sable_independent_transfer": "Both accounts integrated the 14-day ordinary, 60-day event, held-snapshot and unknown-collection distinctions, plus complete-inventory and actual-consumer restoration requirements. Fresh applications consulted these accounts and preserved the relevant limits. Both Luma no-write preference changes were applied to the answer, not saved, and explicitly disclosed as unsaved.",
+    "baseline": "Stock and source-only also answered central changed-case questions correctly from original evidence. Neither authored an account. No answer-quality advantage established."
+  },
+  "retained_record_link_checks": {
+    "workspaces_checked": 6,
+    "all_passed": true,
+    "limit": "Valid links do not prove semantic fidelity; initial stale accounts also passed."
+  },
+  "recovered_tool_errors": {
+    "count": 8,
+    "kind": "Reads of absent .git in non-repository fixtures. No write failures."
+  },
+  "helper_regression_tests": 65,
+  "helper_regression_tests_passed": true,
+  "interpretation": "The implemented revision demonstrated creation, same-turn correction and fresh-session consultation on a post-failure regression and a different synthetic scenario. This is bounded behavioral evidence, not broad reliability or an advantage attributable to memory.",
+  "limits": [
+    "Harbor was reused after its maintenance failure; the revised result is a regression, not held-out validation.",
+    "Sable was introduced after the correction paragraph was frozen, but remains a small synthetic scenario on one configured host/model.",
+    "Full original evidence and incoming requests were available to all arms, and Luma reread sources; record consultation alone does not isolate its answer-quality contribution.",
+    "No actual compaction, long-duration project, concurrent human edits or other-host validation.",
+    "Published source changes are not installed or activated in existing user workspaces."
+  ],
+  "global_host_configuration_changed": false,
+  "host_hooks_added": false,
+  "existing_user_installations_updated": false
+}
