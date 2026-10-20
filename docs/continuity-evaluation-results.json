@@ -159,6 +159,88 @@
       "guidance_sha256": "993b5f7b3b09c6583e8dbc2afc4981080134ba513e703e0b443cfaeec9b10d91"
     },
     "candidate_adopted": false,
-    "interpretation": "Neither stronger core wording nor explicit optional record-creation permission activated retention in this held-out analysis workflow. Complete cause remains unresolved; production guidance and global host configuration were not changed."
+    "interpretation": "Neither stronger core wording nor explicit optional record-creation permission activated retention in these initial held-out checks. The later instruction diagnosis records successful applications of the same candidate; the initial failure is not evidence of permanent incapability."
+  },
+  "instruction_diagnosis": {
+    "date": "2026-10-20",
+    "host_version": "18.12.3",
+    "model": "openai-codex/gpt-6.1-sol",
+    "thinking": "minimal",
+    "task_invocations": 31,
+    "initial_matrix_invocations": 15,
+    "adaptive_replication_invocations": 16,
+    "all_completed": true,
+    "protected_sources_and_seed_unchanged": true,
+    "effective_retention_paragraphs_delivered": true,
+    "host_document_rule": "The native write-tool description prohibits creating documents unless requested.",
+    "ablation": "An isolated before-provider-request hook removed only that document-creation clause. Every captured first-request payload differed only at the write description; native-policy captures were unchanged. No execution or approval policy was altered.",
+    "conditions": [
+      {
+        "seed": "original",
+        "host_document_rule": "native",
+        "request_wording": "explicit_optional_note_permission",
+        "chains": 2,
+        "accounts_before_application": 0,
+        "application_read_account": 0
+      },
+      {
+        "seed": "original",
+        "host_document_rule": "removed_for_probe",
+        "request_wording": "explicit_optional_note_permission",
+        "chains": 1,
+        "accounts_before_application": 0,
+        "application_read_account": 0
+      },
+      {
+        "seed": "candidate",
+        "host_document_rule": "native",
+        "request_wording": "explicit_optional_note_permission",
+        "chains": 2,
+        "accounts_before_application": 2,
+        "application_read_account": 2
+      },
+      {
+        "seed": "candidate",
+        "host_document_rule": "removed_for_probe",
+        "request_wording": "explicit_optional_note_permission",
+        "chains": 2,
+        "accounts_before_application": 2,
+        "application_read_account": 2
+      },
+      {
+        "seed": "original",
+        "host_document_rule": "native",
+        "request_wording": "explicit_record_request",
+        "chains": 1,
+        "accounts_before_application": 1,
+        "application_read_account": 1
+      },
+      {
+        "seed": "candidate",
+        "host_document_rule": "native",
+        "request_wording": "general_local_record_permission",
+        "chains": 1,
+        "accounts_before_application": 1,
+        "application_read_account": 1
+      }
+    ],
+    "one_off_controls": 4,
+    "one_off_correct_with_no_tools_or_changes": true,
+    "memory_and_wiki_skill_handoffs_observed": 3,
+    "retained_workspaces_link_checked": 6,
+    "link_checks_passed": true,
+    "recovered_tool_errors": 2,
+    "recovered_error_kind": "Read of absent .git in a non-repository fixture; no write failures.",
+    "semantic_review": "Parent reviewed all five candidate accounts and their fresh-session application against the supplied evidence. Substantive synthesis and source-backed distinctions were retained. One initial account omitted an exception in an empty-result claim; its application answer preserved the exception after rereading sources. This was not a blinded outcome comparison.",
+    "interpretation": "Write capability and core delivery work. Removing the host document rule alone did not activate the original seed, and retaining it did not prevent the stronger seed from saving and consulting knowledge. Evidence favors a retention-selection/activation problem, but does not isolate a minimal sufficient wording or explain every earlier failure.",
+    "limits": [
+      "Small diagnostic matrix on the same source topic, with an adaptive replication and a passive capture hook in all new conditions.",
+      "The same candidate failed an earlier check; these successes do not establish reliable activation across tasks or hosts.",
+      "Original evidence remained available and was reread, so account consultation does not isolate its contribution to answer quality.",
+      "Semantic fidelity and comparative benefit remain separate from successful record creation."
+    ],
+    "candidate_adopted": false,
+    "global_host_configuration_changed": false,
+    "production_guidance_changed": false
   }
 }

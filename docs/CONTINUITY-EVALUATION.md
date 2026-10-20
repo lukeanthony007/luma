@@ -70,4 +70,27 @@ The candidate was tested on a previously unused source topic with two acquisitio
 
 An explicit-permission control then used unchanged guidance with standing permission to create local knowledge notes/wiki pages, without requesting a checkpoint or particular record format. All ten invocations completed, but no retained account was created. Across the three follow-ups, all nine one-off controls answered correctly without tools or writes. Neither stronger core wording nor clearer optional record-creation permission was a demonstrated fix.
 
-Production guidance and global host settings remain unchanged. The next implementation question is the boundary between loaded guidance and actual selection/application of memory, wiki and continuity. A useful source-backed account must be created during normal ongoing work and later consulted correctly; more wording or a plausible diagnosis is not evidence that this mechanism works. Effective host instruction and capability interactions remain part of the unresolved cause.
+Production guidance and global host settings were unchanged by those checks. The diagnosis below investigates the boundary between loaded guidance and actual selection/application of memory, wiki and continuity.
+
+## Instruction activation diagnosis
+
+A subsequent 31-invocation diagnosis inspected the assembled host state and captured actual provider requests. The core's retention paragraphs were present. OMP 18.12.3's write-tool description prohibited document creation unless requested. An isolated diagnostic hook either left the request unchanged or removed only that clause, preserving the remaining tool description, execution and approval policies. Global configuration was not edited.
+
+The initial matrix comprised five three-session chains. An adaptive replication added four chains and four no-write one-off controls. Each chain used two source-acquisition sessions followed by a fresh application session. The stronger core was the unchanged private candidate from the failed follow-up, not another tuned revision.
+
+| Core | Host document rule | User wording | Chains | Accounts created before application | Accounts read during application |
+|---|---|---|---:|---:|---:|
+| Original | Native | Explicit optional note permission | 2 | 0 | 0 |
+| Original | Removed for probe | Explicit optional note permission | 1 | 0 | 0 |
+| Stronger candidate | Native | Explicit optional note permission | 2 | 2 | 2 |
+| Stronger candidate | Removed for probe | Explicit optional note permission | 2 | 2 | 2 |
+| Original | Native | Explicit record request | 1 | 1 | 1 |
+| Stronger candidate | Native | Original general local-record permission | 1 | 1 | 1 |
+
+All tasks completed and protected sources/seed files remained unchanged. All four one-off controls answered correctly without tools or file changes. Six retained workspaces passed link/completion checks. Two reads of an absent `.git` returned errors in the non-repository fixtures; both sessions recovered and wrote records. No write failure was observed.
+
+These contrasts rule out unavailable file writing or absent core delivery as the general explanation. Removing the host document clause alone did not activate the original seed; leaving it present did not prevent the stronger candidate from retaining knowledge. Extra explicit note-permission wording was not necessary in one successful follow-up. The evidence favors a problem in selecting retention as part of ongoing work, particularly the transition from cross-source investigation to a maintained account. It does not isolate a minimal sufficient wording or establish why every earlier attempt failed.
+
+The five candidate accounts contained substantive synthesis, source references and important qualifications. Three replicated acquisition sessions actually read memory and wiki guidance. Every created account was consulted by a fresh application process, but those processes also reread the original sources. One initial account omitted a consequential exception in an empty-result claim; its later answer preserved that exception after consulting source evidence. Record creation, source fidelity and improved answers must therefore remain separate claims.
+
+The earlier candidate failure remains evidence, not an outcome to discard. The candidate is now conditionally demonstrated rather than proven ineffective, but reliable activation and an advantage over a fresh agent remain unestablished. Production guidance stays unchanged. The next implementation decision is whether to promote a clearer core responsibility after fresh-case checks of spontaneous retention, correction, qualified transfer and no-record exceptions. A permanent host hook or removal of host safeguards is not justified by this diagnosis.

@@ -126,7 +126,7 @@ The [portable agent seed design](docs/DESIGN.md) contains the research basis, pr
 
 Under active development. Automated checks cover supporting tools; behavioral evaluation remains limited. The first [matched host/seed comparison](docs/MATCHED-EVALUATION.md) found equal outcomes on small synthetic tasks, with higher token and tool-call effort for Luma. Outperformance and reliable completion across everyday workloads and different harnesses are not established.
 
-The first [longitudinal comprehension evaluation](docs/CONTINUITY-EVALUATION.md) found that the seed did not automatically create retained knowledge during the tested project-analysis workflow. Fixing and verifying that activation gap takes priority over efficiency: the intended advantage is connected, source-backed understanding applied in fresh sessions without the user reconstructing the context.
+The first [longitudinal comprehension evaluation](docs/CONTINUITY-EVALUATION.md) found that the seed did not automatically create retained knowledge during the tested project-analysis workflow. A subsequent instruction diagnosis demonstrated creation and fresh-session consultation with a stronger private core candidate under native host rules, but also retained an earlier failure and a qualification error. Reliable activation and a retained-comprehension advantage remain unestablished; production guidance is unchanged.
 
 ## Previous version
 
