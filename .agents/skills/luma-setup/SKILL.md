@@ -5,7 +5,7 @@ description: Guide a person through an initial conversation about their project 
 
 # Find a starting point together
 
-Use when someone is starting with Luma, has an idea they do not know how to approach, or needs to reconsider their direction. Assume no knowledge of AI, automation, programming or agent terminology. A vague ambition is enough to begin. The purpose is to help the person understand their options and make progress toward what matters to them.
+Use when someone has an idea they do not know how to approach, is unsure how Luma could help, or needs to reconsider their direction. Installing the seed is not itself a reason to run onboarding. Assume no knowledge of AI, automation, programming or agent terminology. A vague ambition is enough to begin. The purpose is to help the person understand their options and make progress toward what matters to them.
 
 Read the [working agreement](../../AGENTS.md) and relevant existing context first. Reuse what the person has already shared; do not make a returning user repeat onboarding. If they already have a clear request, help with it directly and fill only consequential gaps. Workspace repair can be handled within that task using [luma-config](../luma-config/SKILL.md).
 
@@ -47,7 +47,7 @@ After a trial, ask what helped, what felt difficult and whether the result moved
 
 ## Keep continuity with minimal setup
 
-Use [luma-wiki](../luma-wiki/SKILL.md) to retain useful goals, confirmed preferences, decisions, open questions and next actions once there is real knowledge to save. Distinguish the person's statements, your inferences and unadopted suggestions. Preserve relevant sources and avoid storing every conversational exchange.
+Retain useful goals, confirmed preferences, decisions, open questions and next actions in the established project records. Use [luma-wiki](../luma-wiki/SKILL.md) when connected explanations would help; a wiki is not a prerequisite for continuity. Distinguish the person's statements, your inferences and unadopted suggestions. Preserve relevant sources and avoid storing every conversational exchange.
 
 When the person brings an accumulated directory, use [luma-sync](../luma-sync/SKILL.md) to preserve the original references in dated `.agents/memory/` batches and develop a wiki organized around what they are trying to understand or achieve. Explain the distinction simply: the originals retain the evidence; the wiki connects and develops what is learned. Build on existing useful knowledge without treating a renamed source folder as a finished wiki.
 
@@ -57,7 +57,7 @@ Keep dialogue in the conversation by default. Use [luma-inbox](../luma-inbox/SKI
 
 Before writing, inspect the selected workspace and preserve existing files, instructions and organization. The user-facing directory is the workspace root; supporting guidance and skills live under `.agents/`. The root README routes to the working agreement; do not create a root instruction file. Use [luma-config](../luma-config/SKILL.md) for any needed resource or harness configuration, and verify actual discovery before claiming an integration works.
 
-If Luma was installed with the directory initializer, its resources and README route are prepared; that does not establish the user's purpose or complete orientation. Continue the dialogue from their actual situation. Do not run initialization again as a substitute for understanding, or assume the script configured a harness, model, connector or background service.
+If Luma was installed with the directory initializer, its resources and README route are prepared; that does not establish effective host loading or the user's purpose. Continue from their actual request without another onboarding step when it is clear. Do not run initialization again as a substitute for understanding, or assume the script configured a harness, model, connector or background service.
 
 When an agreed step needs an external tool or data connection, use `luma-config` to create or maintain the owning workspace's `.agents/mcp.json` where applicable. Build on existing connectors and explain only the choices or authentication steps the person actually needs to handle. Do not add an empty MCP file or a standard bundle of servers as an onboarding requirement.
 

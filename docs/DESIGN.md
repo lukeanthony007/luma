@@ -1,6 +1,6 @@
 # Luma: a portable agent seed
 
-**Status:** working design proposal, 20 October 2026. This document records the user's direction and a proposed design informed by public research. It does not activate new behavior, establish measured superiority, or authorize runtime changes.
+**Status:** working design proposal, 20 October 2026, with a first standalone implementation increment recorded below. Proposed interfaces and later phases are not delivered capabilities. Neither the design nor the initial implementation establishes measured superiority or authorizes runtime activation.
 
 **Scope:** the public, standalone Luma configuration and its optional relationship with Animus. The Animus implementation companion is maintained separately in Animus's documentation as `LUMA-INTEGRATION.md`; this public design is usable without that repository.
 
@@ -36,7 +36,7 @@ The initial seed does not provide a model loop, universal task graph, mandatory 
 
 ## 2. Present foundation and proposed change
 
-The reviewed Luma baseline is commit `25c01a35a1918f7a0a1d627777b615489de07074`. Its [README](../README.md) describes the current file-based knowledge-management foundation. The [working agreement](../.agents/AGENTS.md) and existing skills already contain much of the intended reasoning and maintenance practice.
+The reviewed design baseline is commit `25c01a35a1918f7a0a1d627777b615489de07074`, a file-based knowledge-management foundation. The [README](../README.md) describes the evolving implementation. The [working agreement](../.agents/AGENTS.md) and existing skills already contain much of the intended reasoning and maintenance practice.
 
 | Present foundation | Role in the proposed seed | Still to establish |
 |---|---|---|
@@ -47,7 +47,15 @@ The reviewed Luma baseline is commit `25c01a35a1918f7a0a1d627777b615489de07074`.
 | Directory initializer | Non-destructive preparation of portable resources | Effective loading and compatibility under named host versions |
 | Dream and configuration practices | Reflection and authorized local adaptation | Benefit from later use, not just successful edits |
 
-This design does not rename skills, change the initializer, relocate existing records or replace installed instructions. Those changes require a later, scoped implementation. The long design document is developer material, not content to inject into every agent session.
+The original proposal did not rename skills, change the initializer, relocate records or replace installed instructions. Implementation is tracked separately from that baseline. The long design document is developer material, not content to inject into every agent session.
+
+### First standalone increment
+
+The first increment makes the entry point serve ordinary agent work, keeps the ten existing practices discoverable on demand, and moves detailed resource conventions out of the core. Continuity, memory and reflection can use established project records without a wiki. Procedural learning has one canonical method, including candidate discovery, applicability limits and later-use assessment.
+
+The initializer gains a recorded installed-resource baseline and read-only drift inspection. It does not auto-update existing resources or load a host. The [seed checks](SEED-CHECKS.md) distinguish helper regression checks and fresh-context guidance probes from operational host and outcome evaluation.
+
+This is a Phase A increment, not completion of the full design. Native host adapters, effective loading, operational fresh-session continuation, measured benefit, managed storage coexistence and Animus binding remain unestablished. Existing installations and runtime state are not changed by publishing source.
 
 ## 3. Design principles
 

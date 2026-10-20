@@ -1,14 +1,14 @@
 # Luma
 
-Luma is a file-based personal knowledge management agent. It provides instructions, skills and tools for maintaining a source-backed Markdown wiki through an existing AI coding agent.
+Luma is a portable agent seed: instructions, skills and small tools for useful work, source-backed understanding and continuity across sessions. It runs through an existing file-capable AI agent, with no bundled model runtime.
 
-Obsidian-first and harness-agnostic. Designed for file-capable agents such as Codex and Claude Code, with no bundled model runtime or Obsidian plugin.
+Use it directly on a question or project, add your own skills and tools, and retain what helps the next session. A Markdown wiki is optional and works with Obsidian or an ordinary editor. Animus is not required.
 
 <a id="initialize-a-directory"></a>
 
 ## Initialize
 
-Requires Python 3.9+, `curl` and an agent with local file access.
+Requires Python 3.9+ for the helpers and an agent with local file access. The download command also uses `curl`.
 
 Run inside your target directory:
 
@@ -18,9 +18,9 @@ curl -fsSL https://raw.githubusercontent.com/lukeanthony007/luma/main/.agents/to
 
 Then ask your agent:
 
-> Read `.agents/AGENTS.md` and help me get started.
+> Read `.agents/AGENTS.md`, then help me with [your task].
 
-For an existing collection:
+If you need help finding a starting point, ask the agent to use luma-setup. For a collection you want organized:
 
 > Use luma-sync to reconcile this directory into a connected wiki. Preserve the original sources.
 
@@ -30,24 +30,24 @@ The initializer installs guidance and tools, adds README routing and configures 
 
 | Path | Purpose |
 |---|---|
-| `wiki/` | Maintained understanding: subjects, relationships, decisions and open questions. |
-| `inbox/` | Temporary messages and worksheets. Handled items are cleared after integration. |
-| `.agents/memory/<date-time>/` | Preserved source evidence and provenance. |
+| `wiki/` | Optional connected understanding: subjects, relationships, decisions and open questions. |
+| `inbox/` | Optional temporary messages and worksheets. Outcomes survive clearing handled items. |
+| `.agents/memory/<date-time>/` | Preserved standalone source evidence and provenance. Inspect existing ownership first. |
 | `.agents/skills/` | Reusable agent practices. |
 | `.agents/tools/` | Workspace utilities. |
 | `.agents/AGENTS.md` | Canonical working agreement. |
 
-Directories are created on demand. Notes, documents and active projects can remain in the visible workspace. Optional packages and repositories retain their own ownership.
+Directories are created on demand. Keep current work and continuity in established project records; a wiki is not a prerequisite. Optional packages and repositories retain their own ownership. Existing runtime state is never relocated merely to match this layout.
 
-## Knowledge lifecycle
+## Work and continuity
 
-1. **Capture:** preserve selected sources with provenance.
-2. **Comprehend:** identify claims, context, relationships and uncertainty.
-3. **Reconcile:** compare new information with existing knowledge.
-4. **Maintain:** revise affected wiki pages, decisions and source links.
-5. **Resume:** recover purpose, progress and unresolved work across sessions.
+The working agreement keeps purpose, evidence, useful retention and honest completion available without imposing a fixed workflow. Detailed methods load when needed.
 
-The wiki is synthesized knowledge, not a relocated source collection. Original evidence remains separate and linked. Human edits and page names are preserved.
+- **Work directly:** answer or act on the request using available tools and relevant skills, including your own.
+- **Carry context:** save consequential decisions, verified progress and unfinished commitments in a discoverable project record. A later session reads it and checks present state before continuing.
+- **Learn selectively:** distinguish new knowledge from method changes. Preserve the basis and conditions of a useful lesson, revise the owned resource within authorization, and check later use before claiming improvement.
+
+For knowledge-building work, capture selected sources, comprehend and reconcile their meaning, and maintain connected explanations. A wiki is synthesis, not a relocated source collection. Original evidence stays separate and linked; human edits and meaningful history are preserved.
 
 ## Skills
 
@@ -100,19 +100,27 @@ python3 .agents/tools/luma.py init --source . "/path/to/project"
 
 For reproducible installation, pin both the downloaded script URL and `--ref` to the same commit. The initializer has no automatic update mode; installed guidance is reconciled through the configuration skill.
 
+Inspect an installation without changing it:
+
+```sh
+python3 .agents/tools/luma.py status "/path/to/project"
+```
+
+The initializer records resource hashes and the declared source in `.agents/luma-install.json`. Status reports drift against that baseline, not whether a host loaded the guidance. The record is not a copy of the old source or signed provenance. Existing installations without a record remain usable; differing resources and local adaptations must be reconciled, not overwritten. See [installed-resource maintenance](.agents/skills/luma-config/references/resources.md#inspect-an-installed-seed).
+
 ## Harness integration
 
 **Agents: read [`.agents/AGENTS.md`](.agents/AGENTS.md) first.**
 
-Instruction loading and skill discovery depend on the harness. Automatic discovery across harnesses has not been verified.
+Instruction loading and skill discovery depend on the harness. Start by explicitly reading the working agreement; a README link does not automatically load it. Automatic discovery across harnesses has not been verified.
 
-MCP configuration is created at `.agents/mcp.json` when needed, using the active harness's supported schema and authentication.
+Connector definitions are maintained through luma-config only for an actual integration. `.agents/mcp.json` is a workspace convention, not a universal host discovery path; native schema, loading and authentication must be checked.
 
 Luma does not configure models, initialize Git or activate background jobs. Search, scheduling and external integrations come from the host environment.
 
 ## Design direction
 
-The [portable agent seed design](docs/DESIGN.md) proposes how Luma can support broader agent work through prompting, skills, memory, continuity, comprehension and learning from experience. It includes the research basis, evaluation plan and unresolved decisions. This is a design proposal, not a description of additional shipped capabilities.
+The [portable agent seed design](docs/DESIGN.md) contains the research basis, proposed architecture, evaluation plan and open decisions. This first increment implements the portable entry point, on-demand practice routing, standalone retention guidance and installed-resource inspection. [Seed checks](docs/SEED-CHECKS.md) describe the bounded verification. Host adapters and Animus integration remain separate future work.
 
 ## Status
 

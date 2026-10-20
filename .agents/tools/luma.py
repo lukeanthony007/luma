@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import io
+import json
 import os
 from pathlib import Path, PurePosixPath
 import sys
@@ -21,6 +23,7 @@ MAX_FILES = 500
 TIMEOUT = 20
 RESOURCE_FILES = (".agents/AGENTS.md", ".agents/tools/luma.py",
                   ".agents/tools/luma_knowledge.py", "LICENSE")
+INSTALL_RECORD = ".agents/luma-install.json"
 README_BEGIN = "<!-- luma:begin -->"
 README_END = "<!-- luma:end -->"
 IGNORE_BEGIN = "# luma:begin"
@@ -29,11 +32,10 @@ README_BLOCK = "\n".join((
     README_BEGIN,
     "## Agent guidance",
     "",
-    "Start your agent with [`.agents/AGENTS.md`](.agents/AGENTS.md). "
-    "Keep relevant material in this directory and use the agent to develop "
-    "connected understanding in `wiki/`. `inbox/` is an optional temporary "
-    "queue for messages and structured worksheets. The agent creates these "
-    "directories and MCP configuration when needed.",
+    "Read [`.agents/AGENTS.md`](.agents/AGENTS.md), then work directly on "
+    "your request using available skills and tools. Preserve useful knowledge "
+    "and continuity in established project records. A wiki and inbox are "
+    "optional; create them only when needed.",
     README_END,
 ))
 IGNORE_BLOCK = "\n".join((
@@ -255,7 +257,93 @@ def _read_target_file(root: Path, rel: str) -> bytes | None:
     return path.read_bytes()
 
 
-def build_plan(target: Path, payload: dict[str, bytes]) -> list[Change]:
+def _resource_path(name: str) -> bool:
+    if not isinstance(name, str):
+        return False
+    path = PurePosixPath(name)
+    if (not name or path.is_absolute() or str(path) != name or ".." in path.parts
+            or any(char in name for char in ("\\", ":", "\0"))):
+        return False
+    return name in (".agents/AGENTS.md", ".agents/LICENSE", ".agents/tools/luma.py",
+                    ".agents/tools/luma_knowledge.py") or (
+        name.startswith(".agents/skills/") and
+        (path.suffix == ".md" or path.name in ("LICENSE", "NOTICE")))
+
+
+def _validate_install_record(record: object) -> dict:
+    if (not isinstance(record, dict) or set(record) != {"format_version", "source", "resources"}
+            or type(record["format_version"]) is not int or record["format_version"] != 1):
+        raise LumaError("Invalid install record: unsupported format")
+    source, resources = record["source"], record["resources"]
+    if not isinstance(source, dict) or source.get("kind") not in ("local", "github-ref", "unknown"):
+        raise LumaError("Invalid install record: source declaration")
+    if source["kind"] == "github-ref":
+        ref = source.get("ref")
+        if set(source) != {"kind", "ref"} or not isinstance(ref, str) or not ref or len(ref) > 200 or ref.startswith("-"):
+            raise LumaError("Invalid install record: declared GitHub ref")
+    elif set(source) != {"kind"}:
+        raise LumaError("Invalid install record: unexpected source fields")
+    if not isinstance(resources, dict) or not resources or len(resources) > MAX_FILES:
+        raise LumaError("Invalid install record: resources")
+    for name, digest in resources.items():
+        if (not _resource_path(name) or not isinstance(digest, str) or len(digest) != 64
+                or any(char not in "0123456789abcdef" for char in digest)):
+            raise LumaError("Invalid install record: unsafe resource path or SHA-256")
+    required = {".agents/AGENTS.md", ".agents/LICENSE", ".agents/tools/luma.py",
+                ".agents/tools/luma_knowledge.py"}
+    if not required.issubset(resources) or not any(name.endswith("/SKILL.md") for name in resources):
+        raise LumaError("Invalid install record: incomplete resource inventory")
+    return record
+
+
+def _record_bytes(files: dict[str, bytes], source: dict | None) -> bytes:
+    record = {"format_version": 1, "source": source if source is not None else {"kind": "unknown"},
+              "resources": {name: hashlib.sha256(data).hexdigest() for name, data in files.items()}}
+    _validate_install_record(record)
+    return (json.dumps(record, sort_keys=True, indent=2) + "\n").encode()
+
+
+def _unique_json_object(pairs: list) -> dict:
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"Duplicate key: {key}")
+        result[key] = value
+    return result
+
+
+def install_status(target: Path) -> dict:
+    target = Path(target)
+    if target.is_symlink() or (target.exists() and not target.is_dir()):
+        raise LumaError(f"Target is not a real directory: {target}")
+    root = target.resolve(strict=False)
+    limits = [
+        "The record is mutable and unauthenticated; it grants no authority.",
+        "Hashes identify recorded bytes, not recoverable prior source text.",
+        "Installed resources do not establish effective host loading or benefit.",
+        "Shared README/ignore blocks and unrecorded user resources are not inspected.",
+    ]
+    raw = _read_target_file(root, INSTALL_RECORD)
+    if raw is None:
+        return {"baseline": "absent", "source": None, "resources": {}, "limits": limits}
+    if len(raw) > MAX_FILE:
+        raise LumaError("Invalid install record: exceeds size limit")
+    try:
+        record = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_json_object)
+    except (UnicodeDecodeError, ValueError, RecursionError) as exc:
+        raise LumaError(f"Invalid install record: {exc}") from exc
+    _validate_install_record(record)
+    resources = {}
+    for name, expected in sorted(record["resources"].items()):
+        data = _read_target_file(root, name)
+        actual = hashlib.sha256(data).hexdigest() if data is not None else None
+        state = "missing" if data is None else "unchanged" if actual == expected else "modified"
+        resources[name] = {"state": state, "recorded_sha256": expected, "actual_sha256": actual}
+    return {"baseline": "recorded", "format_version": 1, "source": record["source"],
+            "resources": resources, "limits": limits}
+
+
+def build_plan(target: Path, payload: dict[str, bytes], source: dict | None = None) -> list[Change]:
     target = Path(target)
     _validate(payload)
     if target.is_symlink() or (target.exists() and not target.is_dir()):
@@ -267,6 +355,7 @@ def build_plan(target: Path, payload: dict[str, bytes]) -> list[Change]:
         raise LumaError(f"Target parent is not a directory: {ancestor}")
     root = target.resolve(strict=False)
     files = {(".agents/LICENSE" if name == "LICENSE" else name): data for name, data in payload.items()}
+    record = _record_bytes(files, source)
     readmes = [name for name in ("README.md", "README", "readme.md", "Readme.md") if _read_target_file(root, name) is not None]
     if len(readmes) > 1:
         raise LumaError("Multiple root README files exist; choose one before initializing")
@@ -276,6 +365,7 @@ def build_plan(target: Path, payload: dict[str, bytes]) -> list[Change]:
     else:
         files[readme] = ("# Luma workspace\n\n" + README_BLOCK + "\n").encode()
     files[".gitignore"] = _managed_text(_read_target_file(root, ".gitignore"), IGNORE_BLOCK, ".gitignore", IGNORE_BEGIN, IGNORE_END)
+    files[INSTALL_RECORD] = record
     changes = []
     conflicts = []
     for rel, after in sorted(files.items()):
@@ -378,6 +468,8 @@ def apply_plan(target: Path, changes: list[Change]) -> None:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Install Luma agent guidance and skills in a workspace")
     sub = parser.add_subparsers(dest="command", required=True)
+    status = sub.add_parser("status", help="inspect installed-resource drift without changes or network access")
+    status.add_argument("target", nargs="?", default=".")
     init = sub.add_parser("init", help="initialize the current or named workspace")
     init.add_argument("target", nargs="?", default=".")
     init.add_argument("--dry-run", action="store_true")
@@ -386,19 +478,23 @@ def main(argv=None) -> int:
     source.add_argument("--ref", default="main")
     args = parser.parse_args(argv)
     try:
+        if args.command == "status":
+            print(json.dumps(install_status(Path(args.target)), sort_keys=True))
+            return 0
         payload = load_local_source(args.source) if args.source else load_remote_source(args.ref)
-        changes = build_plan(Path(args.target), payload)
+        source_info = {"kind": "local"} if args.source else {"kind": "github-ref", "ref": args.ref}
+        changes = build_plan(Path(args.target), payload, source_info)
         if args.dry_run:
             print("Would create/update: " + (", ".join(c.path for c in changes) if changes else "nothing (already current)"))
             return 0
         apply_plan(Path(args.target), changes)
-        print(f"Installed Luma ({len(changes)} file(s) changed). Start your agent with .agents/AGENTS.md and the luma-setup skill.")
+        print(f"Installed Luma ({len(changes)} file(s) changed). Read .agents/AGENTS.md, then work on your request.")
         return 0
     except LumaError as exc:
         print(f"luma: {exc}", file=sys.stderr)
         return 1
     except (OSError, ValueError) as exc:
-        print(f"luma: Cannot initialize workspace: {exc}", file=sys.stderr)
+        print(f"luma: Cannot access workspace: {exc}", file=sys.stderr)
         return 1
 
 

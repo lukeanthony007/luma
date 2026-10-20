@@ -7,7 +7,7 @@ description: Carry purpose, decisions and open commitments across sessions; conn
 
 Use when returning to an undertaking, choosing a useful focus, reviewing a period of work, handling changed circumstances, or preparing for an interruption or handoff. Continuity preserves why the work matters, where it stands and what remains to be done across conversations, models and time. It should help the person regain their bearings and move forward without repeating their story.
 
-Follow the [working agreement](../../AGENTS.md). [luma-setup](../luma-setup/SKILL.md) helps establish an initial direction; [luma-wiki](../luma-wiki/SKILL.md) holds readable understanding; [luma-memory](../luma-memory/SKILL.md) governs evidence and corrections. Continuity connects that understanding to ongoing purpose and commitments. Keep useful context in the existing wiki or established project records, with one authoritative home per fact. Do not create a separate continuity database, obligatory calendar hierarchy or empty folders.
+Follow the [working agreement](../../AGENTS.md). [luma-setup](../luma-setup/SKILL.md) helps establish an initial direction; [luma-wiki](../luma-wiki/SKILL.md) holds readable understanding; [luma-memory](../luma-memory/SKILL.md) governs evidence and corrections. Continuity connects understanding to ongoing purpose and commitments. Use the established project record or other existing canonical workspace record; wiki is optional. If ongoing work has no suitable record and genuinely needs later resumption, create one concise current account and record how to find it. Do not create a separate continuity database, obligatory calendar hierarchy or empty folders.
 
 ## Regain the situation
 
@@ -49,16 +49,16 @@ When a requested review calls for connections across episodes or reconsidering a
 
 ## Preserve a useful handoff
 
-Save consequential context as it develops rather than relying on a final message that may never happen. Before a deliberate handoff, leave a concise current account with the purpose, important decisions and reasons, actual results and evidence, open commitments, relevant authority bounds, blockers and the next useful action or condition. Include exact artifact or operation references when needed to distinguish what was done. This is a relevance guide, not a mandatory template; omit empty fields and avoid transcript dumps.
+Save consequential context as it develops rather than relying on a final message that may never happen. At a useful checkpoint or deliberate handoff, update the concise current account in its established home with the original purpose and requested outcome, important decisions and reasons, actual results and evidence, open commitments, relevant authority bounds, blockers and next useful action or condition. Include exact artifact or operation references when needed to distinguish what was done. Make the account findable from existing project navigation or a stable link/record; this is a relevance guide, not a mandatory template. Omit empty fields and avoid transcript dumps.
 
-Keep current context easy to find through wiki navigation. Preserve meaningful prior outcomes with dates or links when they explain a change, and reconcile human edits before updating. Use [luma-inbox](../luma-inbox/SKILL.md) only for an actual question, worksheet or authorized background handoff that needs the person's attention. Durable continuity must survive clearing a handled inbox item.
+Keep meaningful prior outcomes with dates or links when they explain a change, and reconcile human edits before updating. Use [luma-inbox](../luma-inbox/SKILL.md) only for an actual question, worksheet or authorized background handoff that needs attention. Durable continuity must survive clearing a handled inbox item.
 
 On resumption, distinguish completed work from uncertain execution. If an external action may have happened but its result is missing, inspect the available operation record or current state before considering another attempt. A timeout or missing note does not establish that nothing happened. Do not replay an uncertain send, purchase, deployment or other consequential action merely to get a clean result. Preserve the uncertainty and seek the evidence or decision needed to proceed. A later successful attempt must not rewrite an earlier failure.
 
-## Portable practice and Animus
+## Portable practice and host integration
 
-This skill provides a method for maintaining context and choosing what follows. It does not create background activity, durable execution identities, transactional recovery, authority enforcement or guaranteed delivery. A harness must actually load the relevant guidance and records for them to inform a session.
+This skill provides a method for maintaining context and choosing what follows. It does not create background activity, durable execution identities, transactional recovery, authority enforcement or guaranteed delivery. A harness must actually load relevant guidance and records for them to inform a session.
 
-When an Animus integration is present, follow its current owning work, knowledge and recovery interfaces. Reconcile wiki edits through that integration rather than inventing accepted records, IDs or a parallel execution ledger. Use real returned references; a Markdown status does not settle runtime work. Keep execution settlement, user-goal satisfaction and delivery distinct.
+When a host provides a current owning work, knowledge or recovery interface, follow its supplied contract rather than a copied historical description. Otherwise use the established project records and state only what their evidence supports. Do not invent accepted records, IDs or a parallel execution ledger. Keep execution settlement, user-goal satisfaction and delivery distinct.
 
 Assess continuity through the person's ability to regain context, understand what remains open and take an appropriate next step. A saved handoff or completed period review is evidence of recordkeeping; useful continuation must be observed in later work.

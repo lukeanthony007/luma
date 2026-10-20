@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import io
+import json
 import os
 import sys
 import tarfile
@@ -261,6 +262,130 @@ class InstallerTests(unittest.TestCase):
         with mock.patch.object(luma, "MAX_UNPACKED", 4096):
             with self.assertRaises(luma.LumaError):
                 luma.parse_archive(archive({**payload(), "large.txt": b"x" * 8192}))
+
+    def test_install_record_and_read_only_status_preserve_local_changes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            files = {**payload(), ".agents/skills/example/NOTICE": b"notice"}
+            luma.apply_plan(root, luma.build_plan(root, files, {"kind": "local"}))
+            record_path = root / luma.INSTALL_RECORD
+            record = json.loads(record_path.read_bytes())
+            self.assertEqual(record["source"], {"kind": "local"})
+            self.assertNotIn("README.md", record["resources"])
+            self.assertNotIn(".gitignore", record["resources"])
+            self.assertIn(".agents/LICENSE", record["resources"])
+            self.assertIn(".agents/skills/example/NOTICE", record["resources"])
+            before, timestamp = self.snapshot(root), record_path.stat().st_mtime_ns
+            self.assertFalse(luma.build_plan(root, files, {"kind": "local"}))
+            with mock.patch.object(luma, "urlopen") as network:
+                with mock.patch("sys.stdout", new_callable=io.StringIO) as output:
+                    self.assertEqual(luma.main(["status", str(root)]), 0)
+                network.assert_not_called()
+            status = json.loads(output.getvalue())
+            self.assertTrue(all(item["state"] == "unchanged" for item in status["resources"].values()))
+            self.assertEqual(self.snapshot(root), before)
+            self.assertEqual(record_path.stat().st_mtime_ns, timestamp)
+            (root / ".agents/AGENTS.md").write_bytes(b"local adaptation")
+            (root / ".agents/skills/example/SKILL.md").unlink()
+            adapted = self.snapshot(root)
+            status = luma.install_status(root)
+            self.assertEqual(status["resources"][".agents/AGENTS.md"]["state"], "modified")
+            self.assertEqual(status["resources"][".agents/skills/example/SKILL.md"]["state"], "missing")
+            with self.assertRaises(luma.LumaError):
+                luma.build_plan(root, files, {"kind": "local"})
+            self.assertEqual(self.snapshot(root), adapted)
+
+    def test_legacy_install_can_gain_only_a_matching_baseline(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            luma.apply_plan(root, luma.build_plan(root, payload()))
+            (root / luma.INSTALL_RECORD).unlink()
+            before = self.snapshot(root)
+            self.assertEqual(luma.install_status(root)["baseline"], "absent")
+            plan = luma.build_plan(root, payload())
+            self.assertEqual([change.path for change in plan], [luma.INSTALL_RECORD])
+            luma.apply_plan(root, plan)
+            for name, content in before.items():
+                self.assertEqual((root / name).read_bytes(), content)
+            installed = self.snapshot(root)
+            with self.assertRaises(luma.LumaError):
+                luma.build_plan(root, payload(), {"kind": "github-ref", "ref": "different"})
+            self.assertEqual(self.snapshot(root), installed)
+            (root / luma.INSTALL_RECORD).unlink()
+            (root / ".agents/AGENTS.md").write_bytes(b"local change without baseline")
+            with self.assertRaises(luma.LumaError):
+                luma.build_plan(root, payload())
+            self.assertFalse((root / luma.INSTALL_RECORD).exists())
+
+    def test_source_declarations_dry_run_and_absent_status_do_not_leak_or_write(self):
+        with tempfile.TemporaryDirectory() as temp, tempfile.TemporaryDirectory() as source_temp:
+            root, source = Path(temp) / "new", Path(source_temp)
+            source_tree(source)
+            with mock.patch("sys.stdout", new_callable=io.StringIO):
+                self.assertEqual(luma.main(["status", str(root)]), 0)
+                self.assertEqual(luma.main(["init", str(root), "--source", str(source), "--dry-run"]), 0)
+            self.assertFalse(root.exists())
+            with mock.patch("sys.stdout", new_callable=io.StringIO):
+                self.assertEqual(luma.main(["init", str(root), "--source", str(source)]), 0)
+            raw = (root / luma.INSTALL_RECORD).read_text()
+            self.assertNotIn(str(source), raw)
+            self.assertEqual(json.loads(raw)["source"], {"kind": "local"})
+            with tempfile.TemporaryDirectory() as remote_temp:
+                remote = Path(remote_temp)
+                with mock.patch.object(luma, "urlopen", return_value=io.BytesIO(archive(payload()))):
+                    with mock.patch("sys.stdout", new_callable=io.StringIO):
+                        self.assertEqual(luma.main(["init", str(remote), "--ref", "topic"]), 0)
+                self.assertEqual(luma.install_status(remote)["source"], {"kind": "github-ref", "ref": "topic"})
+
+    def test_status_rejects_malformed_or_unsafe_records_before_resource_reads(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            luma.apply_plan(root, luma.build_plan(root, payload()))
+            original = json.loads((root / luma.INSTALL_RECORD).read_bytes())
+            bad_records = [[], None, {}, {**original, "format_version": True},
+                           {**original, "source": {"kind": "github-ref"}},
+                           {**original, "resources": {}}]
+            for path in ("../../outside", ".agents/skills/../../outside.md",
+                         ".agents/tools/unrelated.py", ".agents/skills/a\\b.md",
+                         ".agents/skills/a:stream.md", ".agents/skills/a\0.md"):
+                bad_records.append({**original, "resources": {**original["resources"], path: "0" * 64}})
+            bad_records.append({**original, "resources": {**original["resources"], ".agents/AGENTS.md": 7}})
+            for record in bad_records:
+                with self.subTest(record=record):
+                    (root / luma.INSTALL_RECORD).write_text(json.dumps(record))
+                    before = self.snapshot(root)
+                    with mock.patch.object(luma, "_read_target_file", wraps=luma._read_target_file) as reads:
+                        with self.assertRaises(luma.LumaError):
+                            luma.install_status(root)
+                        self.assertEqual([call.args[1] for call in reads.call_args_list], [luma.INSTALL_RECORD])
+                    self.assertEqual(self.snapshot(root), before)
+            for raw in (b"not JSON", b"\xff", b'{"format_version":1,"format_version":1}'):
+                (root / luma.INSTALL_RECORD).write_bytes(raw)
+                with mock.patch("sys.stderr", new_callable=io.StringIO):
+                    self.assertEqual(luma.main(["status", str(root)]), 1)
+
+    def test_status_refuses_symlink_records_resources_and_root(self):
+        for relative in (luma.INSTALL_RECORD, ".agents/AGENTS.md", ".agents/skills/example"):
+            with self.subTest(relative=relative), tempfile.TemporaryDirectory() as temp, tempfile.TemporaryDirectory() as outside:
+                root, external = Path(temp), Path(outside)
+                luma.apply_plan(root, luma.build_plan(root, payload()))
+                selected = root / relative
+                if selected.is_dir():
+                    (selected / "SKILL.md").unlink()
+                    selected.rmdir()
+                    selected.symlink_to(external, target_is_directory=True)
+                else:
+                    selected.unlink()
+                    (external / "data").write_bytes(b"must not follow")
+                    selected.symlink_to(external / "data")
+                with self.assertRaises(luma.LumaError):
+                    luma.install_status(root)
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            alias = root / "alias"
+            alias.symlink_to(root, target_is_directory=True)
+            with self.assertRaises(luma.LumaError):
+                luma.install_status(alias)
 
 
 if __name__ == "__main__":
