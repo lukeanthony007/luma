@@ -200,4 +200,37 @@ OMP serialized the requested minimal setting as provider low for this model. Bot
 
 Across these 28 invocations, the host remained OMP 18.12.4 and the observed model was `gpt-6.1-sol`. No host policy was removed, and original/outgoing payloads matched. The variation between two and three lower-effort updates in successive small batches prevents treating four medium-effort successes as an established fix. These effort probes did not include a stock/source-only comparison or fresh application sessions, so they establish neither a Luma advantage nor later use of these particular accounts.
 
-No routing directive, inline workflow or reasoning default was promoted. The next useful test is longitudinal comparison at medium effort, with equal effort for Luma and baseline, a fresh case alongside known regressions, actual-account review and later application. That tests retained intelligence before cost optimization without attributing a general model-effort benefit to Luma. Exact guidance, protocols, accounts and captures remain private; production guidance, existing installations and global settings are unchanged.
+No routing directive, inline workflow or reasoning default was promoted from those diagnostics. The subsequent comparison below tested longitudinal behavior at equal medium effort, including a fresh case and later application. Exact experimental guidance, protocols, accounts and captures remain private; production guidance, existing installations and global settings are unchanged.
+
+## Medium-effort longitudinal comparison
+
+The experimental configuration was frozen before the fresh case was authored: source seed at `6142944`, the prior candidate comprehension skill, and the exact completion workflow also supplied at startup. A private copy of the development runner requested medium reasoning for every arm. The original project case and rubric were unchanged. No guidance or scoring changes were made after observing outcomes.
+
+The comparison retained the same configured stock host and a fresh source-only arm with all original evidence and archived incoming requests. Every task used a fresh process; earlier assistant responses were not automatically injected. Application probes forked independently from each history's final acquisition state. This tests the complete experimental configuration, not the isolated causal effect of reasoning effort or instruction placement.
+
+The original six-stage project replay ran 36 tasks. A separate author, instructed not to inspect the candidate or prior results, drafted an eight-stage synthetic community-workshop case with two later decisions, a no-write preference question and an unrelated calculation. Parent review clarified capacity, fees and timing and checked arithmetic before freezing its case and rubric. Its 56 tasks tested purpose, explicit choices, revised attendance, budget/reserve relationships, staffing, access windows, unresolved dependencies and a conflicting late opportunity. It is fresh to this frozen configuration, not an external benchmark or live-project trial.
+
+All **92 task invocations and four loading checks completed** on OMP 18.12.4 with configured medium reasoning and observed model `gpt-6.1-sol`. Original inputs and installed resources stayed unchanged; frozen case, rubric and resource hashes matched afterward.
+
+| Retention observation | Existing-project replay | Fresh planning case |
+|---|---:|---:|
+| Histories creating an account in the first session | 2/2 | 2/2 |
+| Acquisition turns maintaining an account | 12/12 | 16/16 |
+| Later project sessions consulting the account | 4/4 | 6/6 |
+
+The planning case's later project sessions include its no-write preference probe; the unrelated calculations did not read the accounts. Stock and source-only authored no records. All twelve no-write/one-off controls preserved files and answered correctly.
+
+Separate account reviewers found no material defects in ten selected saved snapshots: the original project's refresh and final-acquisition states, and the planning case's explicit-choice, revised-evidence and post-offer states. Formerly omitted refresh dependencies were retained. Planning accounts correctly superseded old attendance/budget assumptions while preserving historical calculations, conditions and unaccepted proposals. Eight reconstructed retained-workspace link checks passed. These checks concern the selected accounts, not an exhaustive semantic audit of every intermediate statement.
+
+Condition-masked reviewers separately assessed all 24 decision answers against frozen eight-criterion rubrics. Scores are descriptive totals across two probes and two repetitions:
+
+| Case | Luma experiment | Stock host | Fresh source-only |
+|---|---:|---:|---:|
+| Existing-project replay | 59/64 | 61/64 | 62/64 |
+| Fresh planning case | 62/64 | 64/64 | 64/64 |
+
+All conditions reached the central supported decisions. No answer-quality or decision advantage for Luma was observed. The small score differences do not establish a statistical ranking; deductions concerned coverage and qualifications. In the planning case, qualifications omitted from some Luma final answers were present in the saved accounts, demonstrating that successful retention does not guarantee complete answer composition.
+
+The useful result is consistent creation, correction and later consultation of supported understanding in this bounded set. Reading an account does not establish that it caused a correct decision, especially when original sources remained available. Two histories per case on one host/model do not establish everyday or cross-harness reliability; model-assisted reviews are not independent human validation.
+
+The configuration remains experimental and unpromoted. Further wording changes against these cases would no longer constitute fresh validation. A controlled ordinary-project pilot should preserve the frozen configuration and evaluate missed commitments, user recaps, decision quality and maintenance burden over time before claiming that retained understanding outperforms reconstruction from sources. Public status records have been reconciled; production core/skills, global settings, existing projects and the untracked integration companion are unchanged.

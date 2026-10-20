@@ -65,6 +65,8 @@ The [Harbor fixture](../.agents/tools/tests/fixtures/retention_activation.json) 
 
 The later [real-project replay and workflow experiment](CONTINUITY-EVALUATION.md#real-project-replay-and-workflow-candidate) failed the reliability requirement. Core delivery and writing capability were verified, but permission and analysis-boundary wording did not fully explain maintenance selection. A private comprehension-workflow candidate improved short checks and later account consultation, yet skipped material refresh knowledge across successive sessions. The candidate was not promoted. Selection, execution and whole-account reconciliation remain separate unresolved responsibilities; successful synthetic checks do not establish ordinary-work reliability.
 
+A subsequent [medium-effort longitudinal comparison](CONTINUITY-EVALUATION.md#medium-effort-longitudinal-comparison) froze the candidate with its completion workflow also supplied at startup. Across the original project replay and a fresh synthetic planning case, all four Luma histories maintained accounts through every acquisition turn and consulted them in later project tasks. Selected saved accounts passed semantic review, but equal-effort baselines reached the same central decisions and Luma showed no answer-quality advantage. This supports a bounded retention mechanism, not general reliability or outperformance; the experimental configuration remains unpromoted.
+
 ## 3. Design principles
 
 ### Keep the stable core small and consequential
