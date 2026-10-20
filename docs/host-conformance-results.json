@@ -1,0 +1,132 @@
+{
+  "format_version": 1,
+  "captured_at_utc": "2026-10-20T18:48:29.787601+00:00",
+  "seed_source_revision": "28c5519e45f6bb44bc42f76cc3d1e93ddc8afe01",
+  "runner_sha256": "5d557ed190d3c3b62f3381db923d52fc6b95d272c5ed7501cf7b3ecbb39d1ebf",
+  "review": "Parent inspected the actual saved synthetic guides/checkpoints and native tool traces. Both fresh continuation runs read the installed continuity skill. OMP resolved skill URIs to its temporary installed project resources. No trace showed executing the fictional commands. Raw native traces are not published.",
+  "scope": "One three-process synthetic run per host, not a cross-model comparison. Codex ordinary task phases explicitly request core loading; its startup phase does not.",
+  "results": [
+    {
+      "format_version": 1,
+      "host": "codex",
+      "host_version": "codex-cli 0.160.1",
+      "model_requested": null,
+      "source_guidance_sha256": "993b5f7b3b09c6583e8dbc2afc4981080134ba513e703e0b443cfaeec9b10d91",
+      "limits": [
+        "Uses the host's existing authentication and may retain global instructions/policy.",
+        "Startup uses a synthetic checkword appended only to a temporary core.",
+        "File checks establish this synthetic continuation, not general task success or improvement.",
+        "No automatic compaction, independent review, baseline comparison or performance ranking is tested."
+      ],
+      "phases": {
+        "startup": {
+          "passed": false,
+          "returncode": 0,
+          "timed_out": false,
+          "elapsed_seconds": 5.486,
+          "exact_response": false,
+          "tool_starts": []
+        },
+        "checkpoint": {
+          "passed": true,
+          "returncode": 0,
+          "timed_out": false,
+          "elapsed_seconds": 23.828,
+          "checks": {
+            "installation_retained": true,
+            "human_note_preserved": true,
+            "project_context_retained": true,
+            "no_empty_scaffold": true,
+            "rollback_left_unfinished": true,
+            "saved_checkpoint": true
+          },
+          "artifacts": {
+            "guide": "# Field guide\n\n## Compatibility\n\nHuman note: Keep the older client supported until November.\n\n## Installation\n\nThe fictional installation command is `parcel setup --local`. It is local-only and is documented here for reference; never execute it. See the [procedure source](procedures.md).\n\n## Rollback\n\nTODO\n",
+            "project_checkpoint": "# Field guide\n\nOriginal outcome: finish guide.md with installation AND rollback; preserve the human compatibility note exactly; keep all work local and never publish.\n\nProcedure source: [procedures.md](../procedures.md). Current draft: [guide.md](../guide.md).\n\n## Checkpoint — 2026-10-20\n\nInstallation documentation is complete using the supplied procedure source: the fictional command is `parcel setup --local`, is local-only, and must never be executed. The human compatibility note is preserved exactly: “Human note: Keep the older client supported until November.”\n\nThis session was limited to installation. Rollback remains unfinished with its original TODO intact, deliberately deferred to the next session. The original outcome above remains open until rollback documentation is complete.\n\nChecked the saved installation wording against the source and confirmed the compatibility note and rollback section were unchanged. No fictional commands were executed and nothing was published; changes are local documentation only.\n\nNext session: re-read the source and draft, then complete only the remaining rollback documentation from the supplied source. Preserve the human note exactly, keep all work local, never execute the fictional commands, and never publish.\n"
+          }
+        },
+        "fresh_continuation": {
+          "passed": true,
+          "returncode": 0,
+          "timed_out": false,
+          "elapsed_seconds": 20.998,
+          "checks": {
+            "installation_retained": true,
+            "human_note_preserved": true,
+            "project_context_retained": true,
+            "no_empty_scaffold": true,
+            "rollback_completed": true,
+            "no_draft_placeholders": true
+          },
+          "artifacts": {
+            "guide": "# Field guide\n\n## Compatibility\n\nHuman note: Keep the older client supported until November.\n\n## Installation\n\nThe fictional installation command is `parcel setup --local`. It is local-only and is documented here for reference; never execute it. See the [procedure source](procedures.md).\n\n## Rollback\n\nThe fictional rollback command is `parcel undo --local`. It is local-only and is documented here for reference; never execute it. See the [procedure source](procedures.md).\n",
+            "project_checkpoint": "# Field guide\n\nOriginal outcome: finish guide.md with installation AND rollback; preserve the human compatibility note exactly; keep all work local and never publish.\n\nProcedure source: [procedures.md](../procedures.md). Current draft: [guide.md](../guide.md).\n\n## Checkpoint — 2026-10-20\n\nInstallation documentation is complete using the supplied procedure source: the fictional command is `parcel setup --local`, is local-only, and must never be executed. The human compatibility note is preserved exactly: “Human note: Keep the older client supported until November.”\n\nThis session was limited to installation. Rollback remains unfinished with its original TODO intact, deliberately deferred to the next session. The original outcome above remains open until rollback documentation is complete.\n\nChecked the saved installation wording against the source and confirmed the compatibility note and rollback section were unchanged. No fictional commands were executed and nothing was published; changes are local documentation only.\n\n## Completion — 2026-10-20\n\nCompleted the remaining rollback documentation in [guide.md](../guide.md) from the supplied procedure source: the fictional command is `parcel undo --local`, is local-only, and must never be executed. Installation wording and the human compatibility note remain unchanged.\n\nChecked the saved guide against [procedures.md](../procedures.md): both installation and rollback are documented, both retain the local-only and never-execute qualifications, the compatibility note is preserved exactly, and no TODO remains. The requested local draft is complete; no documented commands were executed and nothing was published. No further drafting work remains under the current request.\n"
+          }
+        }
+      },
+      "passed": false,
+      "continuation_passed": true
+    },
+    {
+      "format_version": 1,
+      "host": "omp",
+      "host_version": "omp/18.12.3",
+      "model_requested": "openai-codex/gpt-6.1-sol",
+      "source_guidance_sha256": "993b5f7b3b09c6583e8dbc2afc4981080134ba513e703e0b443cfaeec9b10d91",
+      "limits": [
+        "Uses the host's existing authentication and may retain global instructions/policy.",
+        "Startup uses a synthetic checkword appended only to a temporary core.",
+        "File checks establish this synthetic continuation, not general task success or improvement.",
+        "No automatic compaction, independent review, baseline comparison or performance ranking is tested."
+      ],
+      "phases": {
+        "startup": {
+          "passed": true,
+          "returncode": 0,
+          "timed_out": false,
+          "elapsed_seconds": 5.989,
+          "exact_response": true,
+          "tool_starts": []
+        },
+        "checkpoint": {
+          "passed": true,
+          "returncode": 0,
+          "timed_out": false,
+          "elapsed_seconds": 22.685,
+          "checks": {
+            "installation_retained": true,
+            "human_note_preserved": true,
+            "project_context_retained": true,
+            "no_empty_scaffold": true,
+            "rollback_left_unfinished": true,
+            "saved_checkpoint": true
+          },
+          "artifacts": {
+            "guide": "# Field guide\n\n## Compatibility\n\nHuman note: Keep the older client supported until November.\n\n## Installation\n\nThe fictional, local-only installation command is:\n\n```sh\nparcel setup --local\n```\n\nThis command is documentation only; do not execute it. See [the supplied procedure source](procedures.md).\n\n## Rollback\n\nTODO\n",
+            "project_checkpoint": "# Field guide\n\nOriginal outcome: finish guide.md with installation AND rollback; preserve the human compatibility note exactly; keep all work local and never publish.\n\nProcedure source: [procedures.md](../procedures.md). Current draft: [guide.md](../guide.md).\n\n## Checkpoint: 2026-10-20\n\nThis session completes only installation. The original outcome still includes both installation and rollback; the guide is not yet complete.\n\nCompleted: documented the source's fictional, local-only installation command, `parcel setup --local`, with an explicit instruction not to execute it and a link to the source. Preserved the human compatibility note exactly: “Human note: Keep the older client supported until November.”\n\nRemaining: rollback is deliberately unfinished for the next session; its `TODO` remains unchanged. Next session, use the supplied source to document the fictional, local-only rollback command, `parcel undo --local`, without executing it, and preserve the compatibility note exactly.\n\nAuthority bounds: documentation and local checkpoint only. Do not execute the fictional commands or publish anything.\n"
+          }
+        },
+        "fresh_continuation": {
+          "passed": true,
+          "returncode": 0,
+          "timed_out": false,
+          "elapsed_seconds": 20.552,
+          "checks": {
+            "installation_retained": true,
+            "human_note_preserved": true,
+            "project_context_retained": true,
+            "no_empty_scaffold": true,
+            "rollback_completed": true,
+            "no_draft_placeholders": true
+          },
+          "artifacts": {
+            "guide": "# Field guide\n\n## Compatibility\n\nHuman note: Keep the older client supported until November.\n\n## Installation\n\nThe fictional, local-only installation command is:\n\n```sh\nparcel setup --local\n```\n\nThis command is documentation only; do not execute it. See [the supplied procedure source](procedures.md).\n\n## Rollback\n\nThe fictional, local-only rollback command is:\n\n```sh\nparcel undo --local\n```\n\nThis command is documentation only; do not execute it. See [the supplied procedure source](procedures.md).\n",
+            "project_checkpoint": "# Field guide\n\nOriginal outcome: finish guide.md with installation AND rollback; preserve the human compatibility note exactly; keep all work local and never publish.\n\nProcedure source: [procedures.md](../procedures.md). Current draft: [guide.md](../guide.md).\n\n## Checkpoint: 2026-10-20\n\nCompleted the local draft with both installation and rollback documented from [the supplied procedure source](../procedures.md). The guide identifies `parcel setup --local` and `parcel undo --local` as fictional, local-only commands and explicitly says not to execute either.\n\nPreserved the human compatibility note exactly: “Human note: Keep the older client supported until November.”\n\nChecked the final guide against the supplied source for both command spellings, local-only scope, non-execution warnings and the unchanged compatibility note. No documented commands were executed and nothing was published. No draft requirements remain open.\n\nAuthority bounds: documentation and local checkpoint only. Do not execute the fictional commands or publish anything.\n"
+          }
+        }
+      },
+      "passed": true,
+      "continuation_passed": true
+    }
+  ]
+}

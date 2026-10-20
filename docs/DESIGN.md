@@ -55,7 +55,7 @@ The first increment makes the entry point serve ordinary agent work, keeps the t
 
 The initializer gains a recorded installed-resource baseline and read-only drift inspection. It does not auto-update existing resources or load a host. The [seed checks](SEED-CHECKS.md) distinguish helper regression checks and fresh-context guidance probes from operational host and outcome evaluation.
 
-This is a Phase A increment, not completion of the full design. Native host adapters, effective loading, operational fresh-session continuation, measured benefit, managed storage coexistence and Animus binding remain unestablished. Existing installations and runtime state are not changed by publishing source.
+This is a Phase A increment, not completion of the full design. Subsequent [native host checks](HOST-CONFORMANCE.md) exercised a bounded synthetic fresh-process continuation in Codex and OMP and identified a startup-loading difference. Persistent adapters, reliable context-compaction recovery, measured benefit, managed storage coexistence and Animus binding remain unestablished. Existing installations and runtime state are not changed by publishing source.
 
 ## 3. Design principles
 

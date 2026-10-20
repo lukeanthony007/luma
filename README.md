@@ -112,7 +112,7 @@ The initializer records resource hashes and the declared source in `.agents/luma
 
 **Agents: read [`.agents/AGENTS.md`](.agents/AGENTS.md) first.**
 
-Instruction loading and skill discovery depend on the harness. Start by explicitly reading the working agreement; a README link does not automatically load it. Automatic discovery across harnesses has not been verified.
+Instruction loading and skill discovery depend on the harness. Start by explicitly reading the working agreement; a README link does not automatically load it. [Native host checks](docs/HOST-CONFORMANCE.md) demonstrated a bounded fresh-process continuation in Codex and OMP. Automatic core loading passed on the tested OMP configuration, but not Codex; broad cross-harness compatibility is not established.
 
 Connector definitions are maintained through luma-config only for an actual integration. `.agents/mcp.json` is a workspace convention, not a universal host discovery path; native schema, loading and authentication must be checked.
 
@@ -120,7 +120,7 @@ Luma does not configure models, initialize Git or activate background jobs. Sear
 
 ## Design direction
 
-The [portable agent seed design](docs/DESIGN.md) contains the research basis, proposed architecture, evaluation plan and open decisions. This first increment implements the portable entry point, on-demand practice routing, standalone retention guidance and installed-resource inspection. [Seed checks](docs/SEED-CHECKS.md) describe the bounded verification. Host adapters and Animus integration remain separate future work.
+The [portable agent seed design](docs/DESIGN.md) contains the research basis, proposed architecture, evaluation plan and open decisions. The standalone increment implements the portable entry point, on-demand practice routing, retention guidance and installed-resource inspection. [Seed checks](docs/SEED-CHECKS.md) and [native host checks](docs/HOST-CONFORMANCE.md) distinguish tested behavior from remaining limits. Persistent host adapters and Animus integration remain separate future work.
 
 ## Status
 

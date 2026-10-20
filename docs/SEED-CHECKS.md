@@ -55,3 +55,5 @@ The initial implementation check on 20 October 2026 established:
 - The six fresh-context responses met the supplied criteria on parent review. The [exact responses and input hashes](seed-probe-results.json) are retained. This was one run per case using the host's `default` model alias, with no native-host baseline, tools, blinded reviewer or pinned resolved model.
 
 These are packaging, regression and interpretation observations. They do not establish fresh-session file recovery, reference selection, source-backed task completion, later-use learning benefit or superiority over a native agent. Operational host conformance and matched outcome evaluation remain the next substantive checks.
+
+Later [native host checks](HOST-CONFORMANCE.md) exercise actual file-based continuation separately. They do not retroactively strengthen these prompt-only observations or establish general reliability.
