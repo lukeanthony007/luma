@@ -124,7 +124,7 @@ The [portable agent seed design](docs/DESIGN.md) contains the research basis, pr
 
 ## Status
 
-Under active development. Automated checks cover supporting tools; behavioral evaluation remains limited. Reliable reconciliation and task completion across everyday workloads and different harnesses are not yet established.
+Under active development. Automated checks cover supporting tools; behavioral evaluation remains limited. The first [matched host/seed comparison](docs/MATCHED-EVALUATION.md) found equal outcomes on small synthetic tasks, with higher token and tool-call effort for Luma. Outperformance and reliable completion across everyday workloads and different harnesses are not established.
 
 ## Previous version
 

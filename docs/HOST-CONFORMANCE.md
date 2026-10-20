@@ -61,3 +61,5 @@ Codex used its native default model selection, while OMP requested `openai-codex
 One synthetic continuation does not establish reliable long-running work, semantic completeness across a source collection, beneficial learning, independent review or superiority to an unconfigured host. The source-guidance digest and host version identify the tested package and host, but omitted model versions and inherited context remain limits.
 
 Actual context compaction, nested working directories, existing local instruction composition, unavailable capabilities and update reconciliation need their own cases. Human preservation here concerns a supplied note, not a concurrent edit race. Keep these operational questions separate from the design's matched native-host outcome and cost comparisons.
+
+A separate [matched host/seed evaluation](MATCHED-EVALUATION.md) now compares one OMP/model configuration with and without the seed. It found equal semantic outcomes and higher measured Luma effort on its small synthetic set; this does not expand the host-conformance claims above.

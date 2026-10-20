@@ -43,4 +43,42 @@ The developer-only runner is not installed by Luma's initializer. Fixtures live 
 
 ## Results
 
-Pending the frozen run and artifact review. No behavioral advantage is claimed before those results exist.
+The 20 October 2026 run found **no outcome advantage for Luma on these tasks, with higher measured effort**. Both loading checks passed. The requested model was reported as `gpt-6.1-sol` throughout. Seed source revision was `5dde51d`; protocol and runner were committed as `b5d9be5` before reviewing the complete batch. Fixture, runner and guidance hashes are retained in the [reviewed results](matched-evaluation-results.json).
+
+| Measure, across 16 invocations per arm | Stock host | With Luma |
+|---|---:|---:|
+| Semantic/artifact review passes | 16/16 | 16/16 |
+| Frozen mechanical passes | 14/16 | 14/16 |
+| Tool calls | 88 | 101 |
+| Assistant messages, including tool-use turns | 93 | 93 |
+| Reported input tokens, excluding cache reads | 157,433 | 204,120 |
+| Reported cache-read tokens | 449,024 | 580,096 |
+| Reported output tokens | 5,329 | 6,469 |
+| Total processed tokens, including cache reads | 611,786 | 790,685 |
+| Training-phase processed tokens, subset of total | 72,718 | 118,698 |
+| Transfer-phase processed tokens, subset of total | 338,238 | 424,647 |
+| Sum of invocation elapsed seconds | 238.982 | 267.342 |
+| Timeouts or nonzero process exits | 0 | 0 |
+| User interventions during the batch | 0 | 0 |
+
+Luma used about **29% more processed tokens and 15% more tool calls**, with no observed outcome gain. These token totals include repeated/cached context across turns; they are neither unique context size nor a dollar-cost estimate. All completed assistant messages supplied usage, and native totals matched the recorded component sums. Concurrent runs and existing caching prevent interpreting elapsed totals as a controlled speed ranking.
+
+### Mechanical scores versus meaning
+
+All four correction outputs used `"population": "pilot sites only"` rather than the literal `"pilot sites"` expected by the checker. The requested schema did not define a population enum, so the outputs satisfy the semantic requirement. This is a scorer limitation, not an agent failure. The frozen mechanical failures remain in the results; neither fixtures nor scorer were changed after seeing outputs.
+
+Two reviewer agents inspected disjoint families of actual artifacts with arm and repetition labels hidden: 12 simple/continuation/correction trials and 20 training/transfer trials. All passed semantic review. Reviewers checked meaningful checkpoint and correction history, retained uncertainty, scoped rules and the reasons behind numeric answers. This is label-masked model review, not a fully blinded independent study. Parent inspection separately checked native tool events, changed files, loading and usage.
+
+### What the experiment establishes
+
+Both configurations recovered the original export requirements despite the false completion handoff, retained discontinued records and human annotations, corrected the rollout decision without flattening its qualifications, and left the simple question's files untouched. Simple answers required no tools in either arm.
+
+Both configurations saved a useful supplier/version-specific method, then used it in a fresh process with a changed pack size. Without the learned method, both correctly declined to infer the missing unit mapping. Both honored the modern-v2 explicit-unit exception. Retained experience made an otherwise unsupported answer possible, but Luma did not outperform the baseline at forming or using that method.
+
+The treatment read installed comprehension, memory and configuration guidance through local paths. Native traces also show five unsuccessful `.git` reads in Luma's non-Git workspaces. Both arms tried the deliberately absent original episode in matching-transfer tasks, twice per arm; the method itself contained the necessary retained mapping. These are concrete overhead observations, not proof that any one instruction caused the aggregate difference.
+
+### Interpretation and next work
+
+Keep the standalone architecture, but do not advertise an outperformance result. This set is saturated: strong explicit requests and a small amount of evidence let the baseline complete everything. The interrupted handoff and prior learning error were supplied fixtures, not induced runtime interruption or an observed agent mistake. The training phase was explicitly requested. This does not test spontaneous retention, actual compaction, large-corpus retrieval, concurrent human edits, other suppliers, conflicting unit evidence or long-horizon improvement.
+
+The next useful experiment should test a narrower, evidence-backed hypothesis: reduce avoidable routing/repository-inspection overhead while preserving behavior, and introduce fresh, less-cued multi-session cases where discoverability and selective retention matter. Compare the same frozen seed, baseline and candidate with matched host/model settings. Do not add more general instructions or infrastructure merely because this batch did not show a gain. Production guidance and Animus integration were not changed by this evaluation.
