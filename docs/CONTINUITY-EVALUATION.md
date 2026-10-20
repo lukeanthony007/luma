@@ -171,6 +171,33 @@ The subsequent full 36-task replay completed, with both loading checks passing a
 
 The final-account reviewer judged retention incomplete. The candidate therefore remains private and experimental, not part of the source package. All twelve application answers were separately reviewed with condition labels withheld: Luma scored 57/64, stock 58/64 and source-only 57/64. These descriptive differences do not establish a ranking or memory advantage; useful source-based answers continued to mask missing durable understanding.
 
-These are diagnostic/regression cases, not held-out validation or live project operation. All new runs used the same configured `gpt-6.1-sol` model with minimal thinking on OMP 18.12.4. The candidate hash is `883c0df6fa5476ffab6d71d4ae1a49a781fc73c59bda6c2aa841efe432cefd27`. Original excerpts, exact candidate, protocols, traces and saved accounts remain in private local evidence; they are not published. Existing installations, global settings and the separate integration companion remain unchanged.
+These are diagnostic/regression cases, not held-out validation or live project operation. Those runs requested the same configured `gpt-6.1-sol` model with CLI minimal thinking on OMP 18.12.4. The candidate hash is `883c0df6fa5476ffab6d71d4ae1a49a781fc73c59bda6c2aa841efe432cefd27`. Original excerpts, exact candidate, protocols, traces and saved accounts remain in private local evidence; they are not published. Existing installations, global settings and the separate integration companion remain unchanged.
 
-The next question is whether the task's completion responsibility is reliably selected and delivered, separately from whether the agent can execute it when selected. Further experiments should distinguish delivery/selection, adherence and complete reconciliation, retain the original requests, and preserve no-write controls. Adding more procedural detail to an occasionally unread skill has not solved the problem.
+The next diagnostic separated delivery/selection from adherence and reconciliation, using the same missed refresh turn and preserving no-write controls. Its results follow. Adding more procedural detail to an occasionally unread skill had not solved the problem.
+
+### Delivered workflow and reasoning effort
+
+The frozen candidate was replayed from both exact pre-refresh accounts, twice per condition, with the original request and sources unchanged. A capture-only hook verified the effective provider input without modifying it. All 16 tasks completed and protected inputs/resources remained unchanged.
+
+| Delivery condition | Skill read | Account updated |
+|---|---:|---:|
+| Optional selection | 1/4 | 0/4 |
+| Explicit startup instruction to read the skill | 4/4 | 3/4 |
+| Exact workflow supplied at startup | 3/4 | 2/4 |
+
+The full method was verified in every startup-delivery request, so a subsequent skill read was not necessary for delivery. Nevertheless, both history-1 runs left the account unchanged and explicitly acknowledged missing retained updates. Both history-2 runs updated. Missing delivery therefore does not fully explain the failures, and guaranteed delivery did not fix them. Routing also changes task salience; these small samples do not isolate a universal causal effect.
+
+All five edited accounts passed condition-masked model review against the frozen refresh criteria, including the profile-failure versus edge-fallback distinction. Four startup-delivery no-write/one-off controls preserved files; the calculations correctly answered 150 minutes.
+
+A subsequent 12-task follow-up varied reasoning effort while keeping the startup-loaded workflow and all workspace input hashes identical within matched pairs. It was chosen after the delivery result, not held-out validation:
+
+| Requested effort | Observed provider effort | Account updated |
+|---|---|---:|
+| minimal | low | 3/4 |
+| medium | medium | 4/4 |
+
+OMP serialized the requested minimal setting as provider low for this model. Both conditions demonstrably received the full workflow. All seven edited accounts passed the same bounded semantic criteria in separate condition-masked review; all four medium-effort controls preserved files and answered the one-off calculations correctly. All tasks completed and preserved inputs/resources.
+
+Across these 28 invocations, the host remained OMP 18.12.4 and the observed model was `gpt-6.1-sol`. No host policy was removed, and original/outgoing payloads matched. The variation between two and three lower-effort updates in successive small batches prevents treating four medium-effort successes as an established fix. These effort probes did not include a stock/source-only comparison or fresh application sessions, so they establish neither a Luma advantage nor later use of these particular accounts.
+
+No routing directive, inline workflow or reasoning default was promoted. The next useful test is longitudinal comparison at medium effort, with equal effort for Luma and baseline, a fresh case alongside known regressions, actual-account review and later application. That tests retained intelligence before cost optimization without attributing a general model-effort benefit to Luma. Exact guidance, protocols, accounts and captures remain private; production guidance, existing installations and global settings are unchanged.
