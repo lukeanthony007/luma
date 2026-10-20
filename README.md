@@ -110,6 +110,10 @@ MCP configuration is created at `.agents/mcp.json` when needed, using the active
 
 Luma does not configure models, initialize Git or activate background jobs. Search, scheduling and external integrations come from the host environment.
 
+## Design direction
+
+The [portable agent seed design](docs/DESIGN.md) proposes how Luma can support broader agent work through prompting, skills, memory, continuity, comprehension and learning from experience. It includes the research basis, evaluation plan and unresolved decisions. This is a design proposal, not a description of additional shipped capabilities.
+
 ## Status
 
 Under active development. Automated checks cover supporting tools; behavioral evaluation remains limited. Reliable reconciliation and task completion across everyday workloads and different harnesses are not yet established.
