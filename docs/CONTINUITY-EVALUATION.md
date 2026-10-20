@@ -46,6 +46,28 @@ The output directory must be new. The case contains `format_version`, `model`, `
 
 The developer-only runner is not included by the initializer. Raw traces may contain host metadata and must remain private. Results preserve each invocation's messages, retained records, read paths, hashes and mechanical checks; those checks do not substitute for semantic review. Temporary workspaces are removed after snapshots are saved.
 
-## Status
+## First result: retention did not activate
 
-Protocol and private source/rubric are frozen. Native results and their interpretation will be recorded after artifact review. No advantage is claimed in advance.
+The 20 October 2026 experiment completed all 36 task invocations. The frozen seed source was `8bd41cd`, with runner/protocol commit `3dca4e3`. Both delivery checks passed, and no protected inputs or installed resources changed. The [public aggregate](continuity-evaluation-results.json) omits private source excerpts, answers, records and host metadata.
+
+| Condition | Applied comprehension score across four answers | Maximum | Authored records before application |
+|---|---:|---:|---:|
+| Stock configured host | 58 | 64 | 0 |
+| Luma | 56 | 64 | 0 |
+| Fresh source-only agent | 58 | 64 | 0 |
+
+All conditions identified the consequential distinctions and produced broadly useful recommendations. Small score differences mainly concern omitted qualifications in composite criteria, not contrary technical conclusions. These results do not establish a statistical ranking or a retained-comprehension advantage.
+
+The stronger observation is **zero durable knowledge creation**. Luma read its comprehension skill in all 16 of its sessions, but did not read memory, wiki or continuity guidance. No condition attempted a write/edit, and no tool errors were reported. Without agent-authored records, later sessions had to reconstruct understanding from the original evidence. This is an observed activation gap in the tested analysis workflow, not proof that memory/wiki synthesis cannot help or that its complete cause has been isolated.
+
+The selected project sources and original dirty-tree status were checked unchanged. No project runtime, service, database query or project test was executed. All 65 local helper regression checks passed.
+
+## Bounded follow-up
+
+A private candidate strengthened only the always-on core's handoff from ongoing project comprehension into a discoverable knowledge account. It explicitly covered creating an account when none exists, analysis-only work with authorized recordkeeping, qualifications and source support, and the one-off/no-write exception.
+
+The candidate was tested on a previously unused source topic with two acquisition sessions, one application question and a one-off control. The same case ran against the original seed, each with its own stock and source-only controls. All 20 invocations completed, but neither seed created a retained account. The one-off controls preserved files. This candidate did not meet its retention criterion and was not adopted into production guidance.
+
+An explicit-permission control then used unchanged guidance with standing permission to create local knowledge notes/wiki pages, without requesting a checkpoint or particular record format. All ten invocations completed, but no retained account was created. Across the three follow-ups, all nine one-off controls answered correctly without tools or writes. Neither stronger core wording nor clearer optional record-creation permission was a demonstrated fix.
+
+Production guidance and global host settings remain unchanged. The next implementation question is the boundary between loaded guidance and actual selection/application of memory, wiki and continuity. A useful source-backed account must be created during normal ongoing work and later consulted correctly; more wording or a plausible diagnosis is not evidence that this mechanism works. Effective host instruction and capability interactions remain part of the unresolved cause.

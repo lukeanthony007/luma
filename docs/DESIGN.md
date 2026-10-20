@@ -295,7 +295,7 @@ Start with a small representative set. Compare the native baseline with the comp
 
 A favorable small result supports that configuration and task set. Broader compatibility and superiority remain qualified until exercised. Do not adopt a default that merely moves work into unmeasured setup or human review.
 
-The first [matched evaluation](MATCHED-EVALUATION.md) exercised these distinctions on one configured OMP/model pair. Both arms passed all semantic checks across 16 invocations each; Luma used about 29% more processed tokens and 15% more tool calls. Both retained and correctly scoped an explicitly supplied lesson. This establishes no outcome advantage on that small, strongly cued set. The seed remains unchanged pending a narrower cost/retention hypothesis and fresh cases.
+The first [matched evaluation](MATCHED-EVALUATION.md) exercised these distinctions on one configured OMP/model pair. Both arms passed all semantic checks across 16 invocations each; Luma used about 29% more processed tokens and 15% more tool calls. Both retained and correctly scoped an explicitly supplied lesson. This establishes no outcome advantage on that small, strongly cued set. The subsequent [longitudinal comprehension evaluation](CONTINUITY-EVALUATION.md) found no spontaneous retained-knowledge creation in the tested project-analysis workflow, including bounded wording and permission controls. Establishing that retention and later-use mechanism takes priority; efficiency remains secondary until a capability advantage is demonstrated.
 
 ## 12. Proposed implementation sequence
 

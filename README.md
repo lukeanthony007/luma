@@ -126,6 +126,8 @@ The [portable agent seed design](docs/DESIGN.md) contains the research basis, pr
 
 Under active development. Automated checks cover supporting tools; behavioral evaluation remains limited. The first [matched host/seed comparison](docs/MATCHED-EVALUATION.md) found equal outcomes on small synthetic tasks, with higher token and tool-call effort for Luma. Outperformance and reliable completion across everyday workloads and different harnesses are not established.
 
+The first [longitudinal comprehension evaluation](docs/CONTINUITY-EVALUATION.md) found that the seed did not automatically create retained knowledge during the tested project-analysis workflow. Fixing and verifying that activation gap takes priority over efficiency: the intended advantage is connected, source-backed understanding applied in fresh sessions without the user reconstructing the context.
+
 ## Previous version
 
 The previous Obsidian plugin is retained on [`archive/obsidian-plugin`](https://github.com/lukeanthony007/luma/tree/archive/obsidian-plugin).
