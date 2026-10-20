@@ -44,7 +44,7 @@ Directories are created on demand. Keep current work and continuity in establish
 The working agreement keeps purpose, evidence, useful retention and honest completion available without imposing a fixed workflow. Detailed methods load when needed.
 
 - **Work directly:** answer or act on the request using available tools and relevant skills, including your own.
-- **Carry context:** save consequential decisions, verified progress and unfinished commitments in a discoverable project record. A later session reads it and checks present state before continuing.
+- **Carry understanding:** during ongoing project work, maintain a discoverable source-backed account of what matters, including corrections, decisions and unfinished work. Create the first useful account when needed; a later session consults it and verifies relevant evidence. One-off answers need no record; respect explicit no-write requests.
 - **Learn selectively:** distinguish new knowledge from method changes. Preserve the basis and conditions of a useful lesson, revise the owned resource within authorization, and check later use before claiming improvement.
 
 For knowledge-building work, capture selected sources, comprehend and reconcile their meaning, and maintain connected explanations. A wiki is synthesis, not a relocated source collection. Original evidence stays separate and linked; human edits and meaningful history are preserved.
@@ -126,7 +126,7 @@ The [portable agent seed design](docs/DESIGN.md) contains the research basis, pr
 
 Under active development. Automated checks cover supporting tools; behavioral evaluation remains limited. The first [matched host/seed comparison](docs/MATCHED-EVALUATION.md) found equal outcomes on small synthetic tasks, with higher token and tool-call effort for Luma. Outperformance and reliable completion across everyday workloads and different harnesses are not established.
 
-The first [longitudinal comprehension evaluation](docs/CONTINUITY-EVALUATION.md) found that the seed did not automatically create retained knowledge during the tested project-analysis workflow. A subsequent instruction diagnosis demonstrated creation and fresh-session consultation with a stronger private core candidate under native host rules, but also retained an earlier failure and a qualification error. Reliable activation and a retained-comprehension advantage remain unestablished; production guidance is unchanged.
+The first [longitudinal comprehension evaluation](docs/CONTINUITY-EVALUATION.md) exposed missing retention, then stale accounts after correct answers. The core now explicitly covers initial knowledge creation and same-turn correction. In bounded synthetic checks, the revised seed created, corrected and consulted accounts across fresh sessions while respecting no-write requests. Baselines also answered the source-based questions correctly; broad reliability and a retained-comprehension advantage remain unestablished. Existing installations are not automatically updated.
 
 ## Previous version
 

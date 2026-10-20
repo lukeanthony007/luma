@@ -93,4 +93,46 @@ These contrasts rule out unavailable file writing or absent core delivery as the
 
 The five candidate accounts contained substantive synthesis, source references and important qualifications. Three replicated acquisition sessions actually read memory and wiki guidance. Every created account was consulted by a fresh application process, but those processes also reread the original sources. One initial account omitted a consequential exception in an empty-result claim; its later answer preserved that exception after consulting source evidence. Record creation, source fidelity and improved answers must therefore remain separate claims.
 
-The earlier candidate failure remains evidence, not an outcome to discard. The candidate is now conditionally demonstrated rather than proven ineffective, but reliable activation and an advantage over a fresh agent remain unestablished. Production guidance stays unchanged. The next implementation decision is whether to promote a clearer core responsibility after fresh-case checks of spontaneous retention, correction, qualified transfer and no-record exceptions. A permanent host hook or removal of host safeguards is not justified by this diagnosis.
+The earlier candidate failure remains evidence, not an outcome to discard. At the close of the diagnosis, the candidate was conditionally demonstrated rather than proven ineffective; reliable activation and an advantage over a fresh agent remained unestablished. Production guidance was unchanged by that diagnosis. The next implementation decision was whether to promote a clearer core responsibility after fresh-case checks of spontaneous retention, correction, qualified transfer and no-record exceptions. A permanent host hook or removal of host safeguards was not justified.
+
+## Retention implementation check
+
+The implementation starts from the stronger two-paragraph core candidate, not a change to the host's document rules or tool permissions. It explicitly covers a useful first account, cross-source retention during authorized analysis, later consultation, source support, established ownership/layout and one-off/no-write exceptions. The first run below exposed a maintenance failure; the revision adds an explicit same-turn correction and reconciliation paragraph.
+
+The new [Harbor fixture](../.agents/tools/tests/fixtures/retention_activation.json) is synthetic and separate from the diagnostic project. Three ordinary review requests establish a depot-scoped pilot, introduce a superseding correction, then add a newer-format exception. No request asks for notes, a wiki or a checkpoint. Two independent application questions and one explicit no-write one-off each fork from the final acquisition state. Run it with:
+
+```sh
+python3 .agents/tools/luma_continuity_eval.py \
+  --source . \
+  --case .agents/tools/tests/fixtures/retention_activation.json \
+  --output-dir /path/to/new-private-result-directory
+```
+
+Before execution, the acceptance criteria were frozen: both Luma histories must create a discoverable substantive source-backed account, preserve the correction and scoped exceptions, and actually consult that account in fresh application sessions. The latest proposed date is 2027-02-22, not approval to launch. The six-item multiplier applies only to East Quay legacy-v1 crates, not explicit items/current-v2 or unconfirmed South Yard mappings. Application must derive 54 items for nine qualifying crates and nine items for a current-v2 amount of nine. It must preserve the depot filter, full-night completeness and operator-reconciliation gates rather than treating the newest 40 rows as sufficient. Every no-write control must answer 150 minutes without changing files, and protected evidence/seed bytes must stay unchanged.
+
+The comparison retains the same configured stock host and a fresh source-only arm with all original evidence and incoming requests available. The native runner has no diagnostic hook or document-policy ablation. File creation, qualified correction, later use and answer quality are reviewed separately; a small synthetic result cannot establish broad reliability or an advantage attributable to memory.
+
+### Initial implementation result
+
+All 30 invocations completed, both delivery checks passed, and protected inputs and installed resources stayed unchanged. Both Luma histories created a substantive account during the first request and both fresh application sessions in each history consulted it. Stock and source-only created no records. All six no-write controls answered correctly without changing files.
+
+However, **neither Luma history updated its saved account after the correction or the newer-format evidence**. The superseded date and quantity example remained in place without the correction or the new exceptions. Later answers recognized those changes by rereading original sources, and one answer explicitly acknowledged the stale account. Correct chat answers did not satisfy the frozen requirement to maintain corrected understanding. The original candidate therefore failed this implementation check.
+
+The revision keeps that failure and adds an explicit core responsibility: when new evidence changes an account, update the affected claims, examples, implications and next actions during the same authorized turn, link correction support, preserve superseded conclusions as history, and reread the changed account before finishing. If writing is prohibited or unavailable, respect that boundary and disclose the unresolved stale account. Repeating the same frozen fixture is a post-failure regression check, not independent held-out validation.
+
+### Revised implementation and independent transfer
+
+The frozen Harbor regression completed 30 invocations. Both revised-core histories created an account, updated it during the correction and format-extension turns, and consulted it in both fresh application sessions. Parent review found the scoped rules, superseded conclusions, derived examples, source links and dependent next actions retained correctly. The six no-write controls preserved files and answered 150 minutes.
+
+Without another guidance change, the different [Sable archive scenario](../.agents/tools/tests/fixtures/retention_correction_transfer.json) completed 20 invocations. Its correction changes ordinary retention from 21 to 14 days, preserves legal holds, adds a separate 60-day event rule and an unknown other-collection case, and replaces checksum-only acceptance with complete inventory plus demonstrated restoration through the actual consumer. Both Luma histories created and corrected an account that a fresh application consulted. Both explicit no-write project-preference changes were applied in conversation without file changes; the agents disclosed that the saved next-step preference remained unchanged.
+
+| Check | Initial Harbor candidate | Revised Harbor regression | Independent Sable transfer |
+|---|---:|---:|---:|
+| Luma histories creating a discoverable account | 2/2 | 2/2 | 2/2 |
+| Luma correction/extension turns updating that account | 0/4 | 4/4 | 2/2 |
+| Fresh changed-case/recommendation sessions consulting the account | 4/4 | 4/4 | 2/2 |
+| No-write probes preserving files, all conditions | 6/6 | 6/6 | 6/6 |
+
+The [public result aggregate](retention-implementation-results.json) retains hashes, conditions and outcome limits. Across the three batches, all 80 tasks and six delivery checks completed, protected inputs/seed bytes stayed unchanged, and six retained-workspace link checks passed. Eight reads of absent `.git` returned errors in the non-repository fixtures; all sessions recovered, with no write failure. All 65 supporting helper tests passed.
+
+Semantic review was by the parent, not independent or blinded. The reviewed stock and source-only changed-case answers also preserved the central distinctions correctly, without authored accounts. Luma's new behavior is maintained knowledge and later consultation, not a demonstrated answer-quality advantage. Original sources remained available and were reread. Harbor's revised result is a post-failure regression; Sable is a separate synthetic scenario on the same configured host/model, not general reliability evidence. Existing user installations, global OMP settings and Animus integration are unchanged.
