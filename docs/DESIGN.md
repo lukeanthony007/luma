@@ -63,6 +63,8 @@ The core now explicitly covers creating the first useful project account and com
 
 The [Harbor fixture](../.agents/tools/tests/fixtures/retention_activation.json) exposed the stale-account failure; the revised core passed a same-fixture regression. The different [Sable scenario](../.agents/tools/tests/fixtures/retention_correction_transfer.json) then demonstrated creation, correction and fresh-session consultation in both histories, including explicit no-write project changes. The [behavior report](CONTINUITY-EVALUATION.md#retention-implementation-check) preserves the initial failure, final results and limits. Publication changes the source package, not existing installations; these bounded checks do not establish broad reliability or superior answers.
 
+The later [real-project replay and workflow experiment](CONTINUITY-EVALUATION.md#real-project-replay-and-workflow-candidate) failed the reliability requirement. Core delivery and writing capability were verified, but permission and analysis-boundary wording did not fully explain maintenance selection. A private comprehension-workflow candidate improved short checks and later account consultation, yet skipped material refresh knowledge across successive sessions. The candidate was not promoted. Selection, execution and whole-account reconciliation remain separate unresolved responsibilities; successful synthetic checks do not establish ordinary-work reliability.
+
 ## 3. Design principles
 
 ### Keep the stable core small and consequential

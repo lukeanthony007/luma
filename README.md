@@ -126,7 +126,7 @@ The [portable agent seed design](docs/DESIGN.md) contains the research basis, pr
 
 Under active development. Automated checks cover supporting tools; behavioral evaluation remains limited. The first [matched host/seed comparison](docs/MATCHED-EVALUATION.md) found equal outcomes on small synthetic tasks, with higher token and tool-call effort for Luma. Outperformance and reliable completion across everyday workloads and different harnesses are not established.
 
-The first [longitudinal comprehension evaluation](docs/CONTINUITY-EVALUATION.md) exposed missing retention, then stale accounts after correct answers. The core now explicitly covers initial knowledge creation and same-turn correction. In bounded synthetic checks, the revised seed created, corrected and consulted accounts across fresh sessions while respecting no-write requests. Baselines also answered the source-based questions correctly; broad reliability and a retained-comprehension advantage remain unestablished. Existing installations are not automatically updated.
+The [longitudinal comprehension evaluation](docs/CONTINUITY-EVALUATION.md) exposed missing retention, stale accounts and skipped knowledge updates despite correct answers. Explicit core responsibilities passed bounded synthetic checks but did not produce reliable retention in the real-project replay. A comprehension-workflow candidate passed short creation/reconciliation checks, then missed material findings across successive sessions; it remains experimental and is not installed in this source package. Baselines also answered source-based questions correctly. Reliable retained comprehension and an advantage over baseline remain unestablished; existing installations are not automatically updated.
 
 ## Previous version
 

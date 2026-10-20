@@ -136,3 +136,41 @@ Without another guidance change, the different [Sable archive scenario](../.agen
 The [public result aggregate](retention-implementation-results.json) retains hashes, conditions and outcome limits. Across the three batches, all 80 tasks and six delivery checks completed, protected inputs/seed bytes stayed unchanged, and six retained-workspace link checks passed. Eight reads of absent `.git` returned errors in the non-repository fixtures; all sessions recovered, with no write failure. All 65 supporting helper tests passed.
 
 Semantic review was by the parent, not independent or blinded. The reviewed stock and source-only changed-case answers also preserved the central distinctions correctly, without authored accounts. Luma's new behavior is maintained knowledge and later consultation, not a demonstrated answer-quality advantage. Original sources remained available and were reread. Harbor's revised result is a post-failure regression; Sable is a separate synthetic scenario on the same configured host/model, not general reliability evidence. Existing user installations, global OMP settings and Animus integration are unchanged.
+
+## Real-project replay and workflow candidate
+
+The synthetic result did not transfer reliably to the frozen six-session real-project investigation. With the revised core at `964fbca`, all 36 tasks and both loading checks completed, but only one of two Luma histories created an account. That account was consulted later but stopped incorporating evidence after the chat-integration stage. One recommendation explicitly recognized its staleness without repairing it. The other history created no account. Original sources and incoming requests remained available to every condition; neither stock nor source-only authored records.
+
+Two condition-masked model reviewers assessed the final answers against the frozen rubric. Descriptive totals were Luma 55/64, stock 55/64 and source-only 56/64. One parent adjudication restored a point because a statement about the stale account was verified in its archived contents, which the reviewer packet had omitted. These small differences establish no ranking. The host was OMP 18.12.4 rather than the earlier 18.12.3; historical differences cannot be attributed solely to guidance.
+
+### Selection and reconciliation diagnosis
+
+A 12-invocation frozen-snapshot matrix compared the original request, narrower runtime-implementation wording, and an explicit maintenance request. A subsequent four-invocation follow-up added only permission to create/update knowledge files. Both the initial-account and stale-account snapshots had two repetitions per condition.
+
+| Condition | Initial accounts created | Existing accounts edited |
+|---|---:|---:|
+| Original request | 0/2 | 0/2 |
+| Runtime-only implementation boundary | 0/2 | 2/2 |
+| Explicit maintenance request | 2/2 | 2/2 |
+| Permission only, subsequent follow-up | 0/2 | 1/2 |
+
+All 16 invocations completed and preserved inputs/resources. A capture-only hook verified current core delivery and identical original/outgoing provider payloads; no host policy was removed. Permission alone was insufficient, and analysis-boundary wording affected update selection. These small samples do not establish a complete cause. Account review separately found surviving obsolete claims after some writes, including one explicit-maintenance control. Writing and semantic reconciliation are different outcomes.
+
+### Comprehension-workflow candidate, not promoted
+
+A private candidate changed only `comprehension/SKILL.md`: an ongoing investigation produces both the answer and current project understanding; authorized knowledge upkeep is distinct from hypothetical runtime implementation; completion compares affected claims and next actions, reconciles them in place, and rereads the saved result. One-off and no-write exceptions remain explicit. The core, host policy and original project requests were unchanged.
+
+The 16-invocation paired snapshot check passed its bounded criteria. The candidate created both initial accounts and updated both stale accounts; the original workflow did each in one of two repetitions. Separate condition-masked model reviewers found all six authored accounts substantively supported for their bounded contracts. All eight no-write/one-off controls preserved files. This shows variation in the original workflow, not that it is incapable of maintenance.
+
+The subsequent full 36-task replay completed, with both loading checks passing and protected inputs/resources unchanged. Both candidate histories eventually created accounts and all four fresh application probes consulted them. However:
+
+- One history did not create an account until the third episode.
+- Both histories skipped the incremental-refresh episode. Neither read the comprehension skill during that turn.
+- One final account still omitted the refresh findings. The other recovered most of them but omitted the consequential distinction between a failed profile fetch, which stops relationship enrichment, and missing edge metrics, which receive a fallback.
+- A separate missed earlier turn did read the candidate skill, so non-selection is not the entire explanation.
+
+The final-account reviewer judged retention incomplete. The candidate therefore remains private and experimental, not part of the source package. All twelve application answers were separately reviewed with condition labels withheld: Luma scored 57/64, stock 58/64 and source-only 57/64. These descriptive differences do not establish a ranking or memory advantage; useful source-based answers continued to mask missing durable understanding.
+
+These are diagnostic/regression cases, not held-out validation or live project operation. All new runs used the same configured `gpt-6.1-sol` model with minimal thinking on OMP 18.12.4. The candidate hash is `883c0df6fa5476ffab6d71d4ae1a49a781fc73c59bda6c2aa841efe432cefd27`. Original excerpts, exact candidate, protocols, traces and saved accounts remain in private local evidence; they are not published. Existing installations, global settings and the separate integration companion remain unchanged.
+
+The next question is whether the task's completion responsibility is reliably selected and delivered, separately from whether the agent can execute it when selected. Further experiments should distinguish delivery/selection, adherence and complete reconciliation, retain the original requests, and preserve no-write controls. Adding more procedural detail to an occasionally unread skill has not solved the problem.
