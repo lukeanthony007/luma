@@ -1,0 +1,164 @@
+{
+  "format_version": 1,
+  "date": "2026-10-20",
+  "corpus": "Private user-selected static project excerpts; no source content or project identity published.",
+  "seed_source_commit": "8bd41cd620253c381d176bde2fe84b0ae1644b15",
+  "runner_protocol_commit": "3dca4e3",
+  "case_sha256": "3947594b0b0aecbd7d2445927d1804cb54833d6fc2e349a0143a24f722cff5fa",
+  "runner_sha256": "65899b9d6ceb272cea7d0aa96c3ab91ac7494a007d6a3ba3a6ed09c66900399c",
+  "guidance_sha256": "993b5f7b3b09c6583e8dbc2afc4981080134ba513e703e0b443cfaeec9b10d91",
+  "host_version": "omp/18.12.3",
+  "model_requested": "openai-codex/gpt-6.1-sol",
+  "acquisition_sessions_per_history": 6,
+  "repetitions": 2,
+  "total_native_invocations": 36,
+  "delivery_checks_passed": true,
+  "chain_errors": 0,
+  "timeouts": 0,
+  "primary_results": [
+    {
+      "condition": "stock",
+      "application_trials": 4,
+      "score": 58,
+      "maximum": 64,
+      "authored_records_before_probes": 0,
+      "actual_write_or_edit_calls": 0
+    },
+    {
+      "condition": "luma",
+      "application_trials": 4,
+      "score": 56,
+      "maximum": 64,
+      "authored_records_before_probes": 0,
+      "actual_write_or_edit_calls": 0
+    },
+    {
+      "condition": "source-only",
+      "application_trials": 4,
+      "score": 58,
+      "maximum": 64,
+      "authored_records_before_probes": 0,
+      "actual_write_or_edit_calls": 0
+    }
+  ],
+  "secondary_usage": [
+    {
+      "arm": "stock",
+      "phase": "acquisition",
+      "invocations": 12,
+      "completed": 12,
+      "protected_unchanged": true,
+      "tool_calls": 111,
+      "input_tokens": 167527,
+      "cache_read_tokens": 370560,
+      "output_tokens": 16514,
+      "elapsed_sum_seconds": 447.711,
+      "record_writing_invocations": 0
+    },
+    {
+      "arm": "stock",
+      "phase": "application",
+      "invocations": 4,
+      "completed": 4,
+      "protected_unchanged": true,
+      "tool_calls": 78,
+      "input_tokens": 125499,
+      "cache_read_tokens": 369024,
+      "output_tokens": 8091,
+      "elapsed_sum_seconds": 214.13,
+      "record_writing_invocations": 0
+    },
+    {
+      "arm": "luma",
+      "phase": "acquisition",
+      "invocations": 12,
+      "completed": 12,
+      "protected_unchanged": true,
+      "tool_calls": 169,
+      "input_tokens": 237416,
+      "cache_read_tokens": 785152,
+      "output_tokens": 18609,
+      "elapsed_sum_seconds": 527.099,
+      "record_writing_invocations": 0
+    },
+    {
+      "arm": "luma",
+      "phase": "application",
+      "invocations": 4,
+      "completed": 4,
+      "protected_unchanged": true,
+      "tool_calls": 86,
+      "input_tokens": 141739,
+      "cache_read_tokens": 654080,
+      "output_tokens": 8256,
+      "elapsed_sum_seconds": 248.13,
+      "record_writing_invocations": 0
+    },
+    {
+      "arm": "source-only",
+      "phase": "application",
+      "invocations": 4,
+      "completed": 4,
+      "protected_unchanged": true,
+      "tool_calls": 82,
+      "input_tokens": 126527,
+      "cache_read_tokens": 299008,
+      "output_tokens": 7865,
+      "elapsed_sum_seconds": 218.983,
+      "record_writing_invocations": 0
+    }
+  ],
+  "retention_observation": {
+    "luma_comprehension_skill_reads": 16,
+    "luma_memory_wiki_continuity_skill_reads": 0,
+    "write_or_edit_calls_all_conditions": 0,
+    "source_and_installed_seed_mutations": 0
+  },
+  "review_method": "Two reviewer agents scored disjoint probe families with condition and repetition labels concealed. Differences were mainly omissions in composite diagnostic criteria, not opposite factual conclusions. Parent audited native tool events and protected sources.",
+  "interpretation": "No retained-knowledge advantage demonstrated. Both active conditions authored no durable account, so later processes reconstructed understanding from original evidence. The unchanged seed did not activate its intended retention behavior in this analysis workflow.",
+  "limits": [
+    "Selected static excerpts and scripted analysis requests, not reconstructed historical conversations or a live project deployment.",
+    "Complete original sources and incoming requests remained available; no raw-history deprivation.",
+    "File tools only; no shell execution of memory or link-check helpers during agent sessions.",
+    "Shared configured host/global prompt retained; a missing retention attempt is observed, but its complete cause is not isolated.",
+    "Small diagnostic case, model-based scoring, ceiling effects, only two histories per active condition.",
+    "Costs are secondary; no inference of advantage or defect from token usage alone."
+  ],
+  "bounded_followups": {
+    "original_seed_heldout": {
+      "task_invocations": 10,
+      "all_completed": true,
+      "protected_sources_and_seed_unchanged": true,
+      "retained_records_created": 0,
+      "one_off_controls": 3,
+      "one_off_correct_and_no_writes": true,
+      "luma_memory_wiki_continuity_reads": 0,
+      "case_sha256": "ed42c8831bc1f3159a556ea847ff10c4ff03a3c16616bde8a7e9f0ff08fb90bf",
+      "guidance_sha256": "993b5f7b3b09c6583e8dbc2afc4981080134ba513e703e0b443cfaeec9b10d91"
+    },
+    "stronger_core_candidate": {
+      "task_invocations": 10,
+      "all_completed": true,
+      "protected_sources_and_seed_unchanged": true,
+      "retained_records_created": 0,
+      "one_off_controls": 3,
+      "one_off_correct_and_no_writes": true,
+      "luma_memory_wiki_continuity_reads": 0,
+      "case_sha256": "ed42c8831bc1f3159a556ea847ff10c4ff03a3c16616bde8a7e9f0ff08fb90bf",
+      "guidance_sha256": "d9fe9078c8230b13e53a2773f4b196544c7b2477a89d842e2f17dc937354b413"
+    },
+    "original_seed_explicit_permission": {
+      "task_invocations": 10,
+      "all_completed": true,
+      "protected_sources_and_seed_unchanged": true,
+      "retained_records_created": 0,
+      "one_off_controls": 3,
+      "one_off_correct_and_no_writes": true,
+      "luma_memory_wiki_continuity_reads": 0,
+      "case_sha256": "18dd547c301566bdb1393bc7fd1841c8442cdd4ef547896e4d519963617e9736",
+      "guidance_sha256": "993b5f7b3b09c6583e8dbc2afc4981080134ba513e703e0b443cfaeec9b10d91"
+    },
+    "candidate_adopted": false,
+    "interpretation": "Neither stronger core wording nor explicit optional record-creation permission activated retention in this held-out analysis workflow. Complete cause remains unresolved; production guidance and global host configuration were not changed."
+  }
+}
