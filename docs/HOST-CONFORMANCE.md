@@ -63,3 +63,9 @@ One synthetic continuation does not establish reliable long-running work, semant
 Actual context compaction, nested working directories, existing local instruction composition, unavailable capabilities and update reconciliation need their own cases. Human preservation here concerns a supplied note, not a concurrent edit race. Keep these operational questions separate from the design's matched native-host outcome and cost comparisons.
 
 A separate [matched host/seed evaluation](MATCHED-EVALUATION.md) now compares one OMP/model configuration with and without the seed. It found equal semantic outcomes and higher measured Luma effort on its small synthetic set; this does not expand the host-conformance claims above.
+
+## Canonical retention-workflow recheck
+
+The subsequent canonical retention-workflow candidate was checked in fresh disposable workspaces with guidance digest `020ae8b1f5667fe9e8e92c01434bf098188fc72ea40d512a7d3565bd6c4aa5b2`. OMP 18.12.4, requesting `openai-codex/gpt-6.1-sol`, passed startup, checkpoint and fresh continuation. Codex 0.160.1 with its native default again passed checkpoint and fresh continuation through an explicit core-read request, but not automatic startup delivery. Its strict aggregate therefore remains failed. Parent inspection of the saved guide and checkpoint confirmed the original installation-and-rollback outcome and human note were preserved.
+
+An initial Codex invocation requesting `gpt-5.4` was rejected as unsupported by its authenticated account before task execution. That failed attempt is retained separately; retrying with the native default is not evidence that the unsupported model worked. These operational checks do not compare answer quality, test automatic compaction, or establish cross-harness outperformance. No native configuration or existing installation changed.

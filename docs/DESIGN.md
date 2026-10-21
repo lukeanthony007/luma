@@ -67,6 +67,8 @@ The later [real-project replay and workflow experiment](CONTINUITY-EVALUATION.md
 
 A subsequent [medium-effort longitudinal comparison](CONTINUITY-EVALUATION.md#medium-effort-longitudinal-comparison) froze the candidate with its completion workflow also supplied at startup. Across the original project replay and a fresh synthetic planning case, all four Luma histories maintained accounts through every acquisition turn and consulted them in later project tasks. Selected saved accounts passed semantic review, but equal-effort baselines reached the same central decisions and Luma showed no answer-quality advantage. This supports a bounded retention mechanism, not general reliability or outperformance; the experimental configuration remains unpromoted.
 
+A later [continuation and changed-source regression](CONTINUITY-EVALUATION.md#continuation-and-changed-source-regression) tested a canonical consolidation and then the unchanged predecessor. Both could correctly revise local source facts while displacing the user's requested investigation with an unadopted agent proposal. The consolidation was withdrawn; the older experiment remains unpromoted. The next implementation candidate separates consequential user-owned choices from agent-owned approaches with recoverable user support, while preserving authority for routine implementation choices. It requires fresh executable continuation checks rather than another claim based on account creation or consultation.
+
 ## 3. Design principles
 
 ### Keep the stable core small and consequential

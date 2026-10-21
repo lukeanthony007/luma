@@ -128,6 +128,8 @@ Under active development. Automated checks cover supporting tools; behavioral ev
 
 The [longitudinal comprehension evaluation](docs/CONTINUITY-EVALUATION.md) exposed missing retention and stale accounts, then tested a frozen experimental configuration with a startup-loaded workflow and medium reasoning. It maintained and consulted project understanding across an existing-project replay and a fresh synthetic planning case, while respecting no-write and one-off boundaries. Equal-effort baselines reached the same central decisions; no answer-quality advantage was observed. These bounded results do not establish broad reliability. The experimental startup/skill changes have not been promoted, and existing installations are not automatically updated.
 
+A later [continuation regression](docs/CONTINUITY-EVALUATION.md#continuation-and-changed-source-regression) found skipped knowledge updates and agent proposals carried forward as if they were user-selected scope. Both a consolidated candidate and the earlier experimental configuration showed this failure; neither demonstrated better continuation than baseline. The consolidation was withdrawn. Source-backed decision ownership is the next candidate under verification, not an established remedy.
+
 ## Previous version
 
 The previous Obsidian plugin is retained on [`archive/obsidian-plugin`](https://github.com/lukeanthony007/luma/tree/archive/obsidian-plugin).
