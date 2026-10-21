@@ -45,6 +45,13 @@ class MatchedEvaluationTests(unittest.TestCase):
         self.assertEqual((counts["assistant_messages"], counts["usage_messages"], counts["tool_calls"]), (1, 1, 1))
         self.assertEqual(messages, ["done"])
 
+    def test_reasoning_effort_is_explicit_and_backward_compatible(self):
+        default = runner.command("model", "prompt")
+        self.assertEqual(default[default.index("--thinking") + 1], "minimal")
+        for effort in ("low", "medium", "high"):
+            command = runner.command("model", "prompt", effort)
+            self.assertEqual(command[command.index("--thinking") + 1], effort)
+
 
 if __name__ == "__main__":
     unittest.main()

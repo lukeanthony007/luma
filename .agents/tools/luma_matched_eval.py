@@ -37,10 +37,10 @@ def put_files(root, files):
         path.write_text(text, encoding="utf-8")
 
 
-def command(model, prompt):
+def command(model, prompt, reasoning_effort="minimal"):
     return ["omp", "--no-extensions", "--no-skills", "--no-rules", "--no-session",
             "--no-lsp", "--no-pty", "--no-title", "--no-prewalk", "--tools",
-            "read,write,edit,grep,glob", "--thinking", "minimal", "--mode", "json",
+            "read,write,edit,grep,glob", "--thinking", reasoning_effort, "--mode", "json",
             "--print", "--model", model, prompt]
 
 
