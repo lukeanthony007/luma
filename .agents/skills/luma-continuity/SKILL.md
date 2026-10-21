@@ -9,6 +9,8 @@ Use when returning to an undertaking, choosing a useful focus, reviewing a perio
 
 Follow the [working agreement](../../AGENTS.md). [luma-setup](../luma-setup/SKILL.md) helps establish an initial direction; [luma-wiki](../luma-wiki/SKILL.md) holds readable understanding; [luma-memory](../luma-memory/SKILL.md) governs evidence and corrections. Continuity connects understanding to ongoing purpose and commitments. Use the established project record or other existing canonical workspace record; wiki is optional. If ongoing work has no suitable record and genuinely needs later resumption, create one concise current account and record how to find it. Do not create a separate continuity database, obligatory calendar hierarchy or empty folders.
 
+Use the [project-account contract](references/project-account.md) to keep the user's outcome and adopted choices distinct from the agent's proposed approach, with the supporting user wording and context available for consequential scope decisions. The layout remains the user's; the contract does not require a template or another ledger.
+
 ## Regain the situation
 
 Read the current request and relevant retained context before asking the person to recap. Recover the original purpose separately from the agent's proposed plan. Inspect the current state of relevant files, results or other available evidence when the next action depends on them. A handoff is a guide to verification, not proof that everything it describes is still current.
