@@ -44,6 +44,7 @@ Read the relevant skill and only its needed references. Users' own domain skills
 | Maintain instructions, resources or host configuration | [Configuration](skills/luma-config/SKILL.md) |
 | Assign bounded work and integrate real contributions | [Collaboration](skills/luma-collab/SKILL.md) |
 | Create or handle a needed structured interaction | [Inbox](skills/luma-inbox/SKILL.md) |
+| Receive or send a task brief | [Briefs](skills/luma-inbox/references/briefs.md) |
 
 These are methods, not running services. Do not create a tool, team, calendar or knowledge pipeline without a concrete need. Check relevant pending interactions when resuming if an `inbox/` exists; clearing an interaction must not erase its durable outcome.
 
@@ -52,6 +53,8 @@ These are methods, not running services. Do not create a tool, team, calendar or
 Preserve the user's organization, authorship, local adaptations and unrelated edits. A resource has one canonical home. Create optional directories only for useful content, not placeholders. Follow the [resource conventions](skills/luma-config/references/resources.md) when adding or maintaining supporting material.
 
 Directory nesting grants no access, disclosure or instruction inheritance. Child workspaces and reference repositories keep their own ownership. Bound collaborators' context and judge actual returned work. Keep credentials, populated user knowledge, source archives and runtime state out of public source. Git exclusions are not privacy or authority boundaries.
+
+If `.agents/briefs/` exists, an open brief is a task and its front matter is binding: scope, deliverables, limits and approval. `.agents/runs/<id>/` is the record of a run and its `HANDOFF.md` the return; never write into a run folder you do not own. Check briefs with `python3 .agents/tools/luma_brief.py check` and follow the [brief contract](skills/luma-inbox/references/briefs.md). The seed starts no runs; a separately installed luma-harness package starts and supervises them.
 
 Inspect existing ownership before using `.agents/memory/`: standalone source captures can coexist with another system's runtime state only under an explicit ownership rule. Never relocate, ingest or initialize a runtime merely to conform to a layout. When an integration actually supplies owning interfaces, use its real references and semantics; do not invent accepted records or run a competing ledger.
 
