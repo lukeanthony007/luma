@@ -1,0 +1,14 @@
+{
+ ".agents/briefs/2026-10-22-open-reading.md": "",
+ ".agents/briefs/2026-10-21-running-work.md": "",
+ ".agents/briefs/archive/2026/2026-10-19-finished-reading.md": "",
+ ".agents/briefs/archive/2026/2026-10-18-old-reading.md": "",
+ ".agents/briefs/2026-10-22-reading-v2.md": "",
+ ".agents/briefs/2026-10-23-approved-effects.md": "",
+ ".agents/briefs/2026-10-22-bad-scope.md": "deliverable.outside_scope",
+ ".agents/briefs/2026-10-22-bad-heading.md": "body.extra_heading",
+ ".agents/briefs/2026-10-22-bad-context.md": "context.pasted_code",
+ ".agents/briefs/2026-10-22-bad-sender.md": "sender.identity",
+ ".agents/briefs/2026-10-22-bad-done.md": "status.final_outside_archive",
+ ".agents/briefs/2026-10-22-bad-approval.md": "approval.missing"
+}

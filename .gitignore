@@ -2,6 +2,7 @@
 **/.agents/memory/
 **/.agents/cache/
 **/.agents/runtime/
+**/.agents/runs/
 **/.credentials/
 
 # Project connector definitions are created on demand, outside the public foundation.
