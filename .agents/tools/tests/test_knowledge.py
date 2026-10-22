@@ -509,6 +509,22 @@ class AccountStructureTests(unittest.TestCase):
         result = knowledge.account(self.root)
         self.assertEqual(result["episodic_names"], ["notes/2026-10-21.md"])
 
+    def test_oversized_pages_fail_only_when_a_limit_is_given(self):
+        self.write("README.md", "[Index](wiki/index.md)\n")
+        self.write("wiki/index.md", "- [Big subject](big-subject.md)\n")
+        self.write("wiki/big-subject.md", "x" * 5000)
+        unlimited = knowledge.account(self.root)
+        self.assertTrue(unlimited["ok"], unlimited)
+        self.assertEqual(unlimited["oversized_count"], 0)
+        self.assertEqual(unlimited["largest_page_bytes"], 5000)
+        limited = knowledge.account(self.root, max_page_bytes=4096)
+        self.assertFalse(limited["ok"])
+        self.assertEqual(limited["oversized_pages"], ["wiki/big-subject.md"])
+        out = io.StringIO()
+        with redirect_stdout(out):
+            status = knowledge.main(["account", "--root", str(self.root), "--max-page-bytes", "4096"])
+        self.assertEqual(status, 1)
+
 
 if __name__ == "__main__":
     unittest.main()
