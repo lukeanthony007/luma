@@ -32,7 +32,11 @@ success_criteria:
   - HANDOFF.md has every required heading
   - the steer text reached the session
 stop_conditions: [spend cap, write outside scope]
-approval: {by: luke, at: 2026-10-22T16:18:00.000Z, spend_cap_usd: 0.5, note: "Approved in the harness build brief (decision 9, four paid smoke tests under 5 USD total), relayed by Grok Bot"}
+approval:
+  by: luke
+  at: "2026-10-22T16:19:00.000Z"
+  spend_cap_usd: 0.5
+  note: "Luke approved four harness smoke tests under 5 USD total at 12:19 PM ET on 22 October 2026; Grok Bot relayed it on his call"
 ---
 
 ## Goal
