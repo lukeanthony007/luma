@@ -529,12 +529,13 @@ def _page_target(page: Path, target: str, is_wiki: bool, root: Path) -> Path | N
     return candidate.resolve() if candidate.is_file() else None
 
 
-def account(root: Path, sources: list[str] | None = None) -> dict:
+def account(root: Path, sources: list[str] | None = None, max_page_bytes: int | None = None) -> dict:
     """Check that retained understanding forms one discoverable, subject-organized account.
 
     Retained pages are Markdown files outside `.agents/`, `.git/` and the given source directories.
     Every page must be reachable by links from README.md; page names must not be per-session,
-    per-batch or dated; no retained file may carry a line selector or other colon in its name."""
+    per-batch or dated; no retained file may carry a line selector or other colon in its name.
+    With `max_page_bytes`, pages larger than that (too big to read in one pass) also fail the check."""
     root = Path(root).resolve()
     if not root.is_dir():
         raise KnowledgeError(f"Workspace is not a real directory: {root}")
@@ -566,12 +567,16 @@ def account(root: Path, sources: list[str] | None = None) -> dict:
     unreachable = [rel(p) for p in retained if p not in reachable]
     episodic = [rel(p) for p in retained if EPISODIC_NAME.search(p.stem)]
     roots = sorted({rel(p).split("/", 1)[0] for p in retained if "/" in rel(p)})
-    ok = entry.is_file() and not unreachable and not episodic and not invalid
+    sizes = {rel(p): p.stat().st_size for p in retained}
+    oversized = sorted(name for name, size in sizes.items() if max_page_bytes is not None and size > max_page_bytes)
+    ok = entry.is_file() and not unreachable and not episodic and not invalid and not oversized
     return {"ok": ok, "entry_point": "README.md" if entry.is_file() else None, "retained_pages": len(retained),
             "reachable_pages": len(reachable), "unreachable": unreachable[:50], "unreachable_count": len(unreachable),
             "episodic_names": episodic[:50], "episodic_count": len(episodic), "invalid_names": invalid[:50],
             "invalid_count": len(invalid), "page_directories": roots,
-            "limits": ["Structure only: reachability and naming do not establish that the content is accurate, supported or subject-organized in meaning."]}
+            "largest_page_bytes": max(sizes.values(), default=0), "max_page_bytes": max_page_bytes,
+            "oversized_pages": oversized[:50], "oversized_count": len(oversized),
+            "limits": ["Structure only: reachability, naming and size do not establish that the content is accurate, supported or subject-organized in meaning."]}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -584,6 +589,7 @@ def main(argv: list[str] | None = None) -> int:
     for command in (cap, chk, completion, acct):
         command.add_argument("--root", type=Path, default=Path.cwd())
     acct.add_argument("--source", action="append", default=[], dest="sources", help="Top-level source directory to exclude (repeatable)")
+    acct.add_argument("--max-page-bytes", type=int, default=None, help="Also fail pages larger than this many bytes")
     cap.add_argument("paths", nargs="+")
     chk.add_argument("paths", nargs="*")
     completion.add_argument("--page", action="append", default=[], dest="pages")
@@ -597,7 +603,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "complete":
             result = complete(args.root, args.pages)
         elif args.command == "account":
-            result = account(args.root, args.sources)
+            result = account(args.root, args.sources, args.max_page_bytes)
         else:
             result = check(args.root, args.paths or None)
         print(json.dumps(result, ensure_ascii=False))
