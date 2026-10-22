@@ -506,14 +506,84 @@ def _check(root: Path, paths: list[str] | None = None, *, mode: str = "check") -
             "manifests_checked": manifests, "errors": errors, "limits": LIMITS[:]}
 
 
+EPISODIC_NAME = re.compile(r"(?i)(?:^|[-_ .])(?:batch|session|sess|run|part|round|day|week|chunk)[-_ ]?\d+|\d{4}-\d{2}-\d{2}")
+
+
+def _page_target(page: Path, target: str, is_wiki: bool, root: Path) -> Path | None:
+    """Resolve a link to a workspace file, or None for external, anchor-only or unresolvable targets."""
+    target = unquote((target or "").split("#", 1)[0].strip())
+    if not target or re.match(r"^[A-Za-z][\w+.-]*:", target) or target.startswith("//"):
+        return None
+    if is_wiki:
+        name = target if target.endswith(".md") else target + ".md"
+        for candidate in (page.parent / name, root / "wiki" / name, root / name):
+            if candidate.is_file():
+                return candidate.resolve()
+        return None
+    candidate = (root / target.lstrip("/")) if target.startswith("/") else (page.parent / target)
+    if candidate.is_dir():
+        for index in ("index.md", "README.md"):
+            if (candidate / index).is_file():
+                return (candidate / index).resolve()
+        return None
+    return candidate.resolve() if candidate.is_file() else None
+
+
+def account(root: Path, sources: list[str] | None = None) -> dict:
+    """Check that retained understanding forms one discoverable, subject-organized account.
+
+    Retained pages are Markdown files outside `.agents/`, `.git/` and the given source directories.
+    Every page must be reachable by links from README.md; page names must not be per-session,
+    per-batch or dated; no retained file may carry a line selector or other colon in its name."""
+    root = Path(root).resolve()
+    if not root.is_dir():
+        raise KnowledgeError(f"Workspace is not a real directory: {root}")
+    excluded = {".agents", ".git", *(sources or [])}
+    retained, invalid = [], []
+    for path in sorted(root.rglob("*")):
+        rel = path.relative_to(root).as_posix()
+        if not path.is_file() or rel.split("/", 1)[0] in excluded:
+            continue
+        if ":" in path.name:
+            invalid.append(rel)
+        elif path.suffix.lower() == ".md":
+            retained.append(path.resolve())
+    entry = (root / "README.md").resolve()
+    reachable = set()
+    if entry.is_file():
+        queue = [entry]
+        while queue:
+            page = queue.pop()
+            if page in reachable:
+                continue
+            reachable.add(page)
+            links, _ = _markdown(page.read_text(encoding="utf-8", errors="replace"))
+            for target, is_wiki in links:
+                resolved = _page_target(page, target, is_wiki, root)
+                if resolved is not None and resolved in retained and resolved not in reachable:
+                    queue.append(resolved)
+    rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
+    unreachable = [rel(p) for p in retained if p not in reachable]
+    episodic = [rel(p) for p in retained if EPISODIC_NAME.search(p.stem)]
+    roots = sorted({rel(p).split("/", 1)[0] for p in retained if "/" in rel(p)})
+    ok = entry.is_file() and not unreachable and not episodic and not invalid
+    return {"ok": ok, "entry_point": "README.md" if entry.is_file() else None, "retained_pages": len(retained),
+            "reachable_pages": len(reachable), "unreachable": unreachable[:50], "unreachable_count": len(unreachable),
+            "episodic_names": episodic[:50], "episodic_count": len(episodic), "invalid_names": invalid[:50],
+            "invalid_count": len(invalid), "page_directories": roots,
+            "limits": ["Structure only: reachability and naming do not establish that the content is accurate, supported or subject-organized in meaning."]}
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     cap = sub.add_parser("capture")
     chk = sub.add_parser("check")
     completion = sub.add_parser("complete")
-    for command in (cap, chk, completion):
+    acct = sub.add_parser("account")
+    for command in (cap, chk, completion, acct):
         command.add_argument("--root", type=Path, default=Path.cwd())
+    acct.add_argument("--source", action="append", default=[], dest="sources", help="Top-level source directory to exclude (repeatable)")
     cap.add_argument("paths", nargs="+")
     chk.add_argument("paths", nargs="*")
     completion.add_argument("--page", action="append", default=[], dest="pages")
@@ -526,6 +596,8 @@ def main(argv: list[str] | None = None) -> int:
             result = capture(args.root, args.paths)
         elif args.command == "complete":
             result = complete(args.root, args.pages)
+        elif args.command == "account":
+            result = account(args.root, args.sources)
         else:
             result = check(args.root, args.paths or None)
         print(json.dumps(result, ensure_ascii=False))
