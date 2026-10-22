@@ -20,8 +20,11 @@ Supported shapes (anything else is a FrontMatterError):
     sub: scalar | [flow, list]
     sub:
       - scalar              # map of scalars or lists of scalars
-Scalars: double-quoted (JSON escapes), single-quoted ('' escape), true/false, null/~, int, float, plain text.
-No anchors, aliases, tags, multi-line strings or deeper nesting. Python 3.9 compatible, stdlib only.
+Scalars: double-quoted (JSON escapes), single-quoted ('' escape), true/false, null/~, int, float, plain text (including
+text that starts with a backtick, *, @, % or a bracket that does not close a flow collection). A one-line list item
+`- Text: more` keeps its raw text on the parsed map (`InlineMap.raw`) so string fields can use it. A list may start
+its dashes at the key's own indentation. CRLF line ends, a BOM and trailing spaces on the fences are accepted.
+Refused: anchors, tags, block scalars (| and >), and nesting deeper than shown. Python 3.9 compatible, stdlib only.
 """
 import json
 import re
@@ -38,19 +41,24 @@ class FrontMatterError(ValueError):
         self.line = line
 
 
+class InlineMap(dict):
+    """A one-line `- key: value` list item: a map that remembers its raw text, for fields that expect strings."""
+
+    raw = ""
+
+
 def split(text):
     """Return (front_matter_text, body_text, body_start_line). Raises when the --- fences are missing."""
-    if not text.startswith("---\n"):
+    text = text.lstrip("\ufeff").replace("\r\n", "\n")
+    lines = text.split("\n")
+    if lines[0].rstrip() != "---":
         raise FrontMatterError(1, "front matter must start with a '---' line")
-    end = text.find("\n---\n", 3)
-    if end < 0:
-        if text.endswith("\n---"):
-            end = len(text) - 4
-        else:
-            raise FrontMatterError(0, "front matter is not closed by a '---' line")
-    front = text[4:end + 1]
-    body = text[end + 5:]
-    return front, body, front.count("\n") + 3
+    close = next((index for index in range(1, len(lines)) if lines[index].rstrip() == "---"), None)
+    if close is None:
+        raise FrontMatterError(0, "front matter is not closed by a '---' line")
+    front = "\n".join(lines[1:close]) + "\n"
+    body = "\n".join(lines[close + 1:])
+    return front, body, close + 2
 
 
 def _strip_comment(value):
@@ -97,8 +105,10 @@ def scalar(value, line=0):
     value = _strip_comment(value)
     if value == "":
         return None
-    if value[0] in "&*!|>%@`":
-        raise FrontMatterError(line, "unsupported YAML syntax %r" % value[0])
+    if re.match(r"^[|>][-+0-9]*$", value):
+        raise FrontMatterError(line, "block scalars (| and >) are not supported; write the text on one line")
+    if re.match(r"^[&!]\S*(\s|$)", value):
+        raise FrontMatterError(line, "anchors and tags are not supported")
     if value in ("null", "~", "Null", "NULL"):
         return None
     if value in ("true", "True", "TRUE"):
@@ -109,7 +119,7 @@ def scalar(value, line=0):
         return int(value)
     if _FLOAT.match(value):
         return float(value)
-    if value.startswith(("[", "{")):
+    if value.startswith(("[", "{")) and value.endswith(("]", "}")):
         raise FrontMatterError(line, "flow collection where a scalar was expected")
     return value
 
@@ -127,7 +137,7 @@ def _split_flow(inner, line):
                 continue
             if ch == quote:
                 quote = None
-        elif ch in "\"'":
+        elif ch in "\"'" and not "".join(current).strip():  # a quote opens only at the start of an item
             quote = ch
             current.append(ch)
         elif ch in "[{":
@@ -149,12 +159,13 @@ def _split_flow(inner, line):
 
 
 def value(text, line=0):
-    """Parse an inline value: scalar, [flow list] or {flow: map}."""
+    """Parse an inline value: scalar, [flow list] or {flow: map}. A bracket that does not close is plain text."""
     text = text.strip()
-    if text.startswith("["):
+    closed = _strip_comment(text)
+    if text.startswith("[") and closed.endswith("]"):
         body = _strip_flow(text, "[", "]", line)
         return [scalar(item, line) for item in _split_flow(body, line)]
-    if text.startswith("{"):
+    if text.startswith("{") and closed.endswith("}"):
         body = _strip_flow(text, "{", "}", line)
         out = {}
         for item in _split_flow(body, line):
@@ -215,8 +226,8 @@ def parse(front, first_line=2):
             data[key] = value(rest, number)
             continue
         block = []
-        while i < len(lines) and lines[i][1] > 0:
-            block.append(lines[i])
+        while i < len(lines) and (lines[i][1] > 0 or lines[i][2] == "-" or lines[i][2].startswith("- ")):
+            block.append(lines[i])  # dashes may sit at the key's own indentation
             i += 1
         data[key] = _block(block, number, depth=1) if block else None
     return data
@@ -246,7 +257,7 @@ def _block(block, owner_line, depth):
             out[key] = value(rest, number)
             continue
         sub = []
-        while i < len(block) and block[i][1] > first_indent:
+        while i < len(block) and (block[i][1] > first_indent or (block[i][1] == first_indent and (block[i][2] == "-" or block[i][2].startswith("- ")))):
             sub.append(block[i])
             i += 1
         if not sub:
@@ -271,10 +282,15 @@ def _block_list(block, indent, depth):
             continuation.append(block[i])
             i += 1
         match = _KEY.match(content) if not content.startswith(("'", '"', "[", "{")) else None
+        if match and not continuation and depth > 1:
+            items.append(value(content, number))  # nested lists hold strings: `- Note: text` is text
+            continue
         if match:
             if depth > 1:
                 raise FrontMatterError(number, "maps inside nested lists are not supported")
-            entry = {}
+            entry = InlineMap() if not continuation else {}
+            if not continuation:
+                entry.raw = content
             pairs = [(number, match.group(1), match.group(2))]
             for c_number, c_indent, c_text in continuation:
                 c_match = _KEY.match(c_text)
@@ -379,7 +395,13 @@ import os
 import posixpath
 import re
 import sys
+import threading
 from pathlib import Path
+
+try:
+    import fcntl
+except ImportError:  # the seed copy may run where fcntl does not exist; writes are then unlocked
+    fcntl = None
 
 
 STATUSES = ("open", "running", "done", "superseded")
@@ -522,10 +544,27 @@ def _sections(body, first_line):
     return {name: "\n".join(lines).strip("\n") for name, lines in sections.items()}, headings
 
 
+def _strings_from_inline_maps(meta):
+    """`- Done: all files exist` parses as a one-line map; in a field that holds strings it is that text."""
+    def fix(items, kind):
+        if not isinstance(items, list) or not kind.startswith("list[") or kind == "list[deliverable]":
+            return items
+        return [getattr(item, "raw", item) if isinstance(item, dict) and getattr(item, "raw", "") else item for item in items]
+    for key, (kind, _) in TOP_FIELDS.items():
+        if key in meta:
+            meta[key] = fix(meta[key], kind)
+    for key, fields in MAP_FIELDS.items():
+        if isinstance(meta.get(key), dict):
+            for sub, (kind, _) in fields.items():
+                if sub in meta[key]:
+                    meta[key][sub] = fix(meta[key][sub], kind)
+    return meta
+
+
 def loads(path, text):
     try:
         front, body, body_line = split(text)
-        meta = parse(front)
+        meta = _strings_from_inline_maps(parse(front))
     except FrontMatterError as error:
         return Brief(path, text, {}, "", {}, [], [Problem("frontmatter.syntax", str(error))])
     sections, headings = _sections(body, body_line)
@@ -861,8 +900,51 @@ def now_ts():
     return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
+def _lock_root(path):
+    """The folder whose lock serializes writes to a brief: the workspace's .agents/briefs when it exists."""
+    root = briefs_dir(workspace_of(path))
+    return root if root.is_dir() else Path(path).resolve().parent
+
+
+class brief_lock(object):
+    """Exclusive lock on the briefs folder (fcntl on the directory itself; no lock files). Re-entrant per process.
+    A no-op where fcntl is unavailable."""
+
+    _held = {}
+    _guard = threading.RLock()
+
+    def __init__(self, path):
+        self.root = str(_lock_root(path))
+
+    def __enter__(self):
+        brief_lock._guard.acquire()
+        count, fd = brief_lock._held.get(self.root, (0, None))
+        if count == 0 and fcntl is not None:
+            fd = os.open(self.root, os.O_RDONLY)
+            fcntl.flock(fd, fcntl.LOCK_EX)
+        brief_lock._held[self.root] = (count + 1, fd)
+        return self
+
+    def __exit__(self, *exc):
+        count, fd = brief_lock._held[self.root]
+        if count == 1:
+            del brief_lock._held[self.root]
+            if fd is not None:
+                fcntl.flock(fd, fcntl.LOCK_UN)
+                os.close(fd)
+        else:
+            brief_lock._held[self.root] = (count - 1, fd)
+        brief_lock._guard.release()
+        return False
+
+
 def update_fields(path, changes):
-    """Rewrite only the named top-level front matter keys of a brief, atomically."""
+    """Rewrite only the named top-level front matter keys of a brief, atomically and under the briefs lock."""
+    with brief_lock(path):
+        _write_fields(path, changes)
+
+
+def _write_fields(path, changes):
     path = Path(path)
     text = path.read_text(encoding="utf-8")
     front, body, _ = split(text)
@@ -874,31 +956,67 @@ def update_fields(path, changes):
     os.replace(tmp, path)
 
 
+def append_correction(path, line):
+    """Append one correction line to ## Corrections (created if absent), under the briefs lock."""
+    path = Path(path)
+    with brief_lock(path):
+        content = path.read_text(encoding="utf-8")
+        if "\n## Corrections" not in content:
+            content = content.rstrip("\n") + "\n\n## Corrections\n\n" + line + "\n"
+        else:
+            content = content.rstrip("\n") + "\n" + line + "\n"
+        tmp = path.with_name("." + path.name + ".tmp")
+        tmp.write_text(content, encoding="utf-8")
+        os.replace(tmp, path)
+
+
+def live_runs_of(brief):
+    """Run ids listed by the brief whose run.json is not in a terminal state."""
+    live = []
+    for run_id in brief.meta.get("runs") or []:
+        try:
+            run = json.loads((brief.workspace / ".agents" / "runs" / str(run_id) / "run.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if run.get("state") not in ("done", "failed", "stopped"):
+            live.append(run_id)
+    return live
+
+
 def archive(workspace, brief_id, status="done", at=None):
-    """Move a finished brief to archive/YYYY/, set archived_at, flip a superseded target, regenerate the index."""
+    """Move a finished brief to archive/YYYY/, set archived_at, flip a superseded target, regenerate the index.
+    Refuses an invalid brief and a brief whose runs are still live."""
     if status not in FINAL_STATUSES:
         raise BriefError("archive status must be done or superseded")
-    source = find(workspace, brief_id)
-    brief = load(source)
-    if brief.parse_problems:
-        raise BriefError("%s does not parse: %s" % (source, brief.parse_problems[0]))
-    if brief.archived:
-        raise BriefError("%s is already archived" % brief_id)
-    at = at or now_ts()
-    moved = _move_to_archive(workspace, source, brief, status, at)
-    target_id = brief.meta.get("supersedes")
-    if isinstance(target_id, str):
-        target_path = find(workspace, target_id)
-        target = load(target_path)
-        if target.archived:
-            update_fields(target_path, {"status": "superseded"})
-        else:
-            _move_to_archive(workspace, target_path, target, "superseded", at)
-    write_index(workspace)
-    return moved
+    with brief_lock(briefs_dir(workspace) / "x.md"):
+        source = find(workspace, brief_id)
+        brief = load(source)
+        if brief.parse_problems:
+            raise BriefError("%s does not parse: %s" % (source, brief.parse_problems[0]))
+        if brief.archived:
+            raise BriefError("%s is already archived" % brief_id)
+        problems = [p for p in validate(brief, approval_line(workspace)) if not p.rule.startswith("status.")]
+        if problems:
+            raise BriefError("%s is invalid; fix it before archiving: %s" % (brief_id, "; ".join(map(str, problems))))
+        live = live_runs_of(brief)
+        if live:
+            raise BriefError("%s still has live runs (%s); stop them or wait for them to end" % (brief_id, ", ".join(live)))
+        at = at or now_ts()
+        moved = _move_to_archive(workspace, source, brief, status, at)
+        target_id = brief.meta.get("supersedes")
+        if isinstance(target_id, str):
+            target_path = find(workspace, target_id)
+            target = load(target_path)
+            if target.archived:
+                _write_fields(target_path, {"status": "superseded"})
+            else:
+                _move_to_archive(workspace, target_path, target, "superseded", at)
+        write_index(workspace)
+        return moved
 
 
 def _move_to_archive(workspace, source, brief, status, at):
+    """Move first, then set status and archived_at, so a failure never leaves a final status outside archive/."""
     year = str(brief.meta.get("date") or brief.id or "")[:4]
     if not re.match(r"^\d{4}$", year):
         raise BriefError("cannot derive the archive year of %s" % source)
@@ -907,8 +1025,12 @@ def _move_to_archive(workspace, source, brief, status, at):
     destination = folder / source.name
     if destination.exists():
         raise BriefError("%s already exists" % destination)
-    update_fields(source, {"status": status, "archived_at": at})
     os.replace(source, destination)
+    try:
+        _write_fields(destination, {"status": status, "archived_at": at})
+    except Exception:
+        os.replace(destination, source)
+        raise
     return destination
 
 
