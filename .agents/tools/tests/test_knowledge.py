@@ -454,5 +454,61 @@ class KnowledgeCliTests(unittest.TestCase):
             self.assertTrue(err.getvalue().strip())
 
 
+class AccountStructureTests(unittest.TestCase):
+    """Fixtures modeled on observed acquisition outcomes: one subject account vs a per-batch diary."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+
+    def write(self, name, text):
+        path = self.root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+    def test_linked_subject_account_passes_and_sources_are_ignored(self):
+        self.write("README.md", "# Project\n\nSee [the account](wiki/index.md).\n")
+        self.write("wiki/index.md", "- [Navigation](navigation.md)\n- [[failure-patterns]]\n")
+        self.write("wiki/navigation.md", "Default list sort is newest first (inputs/trajectories/004.json).\n")
+        self.write("wiki/failure-patterns.md", "No bulk-close option exists ([source](../inputs/trajectories/012.json)).\n")
+        self.write("inputs/trajectories/session-01.md", "original source, not retained understanding\n")
+        result = knowledge.account(self.root, ["inputs"])
+        self.assertTrue(result["ok"], result)
+        self.assertEqual((result["retained_pages"], result["reachable_pages"]), (4, 4))
+
+    def test_observed_diary_failure_is_reported(self):
+        # Session 1 wrote subject pages it never linked; later sessions started per-batch files,
+        # and a write with a line selector created a junk file.
+        self.write("README.md", "# Project\n\nNotes: [batch 2](understanding/batch-02-trajectories.md)\n")
+        self.write("wiki/index.md", "- [Navigation](servicenow-navigation.md)\n")
+        self.write("wiki/servicenow-navigation.md", "...\n")
+        self.write("understanding/batch-02-trajectories.md", "...\n")
+        self.write("understanding/batch-03-trajectories.md", "...\n")
+        self.write("README.md:15", "stray selector write\n")
+        result = knowledge.account(self.root)
+        self.assertFalse(result["ok"])
+        self.assertEqual(set(result["unreachable"]), {"wiki/index.md", "wiki/servicenow-navigation.md", "understanding/batch-03-trajectories.md"})
+        self.assertEqual(result["episodic_count"], 2)
+        self.assertEqual(result["invalid_names"], ["README.md:15"])
+        self.assertEqual(result["page_directories"], ["understanding", "wiki"])
+
+    def test_missing_entry_point_fails_and_cli_exit_status_follows(self):
+        self.write("wiki/index.md", "# Account\n")
+        self.assertIsNone(knowledge.account(self.root)["entry_point"])
+        out = io.StringIO()
+        with redirect_stdout(out):
+            status = knowledge.main(["account", "--root", str(self.root)])
+        self.assertEqual(status, 1)
+        self.assertFalse(json.loads(out.getvalue())["ok"])
+
+    def test_dated_names_are_episodic_but_subject_names_with_numbers_are_not(self):
+        self.write("README.md", "[a](notes/2026-10-21.md) [b](notes/http-500-errors.md) [c](notes/form-v2.md)\n")
+        for name in ("notes/2026-10-21.md", "notes/http-500-errors.md", "notes/form-v2.md"):
+            self.write(name, "x\n")
+        result = knowledge.account(self.root)
+        self.assertEqual(result["episodic_names"], ["notes/2026-10-21.md"])
+
+
 if __name__ == "__main__":
     unittest.main()
