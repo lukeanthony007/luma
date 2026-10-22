@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stdlib-only brief validator, vendored from luma-harness 0.1.0.
+"""Stdlib-only brief validator, vendored from luma-harness 0.2.0.
 
 Generated: regenerate with luma-harness tools/vendor_brief.py, do not edit by hand.
 
