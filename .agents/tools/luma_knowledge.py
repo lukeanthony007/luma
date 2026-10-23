@@ -690,6 +690,9 @@ def split(root: Path, page: str, max_bytes: int = 16384) -> dict:
     report = {"page": page, "max_bytes": max_bytes, "created": [], "links_rewritten": 0, "still_oversized": []}
     moved = {}  # heading slug -> child path, for repointing inbound fragment links
     _split_page(root, target, max_bytes, report, moved, level=None)
+    if report["still_oversized"] and not report["created"]:
+        report["advice"] = (f"No heading level divides {page} into two or more sections. Add subheadings by sub-subject, "
+                            "or move a coherent part to its own page named for it, then split again.")
     for other in sorted(root.rglob("*.md")):
         rel_other = other.relative_to(root).as_posix()
         if other == target or rel_other.split("/", 1)[0] in (".agents", ".git") or not other.is_file() or str(other) in report["created_paths_internal"]:
@@ -719,23 +722,33 @@ def _split_page(root: Path, target: Path, max_bytes: int, report: dict, moved: d
     lines = text.split("\n")
     heads = _headings(lines)
     levels = sorted({lvl for _, lvl, _ in heads if lvl >= 2 and (level is None or lvl > level)})
-    if not levels:
-        report["still_oversized"].append(target.relative_to(root).as_posix())
+    # A level holding a single section would move the whole page into one same-named child, which nests again on the
+    # next split without shrinking anything; cut at the first level that divides the page, else leave it in place.
+    cut = next((lvl for lvl in levels if sum(1 for _, l, _ in heads if l == lvl) >= 2), None)
+    if cut is None:
+        if target.stat().st_size > max_bytes:
+            report["still_oversized"].append(target.relative_to(root).as_posix())
         return
-    cut = levels[0]
     starts = [(i, t) for i, lvl, t in heads if lvl == cut]
     preamble = lines[:starts[0][0]]
     child_dir = target.parent / target.stem
-    child_dir.mkdir(exist_ok=True)
-    sections, used = [], set()
+    sections, used, listed = [], set(), []
     for n, (start, title) in enumerate(starts):
         end = starts[n + 1][0] if n + 1 < len(starts) else len(lines)
+        if title.strip().lower() == "contents":  # an earlier split's navigation stays here and gains the new entries
+            listed += [line for line in lines[start + 1:end] if line.strip()]
+            continue
         slug = (_slug(title)[:60].strip("-") or f"section-{n + 1}")
         name, k = slug, 2
         while name in used or (child_dir / f"{name}.md").exists():
             name, k = f"{slug}-{k}", k + 1
         used.add(name)
         sections.append((title, child_dir / f"{name}.md", lines[start:end]))
+    if not sections:
+        if target.stat().st_size > max_bytes:
+            report["still_oversized"].append(target.relative_to(root).as_posix())
+        return
+    child_dir.mkdir(exist_ok=True)
     owner = {}
     for title, path, body in sections:
         for _, _, text_ in _headings(body):
@@ -760,7 +773,7 @@ def _split_page(root: Path, target: Path, max_bytes: int, report: dict, moved: d
         for slug in (_slug(t) for _, _, t in _headings(body)):
             moved[slug] = path
     def parent_text(summaries):
-        contents = ["## Contents", ""]
+        contents = ["#" * cut + " Contents", ""] + listed
         for title, path, body in sections:
             first = next((line.strip() for line in body[1:] if line.strip() and not HEADING.match(line)), "") if summaries else ""
             first = re.sub(r"\s+", " ", first)[:160]
