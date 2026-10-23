@@ -580,11 +580,44 @@ class PageSplitTests(unittest.TestCase):
         self.assertTrue(knowledge.check(self.root)["ok"])
         self.assertGreater(result["episodic_count"], 0)  # split repairs size, not organization: batch names remain visible
 
-    def test_a_single_unsplittable_section_is_reported_not_truncated(self):
+    def test_a_single_unsplittable_section_is_left_in_place_and_reported(self):
         self.write("wiki/env.md", "# Env\n\n## Sites\n\n" + "y" * 20000 + "\n")
         report = knowledge.split(self.root, "wiki/env.md", 8192)
-        self.assertEqual(report["still_oversized"], ["wiki/env/sites.md"])
-        self.assertIn("y" * 20000, (self.root / "wiki/env/sites.md").read_text())
+        self.assertEqual(report["still_oversized"], ["wiki/env.md"])
+        self.assertEqual(report["created"], [])
+        self.assertIn("y" * 20000, (self.root / "wiki/env.md").read_text())
+        self.assertFalse((self.root / "wiki/env").exists())
+        self.assertIn("Add subheadings by sub-subject", report["advice"])
+
+    def test_a_single_section_splits_at_its_subsections_and_repeated_splits_do_not_nest(self):
+        subsections = "".join(f"### Page {name}\n\n" + f"- `{name} label`\n" * 400 + "\n" for name in ("Home", "Cart", "Checkout"))
+        self.write("README.md", "[Shop](wiki/shop.md)\n")
+        self.write("wiki/shop.md", "# Shop\n\n## Storefront\n\nStanding labels.\n\n" + subsections)
+        first = knowledge.split(self.root, "wiki/shop.md", 8192)
+        self.assertEqual(sorted(c["path"] for c in first["created"]), ["wiki/shop/page-cart.md", "wiki/shop/page-checkout.md", "wiki/shop/page-home.md"])
+        parent = (self.root / "wiki/shop.md").read_text()
+        self.assertIn("## Storefront", parent)
+        self.assertIn("### Contents", parent)
+        second = knowledge.split(self.root, "wiki/shop/page-home.md", 2048)
+        self.assertEqual(second["created"], [])
+        self.assertEqual(second["still_oversized"], ["wiki/shop/page-home.md"])
+        self.assertFalse((self.root / "wiki/shop/page-home").exists())
+        self.assertEqual(knowledge.account(self.root, [], None)["unreachable_count"], 0)
+
+    def test_splitting_an_already_split_page_keeps_one_contents_list_in_the_parent(self):
+        self.write("README.md", "[Shop](wiki/shop.md)\n")
+        self.write("wiki/shop.md", "# Shop\n\n## Home\n\n" + "- `Home label`\n" * 300 + "\n## Cart\n\n" + "- `Cart label`\n" * 300)
+        knowledge.split(self.root, "wiki/shop.md", 4096)
+        page = self.root / "wiki/shop.md"
+        page.write_text(page.read_text() + "\n## Checkout\n\n" + "- `Checkout label`\n" * 300)
+        report = knowledge.split(self.root, "wiki/shop.md", 4096)
+        self.assertEqual([c["path"] for c in report["created"]], ["wiki/shop/checkout.md"])
+        parent = page.read_text()
+        self.assertEqual(parent.count("## Contents"), 1)
+        for child in ("shop/home.md", "shop/cart.md", "shop/checkout.md"):
+            self.assertIn(f"({child})", parent)
+        self.assertFalse((self.root / "wiki/shop/contents.md").exists())
+        self.assertEqual(knowledge.account(self.root, [], None)["unreachable_count"], 0)
 
     def test_long_contents_fall_back_to_titles_and_report_if_still_too_large(self):
         sections = "".join(f"## Topic {chr(65 + n % 26)}{n}\n\n" + "Summary sentence that is fairly long. " * 5 + "\n\n" for n in range(60))
