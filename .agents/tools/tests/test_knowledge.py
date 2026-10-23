@@ -612,5 +612,82 @@ class AccountStructureTests(unittest.TestCase):
         self.assertEqual(status, 1)
 
 
+
+class PageSplitTests(unittest.TestCase):
+    """The round-4 failure shape: one subject-named page that is really a per-batch diary past the read cap."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+
+    def write(self, name, text):
+        path = self.root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text)
+        return path
+
+    def diary(self, batches=6, size=5000):
+        sections = "".join(f"## Batch {n:02} task records\n\nFinding {n}. " + "x" * size + f"\nSee [source](../inputs/t{n}.json) and [sites](#the-sites).\n\n"
+                           for n in range(1, batches + 1))
+        return "# Web environments\n\nIntro.\n\n## The sites\n\nThree sites.\n\n" + sections
+
+    def test_episodic_headings_inside_a_subject_page_fail_the_account(self):
+        self.write("README.md", "[Env](wiki/env.md)\n")
+        self.write("wiki/env.md", self.diary(batches=2, size=10))
+        result = knowledge.account(self.root, ["inputs"])
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["episodic_count"], 0)
+        self.assertEqual(result["episodic_heading_count"], 2)
+        self.write("wiki/env.md", "# Env\n\n## Checkout forms\n\n```\n## Batch 01 inside code\n```\n")
+        self.assertTrue(knowledge.account(self.root, ["inputs"])["ok"])
+
+    def test_split_keeps_text_links_and_reachability_under_the_limit(self):
+        for n in range(1, 7):
+            self.write(f"inputs/t{n}.json", "{}")
+        self.write("README.md", "[Env](wiki/env.md)\n")
+        self.write("wiki/index.md", "[Batch 3](env.md#batch-03-task-records)\n")
+        original = self.diary()
+        self.write("wiki/env.md", original)
+        report = knowledge.split(self.root, "wiki/env.md", 8192)
+        self.assertFalse(report["still_oversized"])
+        result = knowledge.account(self.root, ["inputs"], 8192)
+        self.assertEqual(result["oversized_count"], 0)
+        self.assertEqual(result["unreachable_count"], 1)  # index.md was never linked from README; split must not hide that
+        self.assertEqual(result["largest_page_bytes"] <= 8192, True)
+        children = {c["path"]: (self.root / c["path"]).read_text() for c in report["created"]}
+        self.assertEqual(len(children), 7)
+        body = "".join(children.values())
+        for n in range(1, 7):
+            self.assertIn(f"Finding {n}. " + "x" * 5000, body)
+        self.assertIn("(../../inputs/t3.json)", children["wiki/env/batch-03-task-records.md"])
+        self.assertIn("(the-sites.md#the-sites)", children["wiki/env/batch-03-task-records.md"])
+        self.assertIn("(env/batch-03-task-records.md#batch-03-task-records)", (self.root / "wiki/index.md").read_text())
+        self.assertTrue(knowledge.check(self.root)["ok"])
+        self.assertGreater(result["episodic_count"], 0)  # split repairs size, not organization: batch names remain visible
+
+    def test_a_single_unsplittable_section_is_reported_not_truncated(self):
+        self.write("wiki/env.md", "# Env\n\n## Sites\n\n" + "y" * 20000 + "\n")
+        report = knowledge.split(self.root, "wiki/env.md", 8192)
+        self.assertEqual(report["still_oversized"], ["wiki/env/sites.md"])
+        self.assertIn("y" * 20000, (self.root / "wiki/env/sites.md").read_text())
+
+    def test_long_contents_fall_back_to_titles_and_report_if_still_too_large(self):
+        sections = "".join(f"## Topic {chr(65 + n % 26)}{n}\n\n" + "Summary sentence that is fairly long. " * 5 + "\n\n" for n in range(60))
+        self.write("wiki/env.md", "# Env\n\n" + sections)
+        report = knowledge.split(self.root, "wiki/env.md", 4096)
+        parent = (self.root / "wiki/env.md").read_text()
+        self.assertNotIn("Summary sentence", parent)
+        self.assertLessEqual(len(parent.encode()), 4096)
+        self.assertNotIn("wiki/env.md", report["still_oversized"])
+
+    def test_cli_split_exit_status_reflects_remaining_oversize(self):
+        self.write("wiki/env.md", "# Env\n\n## A\n\nshort\n")
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(knowledge.main(["split", "--root", str(self.root), "wiki/env.md", "--max-bytes", "100"]), 0)
+            self.write("wiki/big.md", "# Big\n\n## Only\n\n" + "z" * 500 + "\n")
+            self.assertEqual(knowledge.main(["split", "--root", str(self.root), "wiki/big.md", "--max-bytes", "100"]), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
