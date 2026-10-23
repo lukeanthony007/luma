@@ -19,7 +19,7 @@ test("growth past the limit is refused with split instructions; growth below it 
   const small = decide(ws, "edit", { path: "wiki/env.md", old_string: "END", new_string: "END\nmore" });
   assert.equal(small, null);
   const big = decide(ws, "edit", { path: "wiki/env.md", old_string: "END", new_string: "END\n" + "b".repeat(2000) });
-  assert.match(big.message, /Split wiki\/env\.md before adding/);
+  assert.match(big.message, /Split wiki\/env\.md by subject/);
   assert.ok(big.after > 16384 && big.before < 16384);
 });
 
@@ -50,4 +50,26 @@ test("replace_all and failing edits are sized correctly", () => {
   const ws = workspace({ "wiki/env.md": "k ".repeat(3000) });
   assert.ok(decide(ws, "edit", { path: "wiki/env.md", old_string: "k", new_string: "kkkkkkk", replace_all: true }));
   assert.equal(decide(ws, "edit", { path: "wiki/env.md", old_string: "absent", new_string: "x".repeat(40000) }), null);
+});
+
+test("overflow names and headings and batch-listed lines are refused; subject names pass", async () => {
+  const { decide: d } = await import("./page_size_core.mjs");
+  const ws = workspace({ "wiki/patterns.md": "# Patterns\n\n## Failure modes\n- Paging loops (batch 06).\n" });
+  assert.match(d(ws, "write", { path: "wiki/failure-modes-continued.md", content: "# Failure modes\n" }).reasons[0], /overflow or numbered continuation/);
+  assert.ok(d(ws, "write", { path: "wiki/items-31-52.md", content: "# Items\n" }));
+  assert.equal(d(ws, "write", { path: "wiki/checkout-forms.md", content: "# Checkout forms\n" }), null);
+  assert.match(d(ws, "edit", { path: "wiki/patterns.md", old_string: "(batch 06).\n", new_string: "(batch 06).\n\n## Failure modes, continued (31–52)\n" }).reasons[0], /overflow or numbered-continuation headings/);
+  assert.match(d(ws, "edit", { path: "wiki/patterns.md", old_string: "(batch 06).\n", new_string: "(batch 06).\n- Batch 07 labels: 061 failed.\n" }).reasons[0], /listed by batch/);
+  assert.equal(d(ws, "edit", { path: "wiki/patterns.md", old_string: "(batch 06).\n", new_string: "(batch 06).\n- Toggle clicked twice (batch 07).\n" }), null);
+});
+
+test("the size refusal asks for a subject split at about 12 KB; growth past 12 KB gets a non-blocking reminder", async () => {
+  const { decide: d, advise } = await import("./page_size_core.mjs");
+  const ws = workspace({ "wiki/env.md": "# Env\n" + "a".repeat(12000) + "\nEND\n" });
+  const nudge = advise(ws, "edit", { path: "wiki/env.md", old_string: "END", new_string: "END\n" + "b".repeat(1000) });
+  assert.match(nudge, /now 12\.\d KB.*split off a coherent sub-subject/);
+  assert.equal(advise(ws, "edit", { path: "wiki/env.md", old_string: "END", new_string: "E" }), null);
+  const big = d(ws, "edit", { path: "wiki/env.md", old_string: "END", new_string: "END\n" + "b".repeat(6000) });
+  assert.match(big.message, /by subject at about 12 KB.*not a numbered or "continued" overflow/);
+  assert.equal(advise(ws, "edit", { path: "wiki/env.md", old_string: "END", new_string: "END\n" + "b".repeat(6000) }), null);
 });

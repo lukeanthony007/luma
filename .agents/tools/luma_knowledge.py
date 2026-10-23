@@ -508,6 +508,27 @@ def _check(root: Path, paths: list[str] | None = None, *, mode: str = "check") -
 
 EPISODIC_NAME = re.compile(r"(?i)(?:^|[-_ .])(?:batch|session|sess|run|part|round|day|week|chunk)[-_ ]?\d+|\d{4}-\d{2}-\d{2}")
 HEADING = re.compile(r"^\s{0,3}(#{1,6})\s+(.+?)\s*#*\s*$")
+# Overflow pages split by position rather than subject: "-continued", "-more", "part-2", or item ranges such as "31-52".
+OVERFLOW_NAME = re.compile(r"(?i)[-_ .](?:continued|contd|cont|more|overflow|remainder)(?:[-_ .]?\d+)?$|^(?:continued|overflow)\b|(?:^|[-_ .])part[-_ ]?\d+|(?<!\d)\d{2,3}[-_\u2013]\d{2,3}(?!\d)")
+OVERFLOW_HEADING = re.compile(r"(?i)\bcontinued\b|\(cont(?:d|\.)?\)|\bpart\s+\d+\b|(?<!\d)\d{2,3}\s*[-\u2013]\s*\d{2,3}(?!\d)")
+# A line that starts with a batch, session or date label lists findings by when they arrived, not by subject.
+BATCH_LINE = re.compile(r"(?i)^\s*(?:[-*+]|\d+[.)])?\s*(?:\*\*|__)?(?:batch|session|round|day|week|run)\s*\d+\b|^\s*(?:[-*+]\s*)?\d{4}-\d{2}-\d{2}\b")
+BATCH_LISTED_MIN = 3
+
+
+def _unfenced(lines: list[str]) -> list[str]:
+    out, fence = [], None
+    for line in lines:
+        marker = re.match(r"^\s{0,3}(`{3,}|~{3,})", line)
+        if fence:
+            if marker and marker.group(1)[0] == fence[0] and len(marker.group(1)) >= len(fence):
+                fence = None
+            continue
+        if marker:
+            fence = marker.group(1)
+            continue
+        out.append(line)
+    return out
 
 
 def _headings(lines: list[str]) -> list[tuple[int, int, str]]:
@@ -585,17 +606,23 @@ def account(root: Path, sources: list[str] | None = None, max_page_bytes: int | 
     rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
     unreachable = [rel(p) for p in retained if p not in reachable]
     episodic = [rel(p) for p in retained if EPISODIC_NAME.search(p.stem)]
-    episodic_headings = [f"{rel(p)}#{text}" for p in retained
-                         for _, level, text in _headings(p.read_text(encoding="utf-8", errors="replace").splitlines())
+    texts = {p: p.read_text(encoding="utf-8", errors="replace").splitlines() for p in retained}
+    episodic_headings = [f"{rel(p)}#{text}" for p in retained for _, level, text in _headings(texts[p])
                          if level <= 3 and EPISODIC_NAME.search(" " + text)]
+    overflow = [rel(p) for p in retained if OVERFLOW_NAME.search(p.stem)]
+    overflow_headings = [f"{rel(p)}#{text}" for p in retained for _, level, text in _headings(texts[p]) if level <= 3 and OVERFLOW_HEADING.search(text)]
+    batch_listed = [rel(p) for p in retained if sum(1 for line in _unfenced(texts[p]) if BATCH_LINE.match(line)) >= BATCH_LISTED_MIN]
     roots = sorted({rel(p).split("/", 1)[0] for p in retained if "/" in rel(p)})
     sizes = {rel(p): p.stat().st_size for p in retained}
     oversized = sorted(name for name, size in sizes.items() if max_page_bytes is not None and size > max_page_bytes)
-    ok = entry.is_file() and not unreachable and not episodic and not episodic_headings and not invalid and not oversized
+    ok = (entry.is_file() and not unreachable and not episodic and not episodic_headings and not invalid and not oversized
+          and not overflow and not overflow_headings and not batch_listed)
     return {"ok": ok, "entry_point": "README.md" if entry.is_file() else None, "retained_pages": len(retained),
             "reachable_pages": len(reachable), "unreachable": unreachable[:50], "unreachable_count": len(unreachable),
             "episodic_names": episodic[:50], "episodic_count": len(episodic),
             "episodic_headings": episodic_headings[:50], "episodic_heading_count": len(episodic_headings),
+            "overflow_names": overflow[:50], "overflow_count": len(overflow), "overflow_headings": overflow_headings[:50],
+            "overflow_heading_count": len(overflow_headings), "batch_listed_pages": batch_listed[:50], "batch_listed_count": len(batch_listed),
             "invalid_names": invalid[:50], "invalid_count": len(invalid), "page_directories": roots,
             "largest_page_bytes": max(sizes.values(), default=0), "max_page_bytes": max_page_bytes,
             "oversized_pages": oversized[:50], "oversized_count": len(oversized),
