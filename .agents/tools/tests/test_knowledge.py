@@ -681,6 +681,18 @@ class PageSplitTests(unittest.TestCase):
         self.assertLessEqual(len(parent.encode()), 4096)
         self.assertNotIn("wiki/env.md", report["still_oversized"])
 
+    def test_overflow_pages_headings_and_batch_listed_pages_fail_the_account(self):
+        self.write("README.md", "[Patterns](wiki/patterns.md) [More](wiki/failure-modes-continued.md) [Q](wiki/open-questions.md) [Forms](wiki/checkout-forms.md)\n")
+        self.write("wiki/patterns.md", "# Patterns\n\n## Failure modes\n\n1. Paging loops (batch 06).\n")
+        self.write("wiki/failure-modes-continued.md", "# Failure modes, continued (31\u201352)\n")
+        self.write("wiki/open-questions.md", "# Open questions\n\n- Batch 04 labels: 032.\n- Batch 05 labels: 041.\n- Batch 06 labels: 053.\n")
+        self.write("wiki/checkout-forms.md", "# Checkout forms\n\n- Orders 2023-05 refunds.\n```\n- Batch 01 in code\n- Batch 02\n- Batch 03\n```\n")
+        result = knowledge.account(self.root)
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["overflow_names"], ["wiki/failure-modes-continued.md"])
+        self.assertEqual(result["overflow_heading_count"], 1)
+        self.assertEqual(result["batch_listed_pages"], ["wiki/open-questions.md"])
+
     def test_cli_split_exit_status_reflects_remaining_oversize(self):
         self.write("wiki/env.md", "# Env\n\n## A\n\nshort\n")
         with redirect_stdout(io.StringIO()):
