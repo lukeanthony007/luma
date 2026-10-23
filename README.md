@@ -80,6 +80,12 @@ python3 .agents/tools/luma_knowledge.py complete --root .
 
 Add maintained pages outside those directories with `--page path.md`. JSON reports the exact checked scope. For a narrower edit-time check, use `check --root . path.md`; that result is not workspace completion.
 
+Validate task briefs under `.agents/briefs/` (contract in the [inbox briefs reference](.agents/skills/luma-inbox/references/briefs.md)):
+
+```sh
+python3 .agents/tools/luma_brief.py check
+```
+
 Capture records UTC timestamps, paths and hashes. Unchanged verified sources are reused; changed sources receive separate versions. Originals remain in place.
 
 Checks are mechanical. They do not establish factual accuracy, source relevance or completeness.

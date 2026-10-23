@@ -23,6 +23,7 @@ def payload():
             ".agents/skills/example/SKILL.md": b"---\nname: example\n---\n",
             ".agents/tools/luma.py": b"#!/usr/bin/env python3\n",
             ".agents/tools/luma_knowledge.py": b"#!/usr/bin/env python3\n",
+            ".agents/tools/luma_brief.py": b"#!/usr/bin/env python3\n",
             "LICENSE": b"Synthetic license\n"}
 
 
