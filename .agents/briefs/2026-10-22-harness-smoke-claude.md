@@ -3,7 +3,7 @@ id: 2026-10-22-harness-smoke-claude
 date: 2026-10-22
 sender: luke
 goal: Smoke test the Claude Code adapter, including one steer by stop and resume, with two short files.
-status: open
+status: running
 context:
   - .agents/AGENTS.md
   - .agents/skills/luma-inbox/references/briefs.md
@@ -37,6 +37,7 @@ approval:
   at: "2026-10-22T16:19:00.000Z"
   spend_cap_usd: 1.0
   note: "Luke approved four harness smoke tests under 5 USD total at 12:19 PM ET on 22 October 2026; Grok Bot relayed it on his call"
+runs: [20261023T023140Z-harness-smoke-claude-6b42]
 ---
 
 ## Goal
@@ -56,3 +57,7 @@ This is a smoke test of the Luma harness. Write the two deliverables below, then
 ## Report-back
 
 Write HANDOFF.md at the path the preamble gives, with every required heading. Under Findings say what you wrote. Under Changed files list the exact paths.
+
+## Corrections
+
+- 2026-10-23T02:31:45.646Z luke: Also add the marker word HARNESS-STEER-OK at the end of the line in two.md.

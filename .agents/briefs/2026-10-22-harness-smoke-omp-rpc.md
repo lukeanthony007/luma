@@ -3,7 +3,7 @@ id: 2026-10-22-harness-smoke-omp-rpc
 date: 2026-10-22
 sender: luke
 goal: Smoke test the omp rpc-mode adapter, including one steer through the control socket, with two short files.
-status: open
+status: running
 context:
   - .agents/AGENTS.md
   - .agents/skills/luma-inbox/references/briefs.md
@@ -37,6 +37,7 @@ approval:
   at: "2026-10-22T16:19:00.000Z"
   spend_cap_usd: 0.5
   note: "Luke approved four harness smoke tests under 5 USD total at 12:19 PM ET on 22 October 2026; Grok Bot relayed it on his call"
+runs: [20261023T023216Z-harness-smoke-omp-rpc-ba2d, 20261023T025034Z-harness-smoke-omp-rpc-0f8b]
 ---
 
 ## Goal
@@ -56,3 +57,8 @@ This is a smoke test of the Luma harness. Write the two deliverables below, then
 ## Report-back
 
 Write HANDOFF.md at the path the preamble gives, with every required heading. Under Findings say what you wrote. Under Changed files list the exact paths.
+
+## Corrections
+
+- 2026-10-23T02:32:18.933Z luke: Also add the marker word HARNESS-STEER-OK at the end of the line in two.md.
+- 2026-10-23T02:50:37.164Z luke: Also add the marker word HARNESS-STEER-OK at the end of the line in two.md.

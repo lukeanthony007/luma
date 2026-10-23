@@ -3,7 +3,7 @@ id: 2026-10-22-harness-smoke-omp-print
 date: 2026-10-22
 sender: luke
 goal: Smoke test the omp print-mode adapter by writing two short files and a handoff.
-status: open
+status: running
 context:
   - .agents/AGENTS.md
   - .agents/skills/luma-inbox/references/briefs.md
@@ -36,6 +36,7 @@ approval:
   at: "2026-10-22T16:19:00.000Z"
   spend_cap_usd: 0.5
   note: "Luke approved four harness smoke tests under 5 USD total at 12:19 PM ET on 22 October 2026; Grok Bot relayed it on his call"
+runs: [20261023T023114Z-harness-smoke-omp-print-e5c3]
 ---
 
 ## Goal
