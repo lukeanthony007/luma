@@ -22,8 +22,7 @@ MAX_FILE = 2 * 1024 * 1024
 MAX_FILES = 500
 TIMEOUT = 20
 RESOURCE_FILES = (".agents/AGENTS.md", ".agents/tools/luma.py",
-                  ".agents/tools/luma_knowledge.py", ".agents/tools/luma_brief.py",
-                  "LICENSE")
+                  ".agents/tools/luma_knowledge.py", "LICENSE")
 INSTALL_RECORD = ".agents/luma-install.json"
 README_BEGIN = "<!-- luma:begin -->"
 README_END = "<!-- luma:end -->"
@@ -43,7 +42,7 @@ IGNORE_BLOCK = "\n".join((
     IGNORE_BEGIN,
     "# Luma knowledge, evidence and local state",
     "/wiki/", "/inbox/", "/.agents/memory/", "/.agents/runtime/",
-    "/.agents/runs/", "/.agents/cache/", "/.agents/mcp.json", "/.agents/credentials/",
+    "/.agents/cache/", "/.agents/mcp.json", "/.agents/credentials/",
     "/.credentials/", "/.env", "/.env.*", "!/.env.example",
     IGNORE_END,
 ))
@@ -266,7 +265,7 @@ def _resource_path(name: str) -> bool:
             or any(char in name for char in ("\\", ":", "\0"))):
         return False
     return name in (".agents/AGENTS.md", ".agents/LICENSE", ".agents/tools/luma.py",
-                    ".agents/tools/luma_knowledge.py", ".agents/tools/luma_brief.py") or (
+                    ".agents/tools/luma_knowledge.py") or (
         name.startswith(".agents/skills/") and
         (path.suffix == ".md" or path.name in ("LICENSE", "NOTICE")))
 
