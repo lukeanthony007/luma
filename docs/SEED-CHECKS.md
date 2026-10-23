@@ -10,7 +10,7 @@ Run from a source checkout with Python 3.9+:
 python3 -m unittest discover -s .agents/tools/tests -v
 ```
 
-The initializer tests use temporary synthetic workspaces. They check non-destructive preparation, resource conflicts, repeatability, source/archive handling, rollback and installed-resource baseline inspection. Brief-validator tests run the vendored `luma_brief.py` over a 12-brief fixture set (`.agents/tools/tests/fixtures/briefs/`) and check each expected pass or failure, index regeneration, archive with supersedes and the new-skeleton rules. Knowledge-helper tests check source preservation and mechanical navigation/integrity behavior. Neither suite establishes semantic comprehension or host activation.
+The initializer tests use temporary synthetic workspaces. They check non-destructive preparation, resource conflicts, repeatability, source/archive handling, rollback and installed-resource baseline inspection. Knowledge-helper tests check source preservation and mechanical navigation/integrity behavior. Neither suite establishes semantic comprehension or host activation.
 
 For maintained user-facing pages, run the knowledge helper's scoped completion check with explicit `--page` arguments for files outside `wiki/` and `inbox/`. Its JSON reports the actual scope. The helper intentionally rejects `.agents/` as selected knowledge content; do not relax that protection to scan the seed's instructions. Inspect changed guidance and its references as package source instead. Do not call a selected-file check proof of workspace-wide completeness.
 
