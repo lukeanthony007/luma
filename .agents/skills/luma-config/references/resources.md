@@ -27,7 +27,7 @@ When a resource changes location, inspect callers and affected navigation, repai
 
 ## Inspect an installed seed
 
-The initializer records its installed canonical resources in `.agents/luma-install.json`. Version 1 contains a declared `source` and a `resources` map from installed relative paths to SHA-256 hashes. It excludes the shared README and `.gitignore`, user-added resources and populated knowledge. It is an inspection baseline, not a grant of ownership over everything under `.agents/`.
+The initializer records its installed canonical resources in `.agents/luma-install.json`. Format 2 contains a declared `source`, a `resources` map from installed relative paths to SHA-256 hashes, a `blocks` map from `.gitignore` and the README to the SHA-256 of the Luma block in each, and the `readme` filename. Format 1 records have no `blocks`; they are still read and their blocks reported as `unrecorded`. The record excludes README and `.gitignore` content outside the Luma blocks, user-added resources and populated knowledge. It is an inspection and upgrade baseline, not a grant of ownership over everything under `.agents/`.
 
 Use the read-only status command from an installed workspace:
 
@@ -35,10 +35,12 @@ Use the read-only status command from an installed workspace:
 python3 .agents/tools/luma.py status .
 ```
 
-Status emits JSON and exits successfully when inspection succeeds, including drift or an absent baseline. Inspect the `baseline` and per-resource `state` values rather than treating exit status zero as equality. An invalid record or unreadable/unsafe selected path produces an error and nonzero exit status without rewriting it.
+Status emits JSON and exits successfully when inspection succeeds, including drift or an absent baseline. Inspect the `baseline`, per-resource `state` and per-block `state` values rather than treating exit status zero as equality. An invalid record or unreadable/unsafe selected path produces an error and nonzero exit status without rewriting it.
 
-It compares recorded hashes with present files and reports unchanged, modified or missing resources, or an absent/invalid baseline. It does not contact an upstream, write an update or establish effective host loading. A local source declaration contains no absolute source path. A declared GitHub ref can be mutable; the record does not claim it resolved to a particular commit.
+It compares recorded hashes with present files and reports unchanged, modified or missing resources and blocks, or an absent/invalid baseline. It does not contact an upstream, write an update or establish effective host loading. A local source declaration contains no absolute source path. A declared GitHub ref can be mutable; the record does not claim it resolved to a particular commit.
+
+To take a newer Luma source into a recorded installation, use `upgrade` (same `--source`, `--ref` and `--dry-run` options as `init`). It replaces only resources and blocks that still match the record, reinstalls missing ones, removes unedited resources the new source dropped and lists edited ones as orphaned without deleting them. A locally modified resource or block refuses the whole upgrade, naming every conflict, with no file or record changed. Reconcile by restoring the recorded bytes or moving the adaptation into a differently named file; do not rewrite the record to get past a refusal. A format 1 record's ignore block is accepted only if it equals the block shipped with format 1 records.
 
 A digest can identify equality with recorded bytes but cannot reconstruct a previous file. For three-way maintenance, recover the actual prior source through a known revision or preserved baseline; otherwise inspect differences individually. The record is ordinary mutable workspace data, not signed provenance or an independent verification service.
 
-An older installation without a record is not a failed installation. If its resources exactly match the chosen source and shared managed blocks are unchanged, initialization can add the baseline without replacing them. Differing resources, modified managed blocks or a conflicting existing record still require scoped review; initialization is not an updater. Preserve local adaptations and do not rewrite a record merely to make drift disappear.
+An older installation without a record is not a failed installation. If its resources exactly match the chosen source and shared managed blocks are unchanged, initialization can add the baseline without replacing them. Differing resources, modified managed blocks or a conflicting existing record still require scoped review; initialization is not an updater, and `upgrade` requires a record. Preserve local adaptations and do not rewrite a record merely to make drift disappear.

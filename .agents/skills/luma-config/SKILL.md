@@ -37,7 +37,7 @@ Keep tokens, passwords and private headers in the harness credential store or su
 
 Add software only for an established use. Inspect repository and package-manager conventions before changing manifests or layout. Do not impose a second project structure, generate sample packages, or disrupt existing work. Dependencies and installation are separate decisions; do not install or fetch without authorization.
 
-Where installed, the directory initializer (`.agents/tools/luma.py`) prepares portable resources without creating a Git repository or activating a harness. Use `init --dry-run` to inspect proposed installation changes. It preserves existing README content and ignore rules, and stops on differing managed resources. Maintain an existing installation through the review below rather than rerunning initialization as an updater.
+Where installed, the directory initializer (`.agents/tools/luma.py`) prepares portable resources without creating a Git repository or activating a harness. Use `init --dry-run` to inspect proposed installation changes. It preserves existing README content and ignore rules, and stops on differing managed resources. For a recorded installation, `upgrade` replaces only Luma resources and blocks still matching the record and stops on any local edit; reconcile what it refuses through the review below rather than rerunning initialization as an updater.
 
 ## Update installed guidance
 

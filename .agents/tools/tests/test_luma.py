@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import io
 import json
@@ -403,6 +404,190 @@ class InstallerTests(unittest.TestCase):
             alias.symlink_to(root, target_is_directory=True)
             with self.assertRaises(luma.LumaError):
                 luma.install_status(alias)
+
+
+def payload_a():
+    """Release A: the base payload plus a skill that release B drops."""
+    return {**payload(), ".agents/skills/old/SKILL.md": b"---\nname: old\n---\n"}
+
+
+def payload_b():
+    """Release B: one resource changed, one added, one dropped (and the current ignore block)."""
+    files = payload_a()
+    files[".agents/skills/example/SKILL.md"] = b"---\nname: example\n---\nRevised.\n"
+    files[".agents/skills/added/SKILL.md"] = b"---\nname: added\n---\n"
+    del files[".agents/skills/old/SKILL.md"]
+    return files
+
+
+class UpgradeTests(unittest.TestCase):
+    snapshot = InstallerTests.snapshot
+
+    def init_at_a(self, root, files=None):
+        with mock.patch.object(luma, "IGNORE_BLOCK", luma.PREVIOUS_IGNORE_BLOCK):
+            luma.apply_plan(root, luma.build_plan(root, files or payload_a(), {"kind": "local"}))
+
+    def upgrade_to_b(self, root):
+        changes, orphaned = luma.build_upgrade_plan(root, payload_b(), {"kind": "local"})
+        luma.apply_plan(root, changes)
+        return changes, orphaned
+
+    def test_upgrade_from_the_installed_source_changes_nothing(self):
+        with tempfile.TemporaryDirectory() as temp, tempfile.TemporaryDirectory() as source_temp:
+            root, source = Path(temp), Path(source_temp)
+            source_tree(source, payload_a())
+            with mock.patch("sys.stdout", new_callable=io.StringIO):
+                self.assertEqual(luma.main(["init", str(root), "--source", str(source)]), 0)
+            record = (root / luma.INSTALL_RECORD).read_bytes()
+            before = self.snapshot(root)
+            with mock.patch("sys.stdout", new_callable=io.StringIO) as output:
+                self.assertEqual(luma.main(["upgrade", str(root), "--source", str(source)]), 0)
+            self.assertIn("(0 file(s) changed)", output.getvalue())
+            self.assertEqual((root / luma.INSTALL_RECORD).read_bytes(), record)
+            self.assertEqual(self.snapshot(root), before)
+
+    def test_upgrade_applies_exactly_the_release_changes_then_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as temp, tempfile.TemporaryDirectory() as source_temp:
+            root = Path(temp)
+            self.init_at_a(root)
+            before = self.snapshot(root)
+            source = Path(source_temp) / "luma-b.tar.gz"
+            source.write_bytes(archive(payload_b()))
+            with mock.patch("sys.stdout", new_callable=io.StringIO) as output:
+                self.assertEqual(luma.main(["upgrade", str(root), "--source", str(source), "--dry-run"]), 0)
+            self.assertIn(".agents/skills/old/SKILL.md (remove)", output.getvalue())
+            self.assertEqual(self.snapshot(root), before)
+            with mock.patch("sys.stdout", new_callable=io.StringIO):
+                self.assertEqual(luma.main(["upgrade", str(root), "--source", str(source)]), 0)
+            after = self.snapshot(root)
+            changed = {name for name in set(before) | set(after) if before.get(name) != after.get(name)}
+            self.assertEqual(changed, {".agents/skills/added/SKILL.md", ".agents/skills/example/SKILL.md",
+                                       ".agents/skills/old/SKILL.md", ".gitignore", luma.INSTALL_RECORD})
+            self.assertEqual(after[".agents/skills/example/SKILL.md"], payload_b()[".agents/skills/example/SKILL.md"])
+            self.assertFalse((root / ".agents/skills/old").exists())
+            self.assertIn(b"\n/.agents/briefs/\n", after[".gitignore"])
+            status = luma.install_status(root)
+            self.assertEqual(status["format_version"], 2)
+            self.assertNotIn(".agents/skills/old/SKILL.md", status["resources"])
+            self.assertTrue(all(item["state"] == "unchanged" for item in status["resources"].values()))
+            self.assertEqual({name: item["state"] for name, item in status["blocks"].items()},
+                             {".gitignore": "unchanged", "README.md": "unchanged"})
+            self.assertEqual(luma.build_upgrade_plan(root, payload_b(), {"kind": "local"}), ([], []))
+
+    def test_locally_edited_skill_refuses_the_whole_upgrade_until_restored(self):
+        with tempfile.TemporaryDirectory() as temp, tempfile.TemporaryDirectory() as source_temp:
+            root, source = Path(temp), Path(source_temp)
+            source_tree(source, payload_b())
+            self.init_at_a(root)
+            skill = root / ".agents/skills/example/SKILL.md"
+            original = skill.read_bytes()
+            skill.write_bytes(original + b"Local note.\n")
+            edited = self.snapshot(root)
+            with mock.patch("sys.stderr", new_callable=io.StringIO) as error:
+                self.assertEqual(luma.main(["upgrade", str(root), "--source", str(source)]), 1)
+            self.assertIn(".agents/skills/example/SKILL.md", error.getvalue())
+            self.assertIn("restore the recorded bytes", error.getvalue())
+            self.assertIn("differently named file", error.getvalue())
+            self.assertEqual(self.snapshot(root), edited)
+            skill.write_bytes(original)
+            with mock.patch("sys.stdout", new_callable=io.StringIO):
+                self.assertEqual(luma.main(["upgrade", str(root), "--source", str(source)]), 0)
+            self.assertEqual(skill.read_bytes(), payload_b()[".agents/skills/example/SKILL.md"])
+
+    def test_upgrade_replaces_the_ignore_block_and_keeps_user_lines(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            ignore = root / ".gitignore"
+            ignore.write_bytes(b"# above\n*.local\n")
+            self.init_at_a(root)
+            with ignore.open("ab") as output:
+                output.write(b"build/\n")
+            self.upgrade_to_b(root)
+            self.assertEqual(ignore.read_text(), "# above\n*.local\n\n" + luma.IGNORE_BLOCK + "\nbuild/\n")
+
+    def test_format_1_record_upgrades_only_from_the_previous_shipped_block(self):
+        for hand_edited in (False, True):
+            with self.subTest(hand_edited=hand_edited), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                self.init_at_a(root)
+                record_path = root / luma.INSTALL_RECORD
+                record = json.loads(record_path.read_bytes())
+                del record["blocks"], record["readme"]
+                record["format_version"] = 1
+                record_path.write_text(json.dumps(record, sort_keys=True, indent=2) + "\n")
+                status = luma.install_status(root)
+                self.assertEqual(status["format_version"], 1)
+                self.assertEqual({item["state"] for item in status["blocks"].values()}, {"unrecorded"})
+                ignore = root / ".gitignore"
+                if hand_edited:
+                    ignore.write_text(ignore.read_text().replace("/.agents/cache/\n", "/.agents/cache/\n/scratch/\n"))
+                    before = self.snapshot(root)
+                    with self.assertRaises(luma.LumaError) as refused:
+                        luma.build_upgrade_plan(root, payload_b(), {"kind": "local"})
+                    self.assertIn(".gitignore (Luma block)", str(refused.exception))
+                    self.assertEqual(self.snapshot(root), before)
+                    continue
+                self.upgrade_to_b(root)
+                upgraded = json.loads(record_path.read_bytes())
+                self.assertEqual(upgraded["format_version"], 2)
+                self.assertEqual(upgraded["readme"], "README.md")
+                self.assertEqual(upgraded["blocks"][".gitignore"], hashlib.sha256(luma.IGNORE_BLOCK.encode()).hexdigest())
+                self.assertIn(luma.IGNORE_BLOCK, ignore.read_text())
+                self.assertEqual({item["state"] for item in luma.install_status(root)["blocks"].values()}, {"unchanged"})
+
+    def test_foreign_files_are_never_listed_or_touched(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            foreign = {".agents/SOUL.md": b"# Soul\n", ".agents/animus.json": b'{"mode": "ledger"}',
+                       ".agents/memory/animus/core.sqlite": b"animus state",
+                       ".agents/skills/user-own/SKILL.md": b"---\nname: user-own\n---\n"}
+            for name, data in foreign.items():
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
+                (root / name).write_bytes(data)
+            self.init_at_a(root)
+            status = luma.install_status(root)
+            self.assertTrue(foreign.keys().isdisjoint(set(status["resources"]) | set(status["blocks"])))
+            changes, orphaned = luma.build_upgrade_plan(root, payload_b(), {"kind": "local"})
+            self.assertTrue(foreign.keys().isdisjoint({change.path for change in changes} | set(orphaned)))
+            luma.apply_plan(root, changes)
+            for name, data in foreign.items():
+                self.assertEqual((root / name).read_bytes(), data)
+            status = luma.install_status(root)
+            self.assertTrue(foreign.keys().isdisjoint(set(status["resources"]) | set(status["blocks"])))
+
+    def test_dropped_resource_edited_locally_is_left_as_orphaned(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            self.init_at_a(root)
+            dropped = root / ".agents/skills/old/SKILL.md"
+            dropped.write_bytes(b"locally extended\n")
+            changes, orphaned = self.upgrade_to_b(root)
+            self.assertEqual(orphaned, [".agents/skills/old/SKILL.md"])
+            self.assertNotIn(".agents/skills/old/SKILL.md", {change.path for change in changes})
+            self.assertEqual(dropped.read_bytes(), b"locally extended\n")
+            self.assertNotIn(".agents/skills/old/SKILL.md", luma.install_status(root)["resources"])
+
+    def test_failed_upgrade_restores_removed_and_replaced_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            self.init_at_a(root)
+            dropped = root / ".agents/skills/old/SKILL.md"
+            dropped.chmod(0o640)
+            before = self.snapshot(root)
+            changes, unused = luma.build_upgrade_plan(root, payload_b(), {"kind": "local"})
+            real_replace = os.replace
+
+            def fail_on_ignore(src, dest):
+                if Path(dest) == root / ".gitignore":
+                    raise OSError("simulated update failure")
+                return real_replace(src, dest)
+
+            with mock.patch.object(os, "replace", side_effect=fail_on_ignore):
+                with self.assertRaises(luma.LumaError):
+                    luma.apply_plan(root, changes)
+            self.assertEqual(self.snapshot(root), before)
+            self.assertEqual(dropped.stat().st_mode & 0o777, 0o640)
+
 
 
 if __name__ == "__main__":
