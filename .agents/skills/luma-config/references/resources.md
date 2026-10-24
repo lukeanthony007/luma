@@ -11,7 +11,7 @@ Use these conventions when adding or maintaining a resource. They are not a requ
 | `.agents/tools/` | Helpers with defined purpose, inputs, outputs, dependencies and failure limits. |
 | `.agents/packages/` | Optional maintained software supporting the agent. |
 | `.agents/repos/` | Optional checked-out repositories, retaining their own ownership, history and applicable guidance. |
-| `.agents/memory/<date-time>/` | Standalone preserved source evidence and provenance, managed by [memory](../../luma-memory/SKILL.md). Capture time is distinct from dates described by sources. Inspect inherited ownership first. |
+| `.agents/memory/sources/<date-time>/` | Standalone preserved source evidence and provenance, managed by [memory](../../luma-memory/SKILL.md). Batches in the older flat `.agents/memory/<date-time>/` layout are still read. Capture time is distinct from dates described by sources. Inspect inherited ownership first. |
 | `.agents/mcp.json` | Project connector definitions, created only for an actual integration through [configuration](../SKILL.md#mcp-connections). Verify the selected host's real schema and loading. |
 | `.agents/runtime/` | Optional Luma-owned execution state for an actual capability. Never move harness databases, journals, sessions or caches just to match this convention. |
 

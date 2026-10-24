@@ -42,7 +42,7 @@ IGNORE_BLOCK = "\n".join((
     IGNORE_BEGIN,
     "# Luma knowledge, evidence and local state",
     "/wiki/", "/inbox/", "/.agents/memory/", "/.agents/runtime/",
-    "/.agents/cache/", "/.agents/mcp.json", "/.agents/credentials/",
+    "/.agents/runs/", "/.agents/cache/", "/.agents/mcp.json", "/.agents/credentials/",
     "/.credentials/", "/.env", "/.env.*", "!/.env.example",
     IGNORE_END,
 ))

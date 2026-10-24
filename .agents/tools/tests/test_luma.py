@@ -104,6 +104,7 @@ class InstallerTests(unittest.TestCase):
             readme, ignore = (root / "README.md").read_bytes(), (root / ".gitignore").read_bytes()
             self.assertTrue(readme.startswith(b"Human README\n"))
             self.assertTrue(ignore.startswith(b"*.local\n"))
+            self.assertIn(b"\n/.agents/runs/\n", ignore)
             luma.apply_plan(root, luma.build_plan(root, payload()))
             self.assertEqual((root / "README.md").read_bytes(), readme)
             self.assertEqual((root / ".gitignore").read_bytes(), ignore)
@@ -294,6 +295,21 @@ class InstallerTests(unittest.TestCase):
             with self.assertRaises(luma.LumaError):
                 luma.build_plan(root, files, {"kind": "local"})
             self.assertEqual(self.snapshot(root), adapted)
+
+    def test_status_treats_animus_files_as_foreign(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            luma.apply_plan(root, luma.build_plan(root, payload(), {"kind": "local"}))
+            foreign = {".agents/animus.json": b'{"mode": "ledger"}', ".agents/SOUL.md": b"# Soul\n",
+                       ".agents/memory/animus/core.sqlite": b"animus state"}
+            for name, data in foreign.items():
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
+                (root / name).write_bytes(data)
+            before = self.snapshot(root)
+            status = luma.install_status(root)
+            self.assertTrue(foreign.keys().isdisjoint(status["resources"]))
+            self.assertTrue(all(item["state"] == "unchanged" for item in status["resources"].values()))
+            self.assertEqual(self.snapshot(root), before)
 
     def test_legacy_install_can_gain_only_a_matching_baseline(self):
         with tempfile.TemporaryDirectory() as temp:

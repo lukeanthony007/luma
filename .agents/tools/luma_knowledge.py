@@ -22,6 +22,12 @@ MAX_TOTAL = 128 * 1024 * 1024
 MAX_FILES = 1000
 MAX_MANIFEST = 4 * 1024 * 1024
 LIMITS = ["Mechanical checks do not establish source support, claim truth, semantic coverage or instruction compliance.", "Markdown parsing is conservative and does not implement every extension or nested syntax."]
+# A capture batch is named for its captured_at with ":" as "-", plus an optional collision suffix. Only such directories
+# are batches: other subdirectories of .agents/memory belong to other owners (for example Animus's .agents/memory/animus/).
+BATCH_NAME = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{6}Z(?:-[A-Za-z0-9-]+)?")
+# New captures go under .agents/memory/sources/<date-time>/; batches in the older flat layout, .agents/memory/<date-time>/,
+# are still read.
+CAPTURE_ROOT = "sources"
 
 class KnowledgeError(Exception):
     """Actionable local knowledge operation error."""
@@ -78,7 +84,14 @@ def _manifest_entries(root: Path) -> list[tuple[str, dict, str]]:
     if memory.is_symlink() or not memory.is_dir():
         raise KnowledgeError("Unsafe .agents/memory path")
     results = []
-    batches = sorted(memory.iterdir())
+    roots = [memory]
+    sources = memory / CAPTURE_ROOT
+    if sources.is_symlink() or (sources.exists() and not sources.is_dir()):
+        raise KnowledgeError("Unsafe .agents/memory/sources path")
+    if sources.is_dir():
+        roots.append(sources)
+    # Names are captured_at stamps, so sorting by name reads batches in capture order across both layouts.
+    batches = sorted((entry for base in roots for entry in base.iterdir() if BATCH_NAME.fullmatch(entry.name)), key=lambda entry: (entry.name, entry.parent != memory))
     if len(batches) > MAX_FILES:
         raise KnowledgeError("Memory batch count exceeds limit")
     total = 0
@@ -86,6 +99,7 @@ def _manifest_entries(root: Path) -> list[tuple[str, dict, str]]:
     for batch in batches:
         if batch.is_symlink() or not batch.is_dir():
             continue
+        batch_rel = batch.relative_to(root).as_posix()
         mf = batch / "manifest.json"
         if not mf.exists():
             continue
@@ -126,7 +140,7 @@ def _manifest_entries(root: Path) -> list[tuple[str, dict, str]]:
             if predecessor is not None:
                 if not isinstance(predecessor, str) or known_payloads.get(predecessor) != source:
                     raise KnowledgeError(f"Invalid or unverified predecessor for {source}")
-            payload_rel = f".agents/memory/{batch.name}/{archived}"
+            payload_rel = f"{batch_rel}/{archived}"
             payload = _path(root, payload_rel)
             if not payload.is_file() or payload.stat().st_size != entry["size"]:
                 raise KnowledgeError(f"Missing or oversized captured payload: {payload_rel}")
@@ -136,7 +150,7 @@ def _manifest_entries(root: Path) -> list[tuple[str, dict, str]]:
             raw = _read_file(payload, MAX_FILE)
             if hashlib.sha256(raw).hexdigest() != entry["sha256"]:
                 raise KnowledgeError(f"Capture integrity failure: {payload_rel}")
-            results.append((source, dict(entry, captured_at=captured), f".agents/memory/{batch.name}/{archived}"))
+            results.append((source, dict(entry, captured_at=captured), payload_rel))
             known_payloads[payload_rel] = source
             if len(results) > MAX_FILES:
                 raise KnowledgeError("Capture record count exceeds limit")
@@ -197,7 +211,11 @@ def capture(root: Path, paths: list[str]) -> dict:
         if memory.is_symlink() or (memory.exists() and not memory.is_dir()):
             raise KnowledgeError("Unsafe .agents/memory destination")
         memory.mkdir(parents=True, exist_ok=True)
-        stage = Path(tempfile.mkdtemp(prefix=".luma-capture-", dir=memory))
+        destination = memory / CAPTURE_ROOT
+        if destination.is_symlink() or (destination.exists() and not destination.is_dir()):
+            raise KnowledgeError("Unsafe .agents/memory/sources destination")
+        destination.mkdir(exist_ok=True)
+        stage = Path(tempfile.mkdtemp(prefix=".luma-capture-", dir=destination))
         final = None
         reserved_stat = None
         try:
@@ -216,7 +234,7 @@ def capture(root: Path, paths: list[str]) -> dict:
                     raise KnowledgeError(f"Source changed before publication: {src}")
             base = captured.replace(":", "-")
             for suffix in range(MAX_FILES):
-                candidate = memory / (base if not suffix else f"{base}-{suffix}")
+                candidate = destination / (base if not suffix else f"{base}-{suffix}")
                 try:
                     candidate.mkdir()
                 except FileExistsError:

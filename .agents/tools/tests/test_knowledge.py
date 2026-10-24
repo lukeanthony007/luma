@@ -33,8 +33,8 @@ class KnowledgeCaptureTests(unittest.TestCase):
         return path
 
     def batches(self):
-        memory = self.root / ".agents" / "memory"
-        return sorted(path for path in memory.iterdir() if path.is_dir()) if memory.exists() else []
+        sources = self.root / ".agents" / "memory" / "sources"
+        return sorted(path for path in sources.iterdir() if path.is_dir()) if sources.exists() else []
 
     def test_capture_records_real_utc_encoded_link_and_exact_bytes(self):
         data = b"# original\n\x00source\n"
@@ -137,7 +137,7 @@ class KnowledgeCaptureTests(unittest.TestCase):
             with self.assertRaises((knowledge.KnowledgeError, OSError)):
                 knowledge.capture(self.root, ["a.md"])
         self.assertEqual((self.root / "a.md").read_bytes(), original)
-        self.assertFalse(any(memory.iterdir()))
+        self.assertFalse(any((memory / "sources").iterdir()))
 
     def test_clock_collision_retains_existing_batch(self):
         import datetime
@@ -152,6 +152,27 @@ class KnowledgeCaptureTests(unittest.TestCase):
             self.assertNotEqual(first["batch"], second["batch"])
             self.assertEqual((self.root / first["sources"][0]["archived"]).read_bytes(), original)
             self.assertTrue(knowledge.check(self.root)["ok"])
+
+    def test_flat_layout_batches_are_read_and_foreign_subdirectories_ignored(self):
+        self.source("a.md", b"first")
+        first = knowledge.capture(self.root, ["a.md"])
+        self.assertTrue(first["batch"].startswith(".agents/memory/sources/"))
+        memory = self.root / ".agents" / "memory"
+        flat = memory / Path(first["batch"]).name
+        (self.root / first["batch"]).rename(flat)
+        flat_archived = f".agents/memory/{flat.name}/originals/a.md"
+        foreign = memory / "animus"
+        foreign.mkdir()
+        (foreign / "manifest.json").write_text(json.dumps({"format": "luma-capture-v1", "captured_at": "2026-01-01T00:00:00.000000Z", "files": []}), encoding="utf-8")
+        reused = knowledge.capture(self.root, ["a.md"])
+        self.assertIsNone(reused["batch"])
+        self.assertEqual(reused["sources"][0]["archived"], flat_archived)
+        self.source("a.md", b"second")
+        changed = knowledge.capture(self.root, ["a.md"])
+        self.assertTrue(changed["batch"].startswith(".agents/memory/sources/"))
+        manifest = json.loads((self.root / changed["batch"] / "manifest.json").read_text())
+        self.assertEqual(manifest["files"][0]["previous"], flat_archived)
+        self.assertTrue(knowledge.check(self.root)["ok"])
 
 
 class KnowledgeCheckTests(unittest.TestCase):
