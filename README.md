@@ -32,7 +32,7 @@ The initializer installs guidance and tools, adds README routing and configures 
 |---|---|
 | `wiki/` | Optional connected understanding: subjects, relationships, decisions and open questions. |
 | `inbox/` | Optional temporary messages and worksheets. Outcomes survive clearing handled items. |
-| `.agents/memory/sources/<date-time>/` | Preserved standalone source evidence and provenance. Inspect existing ownership first. |
+| `.agents/sources/<date-time>/` | Preserved standalone source evidence and provenance. Inspect existing ownership first. |
 | `.agents/skills/` | Reusable agent practices. |
 | `.agents/tools/` | Workspace utilities. |
 | `.agents/AGENTS.md` | Canonical working agreement. |

@@ -49,7 +49,7 @@ After a trial, ask what helped, what felt difficult and whether the result moved
 
 Retain useful goals, confirmed preferences, decisions, open questions and next actions in the established project records. Use [luma-wiki](../luma-wiki/SKILL.md) when connected explanations would help; a wiki is not a prerequisite for continuity. Distinguish the person's statements, your inferences and unadopted suggestions. Preserve relevant sources and avoid storing every conversational exchange.
 
-When the person brings an accumulated directory, use [luma-sync](../luma-sync/SKILL.md) to preserve the original references in dated `.agents/memory/` batches and develop a wiki organized around what they are trying to understand or achieve. Explain the distinction simply: the originals retain the evidence; the wiki connects and develops what is learned. Build on existing useful knowledge without treating a renamed source folder as a finished wiki.
+When the person brings an accumulated directory, use [luma-sync](../luma-sync/SKILL.md) to preserve the original references in dated `.agents/sources/` batches and develop a wiki organized around what they are trying to understand or achieve. Explain the distinction simply: the originals retain the evidence; the wiki connects and develops what is learned. Build on existing useful knowledge without treating a renamed source folder as a finished wiki.
 
 Use [luma-continuity](../luma-continuity/SKILL.md) when the initial direction becomes ongoing work: connect the first action to its purpose, retain actual commitments and leave enough context to resume. Establish only useful time horizons; the person does not need a calendar system before beginning.
 

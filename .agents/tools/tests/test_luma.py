@@ -105,6 +105,7 @@ class InstallerTests(unittest.TestCase):
             self.assertTrue(readme.startswith(b"Human README\n"))
             self.assertTrue(ignore.startswith(b"*.local\n"))
             self.assertIn(b"\n/.agents/runs/\n", ignore)
+            self.assertIn(b"\n/.agents/sources/\n", ignore)
             luma.apply_plan(root, luma.build_plan(root, payload()))
             self.assertEqual((root / "README.md").read_bytes(), readme)
             self.assertEqual((root / ".gitignore").read_bytes(), ignore)
