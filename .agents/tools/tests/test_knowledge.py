@@ -33,8 +33,8 @@ class KnowledgeCaptureTests(unittest.TestCase):
         return path
 
     def batches(self):
-        memory = self.root / ".agents" / "memory"
-        return sorted(path for path in memory.iterdir() if path.is_dir()) if memory.exists() else []
+        sources = self.root / ".agents" / "sources"
+        return sorted(path for path in sources.iterdir() if path.is_dir()) if sources.exists() else []
 
     def test_capture_records_real_utc_encoded_link_and_exact_bytes(self):
         data = b"# original\n\x00source\n"
@@ -131,13 +131,13 @@ class KnowledgeCaptureTests(unittest.TestCase):
     def test_staging_is_cleaned_when_publish_fails(self):
         self.source("a.md", b"safe")
         original = (self.root / "a.md").read_bytes()
-        memory = self.root / ".agents" / "memory"
-        memory.mkdir(parents=True)
+        sources = self.root / ".agents" / "sources"
+        sources.mkdir(parents=True)
         with mock.patch("pathlib.Path.rename", side_effect=OSError("publish failed")):
             with self.assertRaises((knowledge.KnowledgeError, OSError)):
                 knowledge.capture(self.root, ["a.md"])
         self.assertEqual((self.root / "a.md").read_bytes(), original)
-        self.assertFalse(any(memory.iterdir()))
+        self.assertFalse(any(sources.iterdir()))
 
     def test_clock_collision_retains_existing_batch(self):
         import datetime
@@ -152,6 +152,92 @@ class KnowledgeCaptureTests(unittest.TestCase):
             self.assertNotEqual(first["batch"], second["batch"])
             self.assertEqual((self.root / first["sources"][0]["archived"]).read_bytes(), original)
             self.assertTrue(knowledge.check(self.root)["ok"])
+
+    def test_flat_layout_batches_are_read_and_foreign_subdirectories_ignored(self):
+        self.source("a.md", b"first")
+        first = knowledge.capture(self.root, ["a.md"])
+        self.assertTrue(first["batch"].startswith(".agents/sources/"))
+        memory = self.root / ".agents" / "memory"
+        memory.mkdir()
+        flat = memory / Path(first["batch"]).name
+        (self.root / first["batch"]).rename(flat)
+        flat_archived = f".agents/memory/{flat.name}/originals/a.md"
+        foreign = memory / "animus"
+        foreign.mkdir()
+        (foreign / "manifest.json").write_text(json.dumps({"format": "luma-capture-v1", "captured_at": "2026-01-01T00:00:00.000000Z", "files": []}), encoding="utf-8")
+        reused = knowledge.capture(self.root, ["a.md"])
+        self.assertIsNone(reused["batch"])
+        self.assertEqual(reused["sources"][0]["archived"], flat_archived)
+        self.source("a.md", b"second")
+        changed = knowledge.capture(self.root, ["a.md"])
+        self.assertTrue(changed["batch"].startswith(".agents/sources/"))
+        manifest = json.loads((self.root / changed["batch"] / "manifest.json").read_text())
+        self.assertEqual(manifest["files"][0]["previous"], flat_archived)
+        self.assertTrue(knowledge.check(self.root)["ok"])
+
+    def test_capture_lands_under_agents_sources_with_manifest_and_originals(self):
+        self.source("notes/a.md", b"evidence")
+        result = knowledge.capture(self.root, ["notes/a.md"])
+        batch = self.root / result["batch"]
+        self.assertEqual(batch.parent, self.root / ".agents" / "sources")
+        self.assertTrue(knowledge.BATCH_NAME.fullmatch(batch.name))
+        self.assertEqual(sorted(path.name for path in batch.iterdir()), ["manifest.json", "originals"])
+        self.assertEqual((batch / "originals" / "notes" / "a.md").read_bytes(), b"evidence")
+        manifest = json.loads((batch / "manifest.json").read_text())
+        self.assertEqual(manifest["files"][0]["archived"], "originals/notes/a.md")
+        self.assertIn(f"(../{result['batch']}/originals/notes/a.md)", result["sources"][0]["wiki_link"])
+        self.assertFalse((self.root / ".agents" / "memory").exists())
+
+    def test_complete_reads_one_batch_per_layout_in_capture_order(self):
+        import datetime
+        # Capture order deliberately differs from root order, so only name order verifies each predecessor.
+        layouts = [".agents/sources", ".agents/memory", ".agents/memory/sources"]
+        with mock.patch.object(knowledge, "datetime", wraps=datetime.datetime) as clock:
+            for day, layout in enumerate(layouts, start=1):
+                clock.now.return_value = datetime.datetime(2026, 5, day, tzinfo=datetime.timezone.utc)
+                self.source("a.md", f"version {day}".encode())
+                with mock.patch.object(knowledge, "CAPTURE_ROOT", layout):
+                    result = knowledge.capture(self.root, ["a.md"])
+                self.assertEqual(Path(result["batch"]).parent.as_posix(), layout)
+        result = knowledge.complete(self.root)
+        self.assertTrue(result["ok"], result["errors"])
+        self.assertEqual(result["manifests_checked"], 3)
+        latest = knowledge.capture(self.root, ["a.md"])
+        self.assertIsNone(latest["batch"])
+        self.assertTrue(latest["sources"][0]["archived"].startswith(".agents/memory/sources/2026-05-03T"))
+
+    def test_symlinked_capture_root_is_refused(self):
+        outside = self.root / "outside"
+        outside.mkdir()
+        (self.root / ".agents").mkdir()
+        (self.root / ".agents" / "sources").symlink_to(outside, target_is_directory=True)
+        self.source("a.md", b"evidence")
+        with self.assertRaises(knowledge.KnowledgeError):
+            knowledge.capture(self.root, ["a.md"])
+        self.assertEqual(list(outside.iterdir()), [])
+        result = knowledge.check(self.root)
+        self.assertFalse(result["ok"])
+        self.assertTrue(any(".agents/sources" in error["message"] for error in result["errors"]), result["errors"])
+
+    def test_wiki_evidence_links_resolve_at_the_batch_path_in_every_layout(self):
+        for layout in knowledge.BATCH_ROOTS:
+            with self.subTest(layout=layout), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                (root / "a.md").write_bytes(b"evidence")
+                with mock.patch.object(knowledge, "CAPTURE_ROOT", layout):
+                    captured = knowledge.capture(root, ["a.md"])
+                self.assertTrue(captured["batch"].startswith(layout + "/"))
+                page = root / "wiki" / "page.md"
+                page.parent.mkdir()
+                page.write_text(f"Supported by {captured['sources'][0]['wiki_link']}.\n", encoding="utf-8")
+                result = knowledge.complete(root)
+                self.assertTrue(result["ok"], result["errors"])
+                self.assertEqual(result["links_checked"], 1)
+                batch = root / captured["batch"]
+                batch.rename(batch.with_name(batch.name + "-moved"))
+                result = knowledge.complete(root)
+                self.assertFalse(result["ok"])
+                self.assertTrue(any("Unresolved link" in error["message"] for error in result["errors"]), result["errors"])
 
 
 class KnowledgeCheckTests(unittest.TestCase):
@@ -213,7 +299,7 @@ class KnowledgeCheckTests(unittest.TestCase):
         captured = knowledge.capture(self.root, ["a.md"])
         batch = self.root / captured["batch"]
         valid = json.loads((batch / "manifest.json").read_text())
-        unrelated = self.root / ".agents" / "memory" / "unrelated"
+        unrelated = batch.parent / "unrelated"
         unrelated.mkdir()
         (unrelated / "manifest.json").write_text("{}", encoding="utf-8")
         self.assertTrue(knowledge.check(self.root)["ok"])

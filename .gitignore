@@ -1,5 +1,6 @@
 # Preserved source evidence and runtime state stay out of public source.
 **/.agents/memory/
+**/.agents/sources/
 **/.agents/cache/
 **/.agents/runtime/
 **/.agents/runs/
