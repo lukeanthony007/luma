@@ -106,7 +106,7 @@ Upgrade a recorded installation to a newer Luma source:
 python3 .agents/tools/luma.py upgrade --source /path/to/luma "/path/to/project"
 ```
 
-`upgrade` takes the same `--source` (a checkout or a downloaded `.tar.gz` archive), `--ref` and `--dry-run` options as `init`, and needs the install record; without one it says to use `init`. Luma files and README/ignore blocks that still match the record are replaced; missing ones are reinstalled; files the new source no longer ships are removed when unedited, otherwise left in place and listed as orphaned. Any locally edited Luma file or block stops the whole upgrade with nothing written and the record unchanged: restore the recorded bytes or move the edit into a differently named file, then rerun. Files outside the record are never read or touched.
+`upgrade` takes the same `--source` (a checkout or a downloaded `.tar.gz` archive), `--ref` and `--dry-run` options as `init`, and needs the install record; without one it says to use `init`. Re-running `init` on an installed tree is refused; use `upgrade`. Luma files and README/ignore blocks that still match the record are replaced; missing ones are reinstalled; files the new source no longer ships are removed when unedited, otherwise left in place and listed as orphaned. Any locally edited Luma file or block stops the whole upgrade with nothing written and the record unchanged: restore the recorded bytes or move the edit into a differently named file, then rerun. Files outside the record are never read or touched.
 
 Inspect an installation without changing it:
 
