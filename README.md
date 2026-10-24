@@ -98,7 +98,15 @@ Install offline from a local checkout:
 python3 .agents/tools/luma.py init --source . "/path/to/project"
 ```
 
-For reproducible installation, pin both the downloaded script URL and `--ref` to the same commit. The initializer has no automatic update mode; installed guidance is reconciled through the configuration skill.
+For reproducible installation, pin both the downloaded script URL and `--ref` to the same commit.
+
+Upgrade a recorded installation to a newer Luma source:
+
+```sh
+python3 .agents/tools/luma.py upgrade --source /path/to/luma "/path/to/project"
+```
+
+`upgrade` takes the same `--source` (a checkout or a downloaded `.tar.gz` archive), `--ref` and `--dry-run` options as `init`, and needs the install record; without one it says to use `init`. Re-running `init` on an installed tree is refused; use `upgrade`. Luma files and README/ignore blocks that still match the record are replaced; missing ones are reinstalled; files the new source no longer ships are removed when unedited, otherwise left in place and listed as orphaned. Any locally edited Luma file or block stops the whole upgrade with nothing written and the record unchanged: restore the recorded bytes or move the edit into a differently named file, then rerun. Files outside the record are never read or touched.
 
 Inspect an installation without changing it:
 
@@ -106,7 +114,7 @@ Inspect an installation without changing it:
 python3 .agents/tools/luma.py status "/path/to/project"
 ```
 
-The initializer records resource hashes and the declared source in `.agents/luma-install.json`. Status reports drift against that baseline, not whether a host loaded the guidance. The record is not a copy of the old source or signed provenance. Existing installations without a record remain usable; differing resources and local adaptations must be reconciled, not overwritten. See [installed-resource maintenance](.agents/skills/luma-config/references/resources.md#inspect-an-installed-seed).
+The initializer records resource hashes, the hashes of its README and ignore blocks, and the declared source in `.agents/luma-install.json`. Status reports drift against that baseline, not whether a host loaded the guidance. The record is not a copy of the old source or signed provenance. Existing installations without a record remain usable; differing resources and local adaptations must be reconciled, not overwritten. See [installed-resource maintenance](.agents/skills/luma-config/references/resources.md#inspect-an-installed-seed).
 
 ## Harness integration
 
