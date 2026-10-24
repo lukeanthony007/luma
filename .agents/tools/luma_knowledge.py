@@ -524,14 +524,288 @@ def _check(root: Path, paths: list[str] | None = None, *, mode: str = "check") -
             "manifests_checked": manifests, "errors": errors, "limits": LIMITS[:]}
 
 
+EPISODIC_NAME = re.compile(r"(?i)(?:^|[-_ .])(?:batch|session|sess|run|part|round|day|week|chunk)[-_ ]?\d+|\d{4}-\d{2}-\d{2}")
+HEADING = re.compile(r"^\s{0,3}(#{1,6})\s+(.+?)\s*#*\s*$")
+# Overflow pages split by position rather than subject: "-continued", "-more", "part-2", or item ranges such as "31-52".
+OVERFLOW_NAME = re.compile(r"(?i)[-_ .](?:continued|contd|cont|more|overflow|remainder)(?:[-_ .]?\d+)?$|^(?:continued|overflow)\b|(?:^|[-_ .])part[-_ ]?\d+|(?<!\d)\d{2,3}[-_\u2013]\d{2,3}(?!\d)")
+OVERFLOW_HEADING = re.compile(r"(?i)\bcontinued\b|\(cont(?:d|\.)?\)|\bpart\s+\d+\b|(?<!\d)\d{2,3}\s*[-\u2013]\s*\d{2,3}(?!\d)")
+# A line that starts with a batch, session or date label lists findings by when they arrived, not by subject.
+BATCH_LINE = re.compile(r"(?i)^\s*(?:[-*+]|\d+[.)])?\s*(?:\*\*|__)?(?:batch|session|round|day|week|run)\s*\d+\b|^\s*(?:[-*+]\s*)?\d{4}-\d{2}-\d{2}\b")
+BATCH_LISTED_MIN = 3
+
+
+def _unfenced(lines: list[str]) -> list[str]:
+    out, fence = [], None
+    for line in lines:
+        marker = re.match(r"^\s{0,3}(`{3,}|~{3,})", line)
+        if fence:
+            if marker and marker.group(1)[0] == fence[0] and len(marker.group(1)) >= len(fence):
+                fence = None
+            continue
+        if marker:
+            fence = marker.group(1)
+            continue
+        out.append(line)
+    return out
+
+
+def _headings(lines: list[str]) -> list[tuple[int, int, str]]:
+    """(line index, level, text) for ATX headings outside fenced code blocks."""
+    out, fence = [], None
+    for index, line in enumerate(lines):
+        marker = re.match(r"^\s{0,3}(`{3,}|~{3,})", line)
+        if fence:
+            if marker and marker.group(1)[0] == fence[0] and len(marker.group(1)) >= len(fence):
+                fence = None
+            continue
+        if marker:
+            fence = marker.group(1)
+            continue
+        match = HEADING.match(line)
+        if match:
+            out.append((index, len(match.group(1)), match.group(2)))
+    return out
+
+
+def _page_target(page: Path, target: str, is_wiki: bool, root: Path) -> Path | None:
+    """Resolve a link to a workspace file, or None for external, anchor-only or unresolvable targets."""
+    target = unquote((target or "").split("#", 1)[0].strip())
+    if not target or re.match(r"^[A-Za-z][\w+.-]*:", target) or target.startswith("//"):
+        return None
+    if is_wiki:
+        name = target if target.endswith(".md") else target + ".md"
+        for candidate in (page.parent / name, root / "wiki" / name, root / name):
+            if candidate.is_file():
+                return candidate.resolve()
+        return None
+    candidate = (root / target.lstrip("/")) if target.startswith("/") else (page.parent / target)
+    if candidate.is_dir():
+        for index in ("index.md", "README.md"):
+            if (candidate / index).is_file():
+                return (candidate / index).resolve()
+        return None
+    return candidate.resolve() if candidate.is_file() else None
+
+
+def account(root: Path, sources: list[str] | None = None, max_page_bytes: int | None = None) -> dict:
+    """Check that retained understanding forms one discoverable, subject-organized account.
+
+    Retained pages are Markdown files outside `.agents/`, `.git/` and the given source directories.
+    Every page must be reachable by links from README.md; page names must not be per-session,
+    per-batch or dated; no retained file may carry a line selector or other colon in its name.
+    With `max_page_bytes`, pages larger than that (too big to read in one pass) also fail the check."""
+    root = Path(root).resolve()
+    if not root.is_dir():
+        raise KnowledgeError(f"Workspace is not a real directory: {root}")
+    excluded = {".agents", ".git", *(sources or [])}
+    retained, invalid = [], []
+    for path in sorted(root.rglob("*")):
+        rel = path.relative_to(root).as_posix()
+        if not path.is_file() or rel.split("/", 1)[0] in excluded:
+            continue
+        if ":" in path.name:
+            invalid.append(rel)
+        elif path.suffix.lower() == ".md":
+            retained.append(path.resolve())
+    entry = (root / "README.md").resolve()
+    reachable = set()
+    if entry.is_file():
+        queue = [entry]
+        while queue:
+            page = queue.pop()
+            if page in reachable:
+                continue
+            reachable.add(page)
+            links, _ = _markdown(page.read_text(encoding="utf-8", errors="replace"))
+            for target, is_wiki in links:
+                resolved = _page_target(page, target, is_wiki, root)
+                if resolved is not None and resolved in retained and resolved not in reachable:
+                    queue.append(resolved)
+    rel = lambda p: p.relative_to(root).as_posix()  # noqa: E731
+    unreachable = [rel(p) for p in retained if p not in reachable]
+    episodic = [rel(p) for p in retained if EPISODIC_NAME.search(p.stem)]
+    texts = {p: p.read_text(encoding="utf-8", errors="replace").splitlines() for p in retained}
+    episodic_headings = [f"{rel(p)}#{text}" for p in retained for _, level, text in _headings(texts[p])
+                         if level <= 3 and EPISODIC_NAME.search(" " + text)]
+    overflow = [rel(p) for p in retained if OVERFLOW_NAME.search(p.stem)]
+    overflow_headings = [f"{rel(p)}#{text}" for p in retained for _, level, text in _headings(texts[p]) if level <= 3 and OVERFLOW_HEADING.search(text)]
+    batch_listed = [rel(p) for p in retained if sum(1 for line in _unfenced(texts[p]) if BATCH_LINE.match(line)) >= BATCH_LISTED_MIN]
+    roots = sorted({rel(p).split("/", 1)[0] for p in retained if "/" in rel(p)})
+    sizes = {rel(p): p.stat().st_size for p in retained}
+    oversized = sorted(name for name, size in sizes.items() if max_page_bytes is not None and size > max_page_bytes)
+    ok = (entry.is_file() and not unreachable and not episodic and not episodic_headings and not invalid and not oversized
+          and not overflow and not overflow_headings and not batch_listed)
+    return {"ok": ok, "entry_point": "README.md" if entry.is_file() else None, "retained_pages": len(retained),
+            "reachable_pages": len(reachable), "unreachable": unreachable[:50], "unreachable_count": len(unreachable),
+            "episodic_names": episodic[:50], "episodic_count": len(episodic),
+            "episodic_headings": episodic_headings[:50], "episodic_heading_count": len(episodic_headings),
+            "overflow_names": overflow[:50], "overflow_count": len(overflow), "overflow_headings": overflow_headings[:50],
+            "overflow_heading_count": len(overflow_headings), "batch_listed_pages": batch_listed[:50], "batch_listed_count": len(batch_listed),
+            "invalid_names": invalid[:50], "invalid_count": len(invalid), "page_directories": roots,
+            "largest_page_bytes": max(sizes.values(), default=0), "max_page_bytes": max_page_bytes,
+            "oversized_pages": oversized[:50], "oversized_count": len(oversized),
+            "limits": ["Structure only: reachability, naming and size do not establish that the content is accurate, supported or subject-organized in meaning."]}
+
+
+MD_LINK = re.compile(r"(?<!!)(\[[^\]]*\]\()([^)\s]+)((?:\s+\"[^\"]*\")?\))")
+
+
+def _rewrite_links(text: str, rewrite) -> tuple[str, int]:
+    """Apply `rewrite(target) -> new target or None` to inline Markdown links outside code fences."""
+    count = 0
+    out, fence = [], None
+    for line in text.split("\n"):
+        marker = re.match(r"^\s{0,3}(`{3,}|~{3,})", line)
+        if fence or marker:
+            if fence and marker and marker.group(1)[0] == fence[0] and len(marker.group(1)) >= len(fence):
+                fence = None
+            elif not fence and marker:
+                fence = marker.group(1)
+            out.append(line)
+            continue
+
+        def swap(match):
+            nonlocal count
+            new = rewrite(match.group(2))
+            if new is None or new == match.group(2):
+                return match.group(0)
+            count += 1
+            return match.group(1) + new + match.group(3)
+        out.append(MD_LINK.sub(swap, line))
+    return "\n".join(out), count
+
+
+def split(root: Path, page: str, max_bytes: int = 16384) -> dict:
+    """Split an oversized Markdown page at its top-level sections into linked child pages.
+
+    The page keeps its preamble and gains a Contents list linking `<page stem>/<section>.md` children. Section text moves
+    verbatim, except that relative links are rewritten to stay correct and each child ends with a link back. Links from
+    other retained pages to a moved heading are repointed to the child that now holds it. Children still over `max_bytes`
+    are split again at their next heading level; anything that cannot be split further is reported, not truncated.
+    This repairs size and navigation only; it does not reorganize meaning (section names are kept as written)."""
+    root = Path(root).resolve()
+    target = _path(root, _safe_rel(page))
+    if target.is_symlink() or not target.is_file() or target.suffix.lower() != ".md":
+        raise KnowledgeError(f"Not a regular Markdown page: {page}")
+    report = {"page": page, "max_bytes": max_bytes, "created": [], "links_rewritten": 0, "still_oversized": []}
+    moved = {}  # heading slug -> child path, for repointing inbound fragment links
+    _split_page(root, target, max_bytes, report, moved, level=None)
+    if report["still_oversized"] and not report["created"]:
+        report["advice"] = (f"No heading level divides {page} into two or more sections. Add subheadings by sub-subject, "
+                            "or move a coherent part to its own page named for it, then split again.")
+    for other in sorted(root.rglob("*.md")):
+        rel_other = other.relative_to(root).as_posix()
+        if other == target or rel_other.split("/", 1)[0] in (".agents", ".git") or not other.is_file() or str(other) in report["created_paths_internal"]:
+            continue
+        text = other.read_text(encoding="utf-8", errors="replace")
+
+        def inbound(link, other=other):
+            path, _, fragment = link.partition("#")
+            if not path or re.match(r"^[A-Za-z][\w+.-]*:", path) or not fragment:
+                return None
+            if (other.parent / unquote(path)).resolve() != target.resolve() or fragment not in moved:
+                return None
+            return os.path.relpath(moved[fragment], other.parent).replace(os.sep, "/") + "#" + fragment
+        new_text, count = _rewrite_links(text, inbound)
+        if count:
+            other.write_text(new_text, encoding="utf-8")
+            report["links_rewritten"] += count
+    report.pop("created_paths_internal", None)
+    report["parent_bytes"] = target.stat().st_size
+    report["largest_child_bytes"] = max((c["bytes"] for c in report["created"]), default=0)
+    return report
+
+
+def _split_page(root: Path, target: Path, max_bytes: int, report: dict, moved: dict, level: int | None) -> None:
+    report.setdefault("created_paths_internal", [])
+    text = target.read_text(encoding="utf-8", errors="replace")
+    lines = text.split("\n")
+    heads = _headings(lines)
+    levels = sorted({lvl for _, lvl, _ in heads if lvl >= 2 and (level is None or lvl > level)})
+    # A level holding a single section would move the whole page into one same-named child, which nests again on the
+    # next split without shrinking anything; cut at the first level that divides the page, else leave it in place.
+    cut = next((lvl for lvl in levels if sum(1 for _, l, _ in heads if l == lvl) >= 2), None)
+    if cut is None:
+        if target.stat().st_size > max_bytes:
+            report["still_oversized"].append(target.relative_to(root).as_posix())
+        return
+    starts = [(i, t) for i, lvl, t in heads if lvl == cut]
+    preamble = lines[:starts[0][0]]
+    child_dir = target.parent / target.stem
+    sections, used, listed = [], set(), []
+    for n, (start, title) in enumerate(starts):
+        end = starts[n + 1][0] if n + 1 < len(starts) else len(lines)
+        if title.strip().lower() == "contents":  # an earlier split's navigation stays here and gains the new entries
+            listed += [line for line in lines[start + 1:end] if line.strip()]
+            continue
+        slug = (_slug(title)[:60].strip("-") or f"section-{n + 1}")
+        name, k = slug, 2
+        while name in used or (child_dir / f"{name}.md").exists():
+            name, k = f"{slug}-{k}", k + 1
+        used.add(name)
+        sections.append((title, child_dir / f"{name}.md", lines[start:end]))
+    if not sections:
+        if target.stat().st_size > max_bytes:
+            report["still_oversized"].append(target.relative_to(root).as_posix())
+        return
+    child_dir.mkdir(exist_ok=True)
+    owner = {}
+    for title, path, body in sections:
+        for _, _, text_ in _headings(body):
+            owner.setdefault(_slug(text_), path)
+    for title, path, body in sections:
+        def relink(link, path=path):
+            if re.match(r"^[A-Za-z][\w+.-]*:", link) or link.startswith("//"):
+                return None
+            if link.startswith("#"):
+                holder = owner.get(link[1:])
+                return None if holder in (None, path) else os.path.relpath(holder, path.parent).replace(os.sep, "/") + link
+            file_part, sep, fragment = link.partition("#")
+            if file_part.startswith("/"):
+                return None
+            moved_to = os.path.relpath((target.parent / unquote(file_part)).resolve(), path.parent).replace(os.sep, "/")
+            return moved_to + sep + fragment
+        body_text, count = _rewrite_links("\n".join(body).rstrip("\n"), relink)
+        report["links_rewritten"] += count
+        back = os.path.relpath(target, path.parent).replace(os.sep, "/")
+        path.write_text(body_text + f"\n\n[Back to {target.stem}]({back})\n", encoding="utf-8")
+        report["created_paths_internal"].append(str(path))
+        for slug in (_slug(t) for _, _, t in _headings(body)):
+            moved[slug] = path
+    def parent_text(summaries):
+        contents = ["#" * cut + " Contents", ""] + listed
+        for title, path, body in sections:
+            first = next((line.strip() for line in body[1:] if line.strip() and not HEADING.match(line)), "") if summaries else ""
+            first = re.sub(r"\s+", " ", first)[:160]
+            contents.append(f"- [{title}]({path.relative_to(target.parent).as_posix()})" + (f": {first}" if first else ""))
+        return ("\n".join(preamble).rstrip("\n") + "\n\n" + "\n".join(contents) + "\n").lstrip("\n")
+    new_parent = parent_text(True)
+    if len(new_parent.encode("utf-8")) > max_bytes:  # a long contents list alone can exceed the limit; keep titles only
+        new_parent = parent_text(False)
+    target.write_text(new_parent, encoding="utf-8")
+    if target.stat().st_size > max_bytes:
+        report["still_oversized"].append(target.relative_to(root).as_posix())
+    for title, path, body in sections:
+        size = path.stat().st_size
+        report["created"].append({"path": path.relative_to(root).as_posix(), "bytes": size})
+        if size > max_bytes:
+            _split_page(root, path, max_bytes, report, moved, level=cut)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     cap = sub.add_parser("capture")
     chk = sub.add_parser("check")
     completion = sub.add_parser("complete")
-    for command in (cap, chk, completion):
+    acct = sub.add_parser("account")
+    spl = sub.add_parser("split")
+    for command in (cap, chk, completion, acct, spl):
         command.add_argument("--root", type=Path, default=Path.cwd())
+    acct.add_argument("--source", action="append", default=[], dest="sources", help="Top-level source directory to exclude (repeatable)")
+    acct.add_argument("--max-page-bytes", type=int, default=None, help="Also fail pages larger than this many bytes")
+    spl.add_argument("page", help="Workspace-relative Markdown page to split")
+    spl.add_argument("--max-bytes", type=int, default=16384, help="Split children that are still larger than this")
     cap.add_argument("paths", nargs="+")
     chk.add_argument("paths", nargs="*")
     completion.add_argument("--page", action="append", default=[], dest="pages")
@@ -544,6 +818,11 @@ def main(argv: list[str] | None = None) -> int:
             result = capture(args.root, args.paths)
         elif args.command == "complete":
             result = complete(args.root, args.pages)
+        elif args.command == "account":
+            result = account(args.root, args.sources, args.max_page_bytes)
+        elif args.command == "split":
+            result = split(args.root, args.page, args.max_bytes)
+            result["ok"] = not result["still_oversized"]
         else:
             result = check(args.root, args.paths or None)
         print(json.dumps(result, ensure_ascii=False))

@@ -540,5 +540,199 @@ class KnowledgeCliTests(unittest.TestCase):
             self.assertTrue(err.getvalue().strip())
 
 
+class AccountStructureTests(unittest.TestCase):
+    """Fixtures modeled on observed acquisition outcomes: one subject account vs a per-batch diary."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+
+    def write(self, name, text):
+        path = self.root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+    def test_linked_subject_account_passes_and_sources_are_ignored(self):
+        self.write("README.md", "# Project\n\nSee [the account](wiki/index.md).\n")
+        self.write("wiki/index.md", "- [Navigation](navigation.md)\n- [[failure-patterns]]\n")
+        self.write("wiki/navigation.md", "Default list sort is newest first (inputs/trajectories/004.json).\n")
+        self.write("wiki/failure-patterns.md", "No bulk-close option exists ([source](../inputs/trajectories/012.json)).\n")
+        self.write("inputs/trajectories/session-01.md", "original source, not retained understanding\n")
+        result = knowledge.account(self.root, ["inputs"])
+        self.assertTrue(result["ok"], result)
+        self.assertEqual((result["retained_pages"], result["reachable_pages"]), (4, 4))
+
+    def test_observed_diary_failure_is_reported(self):
+        # Session 1 wrote subject pages it never linked; later sessions started per-batch files,
+        # and a write with a line selector created a junk file.
+        self.write("README.md", "# Project\n\nNotes: [batch 2](understanding/batch-02-trajectories.md)\n")
+        self.write("wiki/index.md", "- [Navigation](servicenow-navigation.md)\n")
+        self.write("wiki/servicenow-navigation.md", "...\n")
+        self.write("understanding/batch-02-trajectories.md", "...\n")
+        self.write("understanding/batch-03-trajectories.md", "...\n")
+        self.write("README.md:15", "stray selector write\n")
+        result = knowledge.account(self.root)
+        self.assertFalse(result["ok"])
+        self.assertEqual(set(result["unreachable"]), {"wiki/index.md", "wiki/servicenow-navigation.md", "understanding/batch-03-trajectories.md"})
+        self.assertEqual(result["episodic_count"], 2)
+        self.assertEqual(result["invalid_names"], ["README.md:15"])
+        self.assertEqual(result["page_directories"], ["understanding", "wiki"])
+
+    def test_missing_entry_point_fails_and_cli_exit_status_follows(self):
+        self.write("wiki/index.md", "# Account\n")
+        self.assertIsNone(knowledge.account(self.root)["entry_point"])
+        out = io.StringIO()
+        with redirect_stdout(out):
+            status = knowledge.main(["account", "--root", str(self.root)])
+        self.assertEqual(status, 1)
+        self.assertFalse(json.loads(out.getvalue())["ok"])
+
+    def test_dated_names_are_episodic_but_subject_names_with_numbers_are_not(self):
+        self.write("README.md", "[a](notes/2026-10-21.md) [b](notes/http-500-errors.md) [c](notes/form-v2.md)\n")
+        for name in ("notes/2026-10-21.md", "notes/http-500-errors.md", "notes/form-v2.md"):
+            self.write(name, "x\n")
+        result = knowledge.account(self.root)
+        self.assertEqual(result["episodic_names"], ["notes/2026-10-21.md"])
+
+    def test_oversized_pages_fail_only_when_a_limit_is_given(self):
+        self.write("README.md", "[Index](wiki/index.md)\n")
+        self.write("wiki/index.md", "- [Big subject](big-subject.md)\n")
+        self.write("wiki/big-subject.md", "x" * 5000)
+        unlimited = knowledge.account(self.root)
+        self.assertTrue(unlimited["ok"], unlimited)
+        self.assertEqual(unlimited["oversized_count"], 0)
+        self.assertEqual(unlimited["largest_page_bytes"], 5000)
+        limited = knowledge.account(self.root, max_page_bytes=4096)
+        self.assertFalse(limited["ok"])
+        self.assertEqual(limited["oversized_pages"], ["wiki/big-subject.md"])
+        out = io.StringIO()
+        with redirect_stdout(out):
+            status = knowledge.main(["account", "--root", str(self.root), "--max-page-bytes", "4096"])
+        self.assertEqual(status, 1)
+
+
+
+class PageSplitTests(unittest.TestCase):
+    """The round-4 failure shape: one subject-named page that is really a per-batch diary past the read cap."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+
+    def write(self, name, text):
+        path = self.root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text)
+        return path
+
+    def diary(self, batches=6, size=5000):
+        sections = "".join(f"## Batch {n:02} task records\n\nFinding {n}. " + "x" * size + f"\nSee [source](../inputs/t{n}.json) and [sites](#the-sites).\n\n"
+                           for n in range(1, batches + 1))
+        return "# Web environments\n\nIntro.\n\n## The sites\n\nThree sites.\n\n" + sections
+
+    def test_episodic_headings_inside_a_subject_page_fail_the_account(self):
+        self.write("README.md", "[Env](wiki/env.md)\n")
+        self.write("wiki/env.md", self.diary(batches=2, size=10))
+        result = knowledge.account(self.root, ["inputs"])
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["episodic_count"], 0)
+        self.assertEqual(result["episodic_heading_count"], 2)
+        self.write("wiki/env.md", "# Env\n\n## Checkout forms\n\n```\n## Batch 01 inside code\n```\n")
+        self.assertTrue(knowledge.account(self.root, ["inputs"])["ok"])
+
+    def test_split_keeps_text_links_and_reachability_under_the_limit(self):
+        for n in range(1, 7):
+            self.write(f"inputs/t{n}.json", "{}")
+        self.write("README.md", "[Env](wiki/env.md)\n")
+        self.write("wiki/index.md", "[Batch 3](env.md#batch-03-task-records)\n")
+        original = self.diary()
+        self.write("wiki/env.md", original)
+        report = knowledge.split(self.root, "wiki/env.md", 8192)
+        self.assertFalse(report["still_oversized"])
+        result = knowledge.account(self.root, ["inputs"], 8192)
+        self.assertEqual(result["oversized_count"], 0)
+        self.assertEqual(result["unreachable_count"], 1)  # index.md was never linked from README; split must not hide that
+        self.assertEqual(result["largest_page_bytes"] <= 8192, True)
+        children = {c["path"]: (self.root / c["path"]).read_text() for c in report["created"]}
+        self.assertEqual(len(children), 7)
+        body = "".join(children.values())
+        for n in range(1, 7):
+            self.assertIn(f"Finding {n}. " + "x" * 5000, body)
+        self.assertIn("(../../inputs/t3.json)", children["wiki/env/batch-03-task-records.md"])
+        self.assertIn("(the-sites.md#the-sites)", children["wiki/env/batch-03-task-records.md"])
+        self.assertIn("(env/batch-03-task-records.md#batch-03-task-records)", (self.root / "wiki/index.md").read_text())
+        self.assertTrue(knowledge.check(self.root)["ok"])
+        self.assertGreater(result["episodic_count"], 0)  # split repairs size, not organization: batch names remain visible
+
+    def test_a_single_unsplittable_section_is_left_in_place_and_reported(self):
+        self.write("wiki/env.md", "# Env\n\n## Sites\n\n" + "y" * 20000 + "\n")
+        report = knowledge.split(self.root, "wiki/env.md", 8192)
+        self.assertEqual(report["still_oversized"], ["wiki/env.md"])
+        self.assertEqual(report["created"], [])
+        self.assertIn("y" * 20000, (self.root / "wiki/env.md").read_text())
+        self.assertFalse((self.root / "wiki/env").exists())
+        self.assertIn("Add subheadings by sub-subject", report["advice"])
+
+    def test_a_single_section_splits_at_its_subsections_and_repeated_splits_do_not_nest(self):
+        subsections = "".join(f"### Page {name}\n\n" + f"- `{name} label`\n" * 400 + "\n" for name in ("Home", "Cart", "Checkout"))
+        self.write("README.md", "[Shop](wiki/shop.md)\n")
+        self.write("wiki/shop.md", "# Shop\n\n## Storefront\n\nStanding labels.\n\n" + subsections)
+        first = knowledge.split(self.root, "wiki/shop.md", 8192)
+        self.assertEqual(sorted(c["path"] for c in first["created"]), ["wiki/shop/page-cart.md", "wiki/shop/page-checkout.md", "wiki/shop/page-home.md"])
+        parent = (self.root / "wiki/shop.md").read_text()
+        self.assertIn("## Storefront", parent)
+        self.assertIn("### Contents", parent)
+        second = knowledge.split(self.root, "wiki/shop/page-home.md", 2048)
+        self.assertEqual(second["created"], [])
+        self.assertEqual(second["still_oversized"], ["wiki/shop/page-home.md"])
+        self.assertFalse((self.root / "wiki/shop/page-home").exists())
+        self.assertEqual(knowledge.account(self.root, [], None)["unreachable_count"], 0)
+
+    def test_splitting_an_already_split_page_keeps_one_contents_list_in_the_parent(self):
+        self.write("README.md", "[Shop](wiki/shop.md)\n")
+        self.write("wiki/shop.md", "# Shop\n\n## Home\n\n" + "- `Home label`\n" * 300 + "\n## Cart\n\n" + "- `Cart label`\n" * 300)
+        knowledge.split(self.root, "wiki/shop.md", 4096)
+        page = self.root / "wiki/shop.md"
+        page.write_text(page.read_text() + "\n## Checkout\n\n" + "- `Checkout label`\n" * 300)
+        report = knowledge.split(self.root, "wiki/shop.md", 4096)
+        self.assertEqual([c["path"] for c in report["created"]], ["wiki/shop/checkout.md"])
+        parent = page.read_text()
+        self.assertEqual(parent.count("## Contents"), 1)
+        for child in ("shop/home.md", "shop/cart.md", "shop/checkout.md"):
+            self.assertIn(f"({child})", parent)
+        self.assertFalse((self.root / "wiki/shop/contents.md").exists())
+        self.assertEqual(knowledge.account(self.root, [], None)["unreachable_count"], 0)
+
+    def test_long_contents_fall_back_to_titles_and_report_if_still_too_large(self):
+        sections = "".join(f"## Topic {chr(65 + n % 26)}{n}\n\n" + "Summary sentence that is fairly long. " * 5 + "\n\n" for n in range(60))
+        self.write("wiki/env.md", "# Env\n\n" + sections)
+        report = knowledge.split(self.root, "wiki/env.md", 4096)
+        parent = (self.root / "wiki/env.md").read_text()
+        self.assertNotIn("Summary sentence", parent)
+        self.assertLessEqual(len(parent.encode()), 4096)
+        self.assertNotIn("wiki/env.md", report["still_oversized"])
+
+    def test_overflow_pages_headings_and_batch_listed_pages_fail_the_account(self):
+        self.write("README.md", "[Patterns](wiki/patterns.md) [More](wiki/failure-modes-continued.md) [Q](wiki/open-questions.md) [Forms](wiki/checkout-forms.md)\n")
+        self.write("wiki/patterns.md", "# Patterns\n\n## Failure modes\n\n1. Paging loops (batch 06).\n")
+        self.write("wiki/failure-modes-continued.md", "# Failure modes, continued (31\u201352)\n")
+        self.write("wiki/open-questions.md", "# Open questions\n\n- Batch 04 labels: 032.\n- Batch 05 labels: 041.\n- Batch 06 labels: 053.\n")
+        self.write("wiki/checkout-forms.md", "# Checkout forms\n\n- Orders 2023-05 refunds.\n```\n- Batch 01 in code\n- Batch 02\n- Batch 03\n```\n")
+        result = knowledge.account(self.root)
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["overflow_names"], ["wiki/failure-modes-continued.md"])
+        self.assertEqual(result["overflow_heading_count"], 1)
+        self.assertEqual(result["batch_listed_pages"], ["wiki/open-questions.md"])
+
+    def test_cli_split_exit_status_reflects_remaining_oversize(self):
+        self.write("wiki/env.md", "# Env\n\n## A\n\nshort\n")
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(knowledge.main(["split", "--root", str(self.root), "wiki/env.md", "--max-bytes", "100"]), 0)
+            self.write("wiki/big.md", "# Big\n\n## Only\n\n" + "z" * 500 + "\n")
+            self.assertEqual(knowledge.main(["split", "--root", str(self.root), "wiki/big.md", "--max-bytes", "100"]), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
